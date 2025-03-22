@@ -1,0 +1,92 @@
+/* 通用窗口背景 */
+QWidget {
+    background-color: #f9f9f9; /* 浅灰色 */
+    color: #333;
+}
+
+/* 按钮样式 */
+QPushButton {
+    background-color: black; /* 浅灰色背景 */
+    border: 1px solid black; /* 轻微边框 */
+    color: black;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+QPushButton:hover {
+    background-color: #f0f0f0; /* 悬停时变浅灰 */
+    border-color: #bbb;
+}
+QPushButton:pressed {
+    background-color: #e0e0e0; /* 按住变更浅 */
+    border-color: #aaa;
+}
+QPushButton:disabled {
+    background-color: #eeeeee;
+    color: #999;
+    border-color: #ddd;
+}
+
+/* 下拉框样式 */
+QComboBox {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 4px;
+    border-radius: 4px;
+}
+QComboBox:hover {
+    border-color: #aaa;
+}
+QComboBox QAbstractItemView {
+    border: 1px solid #ccc;
+    background: white;
+    selection-background-color: #e0e0e0;
+}
+
+/* 滑块样式 */
+QSlider::groove:horizontal {
+    background: #ddd;
+    height: 4px;
+}
+QSlider::handle:horizontal {
+    background: #666;
+    width: 14px;
+    margin: -5px 0;
+    border-radius: 7px;
+}
+QSlider::handle:horizontal:hover {
+    background: #444;
+}
+QSlider::handle:horizontal:pressed {
+    background: #222;
+}
+
+/* 标签样式 */
+QLabel {
+    color: #333;
+}
+
+/* 列表框样式 */
+QListWidget {
+    background: white;
+    border: 1px solid #ccc;
+}
+QListWidget::item {
+    padding: 6px;
+}
+QListWidget::item:selected {
+    background-color: #e0e0e0;
+    color: #333;
+    border-radius: 3px;
+}
+
+/* 输入框样式 */
+QLineEdit {
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
+    background-color: white;
+}
+QLineEdit:focus {
+    border-color: #888;
+}

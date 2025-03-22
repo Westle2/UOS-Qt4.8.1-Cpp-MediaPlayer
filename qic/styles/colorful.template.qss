@@ -1,0 +1,64 @@
+/* 通用窗口背景 */
+QWidget {
+    background-color: ${window_background_color};
+    color: ${text_color};
+}
+
+/* 按钮样式 */
+QPushButton {
+    background-color: ${button_color};
+    border: 1px solid #ddd;
+    color: ${text_color};
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+QPushButton:hover {
+    background-color: ${color};
+}
+
+/* 下拉框样式 */
+QComboBox {
+    background-color: ${color};
+    border: 1px solid #444;
+    padding: 4px;
+    color: ${text_color};
+    border-radius: 4px;
+}
+
+/* 滑块样式 */
+QSlider::groove:horizontal {
+    background: #444;
+    height: 4px;
+}
+QSlider::handle:horizontal {
+    background: ${text_color};
+    width: 14px;
+    margin: -5px 0;
+    border-radius: 7px;
+}
+
+/* 标签样式 */
+QLabel {
+    color: ${text_color};
+}
+
+/* 列表框样式 */
+QListWidget {
+    background: ${color};
+    border: 1px solid #444;
+}
+QListWidget::item {
+    padding: 6px;
+}
+QListWidget::item:selected {
+    background-color: ${color};
+    color: ${button_color};
+}
+
+/* 输入框样式 */
+QLineEdit {
+    border: 1px solid ${color};
+    padding: 5px;
+    border-radius: 4px;
+    color: ${text_color};
+}
