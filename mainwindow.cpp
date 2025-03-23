@@ -595,8 +595,8 @@ void MainWindow::on_listWidget_currentTextChanged(const QString &currentText)
     qDebug() << "onlist正在播放 (行号:" << actualRow << ") -> " << filePath;
 
     // 设置媒体源并播放
-    player->setMedia(QUrl::fromLocalFile(filePath));
-    player->play();
+    // player->setMedia(QUrl::fromLocalFile(filePath));
+    // player->play();
     pause_keep_flag=1;
     QString keepIcon, pauseIcon;
     // 根据当前主题选择不同格式的图标
