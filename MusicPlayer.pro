@@ -41,6 +41,7 @@ HEADERS += \
 
 
 FORMS += \
+    dockwidget.ui \
     mainwindow.ui \
     dockwidget.ui
 

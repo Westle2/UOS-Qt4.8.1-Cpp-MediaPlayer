@@ -36,12 +36,6 @@
         <file>include/sc_type.h</file>
         <file>include/sparkchain.h</file>
         <file>lib/libSparkChain.so</file>
-        <file>build/Desktop_Qt_5_15_0_GCC_64bit-Debug/moc_fullscreen.cpp</file>
-        <file>build/Desktop_Qt_5_15_0_GCC_64bit-Debug/moc_mainwindow.cpp</file>
-        <file>build/Desktop_Qt_5_15_0_GCC_64bit-Debug/moc_predefs.h</file>
-        <file>build/Desktop_Qt_5_15_0_GCC_64bit-Debug/qrc_qic.cpp</file>
-        <file>build/Desktop_Qt_5_15_0_GCC_64bit-Debug/ui_dockwidget.h</file>
-        <file>build/Desktop_Qt_5_15_0_GCC_64bit-Debug/ui_mainwindow.h</file>
         <file>include/sc_agent.h</file>
         <file>styles/colorful.template.qss</file>
         <file>svg/keep.svg</file>

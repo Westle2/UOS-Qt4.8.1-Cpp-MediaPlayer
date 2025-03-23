@@ -350,7 +350,18 @@ void MainWindow::on_btn_pause_keep_clicked()
     if (currentTheme == LIGHT) {
         keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
         pauseIcon = ":/qic/images/pause.png";
-    } else {
+    }
+    else if(currentTheme==COLORFUL){
+        if(isDarkColor(currentColor)){
+            keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+            pauseIcon = ":/qic/svg/pause.svg";
+        }
+        else{
+            keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+            pauseIcon = ":/qic/images/pause.png";
+        }
+    }
+    else {
         keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
         pauseIcon = ":/qic/svg/pause.svg";
     }
@@ -586,6 +597,24 @@ void MainWindow::on_listWidget_currentTextChanged(const QString &currentText)
     // 设置媒体源并播放
     player->setMedia(QUrl::fromLocalFile(filePath));
     player->play();
+    pause_keep_flag=1;
+    QString keepIcon, pauseIcon;
+    // 根据当前主题选择不同格式的图标
+    if (currentTheme == LIGHT) {
+        keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+    }
+    else if(currentTheme==COLORFUL){
+        if(isDarkColor(currentColor)){
+            keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+        }
+        else{
+            keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+        }
+    }
+    else {
+        keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+    }
+    ui->btn_pause_keep->setIcon(QIcon(keepIcon));
 
     // 更新 UI 显示
     ui->label_title->setText(item ? item->text() : "null");
@@ -912,7 +941,7 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         currentTheme = LIGHT;
         ui->btn_prev->setIcon(QIcon(":qic/images/prev.png"));
         ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
-        ui->btn_pause_keep->setIcon(QIcon(":qic/images/pause.png"));
+        //ui->btn_pause_keep->setIcon(QIcon(":qic/images/pause.png"));
         ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.png);");
         break;
     case DARK:
@@ -921,12 +950,13 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         currentTheme = DARK;
         ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
         ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
-        ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
+        //ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
         ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
         break;
     case COLORFUL:
         QColor selectedColor=QColorDialog::getColor(Qt::white,this,"ChooseYourColor",QColorDialog::ShowAlphaChannel|QColorDialog::DontUseNativeDialog);
         //qDebug()<<selectedColor.name().toStdString().c_str();
+        currentColor=selectedColor;
         QMap<QString,QString> colors;
         colors["color"]=selectedColor.name();
         colors["window_background_color"]=selectedColor.name();
@@ -943,9 +973,16 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         path=":/qic/styles/colorful.template.qss";
         qApp->setStyleSheet(stylesheet);
         currentTheme = COLORFUL;
-        ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
-        ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
-        ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
+        if(isDarkColor(currentColor)){
+            ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
+            ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
+            //ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
+        }
+        else{
+            ui->btn_prev->setIcon(QIcon(":qic/images/prev.png"));
+            ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
+            //ui->btn_pause_keep->setIcon(QIcon(":qic/images/pause.png"));
+        }
         ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
         break;
     }
@@ -959,6 +996,32 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         } else {
             qDebug() << "Failed to open file:" << path << "Error:" << file.errorString();
         }
+    }
+
+    QString keepIcon, pauseIcon;
+    // 根据当前主题选择不同格式的图标
+    if (currentTheme == LIGHT) {
+        keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+        pauseIcon = ":/qic/images/pause.png";
+    }
+    else if(currentTheme==COLORFUL){
+        if(isDarkColor(currentColor)){
+            keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+            pauseIcon = ":/qic/svg/pause.svg";
+        }
+        else{
+            keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+            pauseIcon = ":/qic/images/pause.png";
+        }
+    }
+    else {
+        keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+        pauseIcon = ":/qic/svg/pause.svg";
+    }
+    if (pause_keep_flag == 0) {
+        ui->btn_pause_keep->setIcon(QIcon(pauseIcon));
+    } else {
+        ui->btn_pause_keep->setIcon(QIcon(keepIcon));
     }
 }
 
