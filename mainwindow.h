@@ -85,7 +85,7 @@ public:
     void loopCurrentFile(QMediaPlayer::MediaStatus status);//单曲循环
     void disconnectPlayerSignals();
     //void updateUIAndPlay(int index);
-    void restoreVideoWidgetLayout(QVideoWidget* widget);
+    //void restoreVideoWidgetLayout(QVideoWidget* widget);
     QProcess* process;
     void start_voice_to_text();
     QString loadStylesheet(const QString& templatePath, const QMap<QString, QString>& colors);

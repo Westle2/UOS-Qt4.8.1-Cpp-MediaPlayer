@@ -906,11 +906,11 @@ void MainWindow::disconnectPlayerSignals()
     //disconnect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::loopPlaylist);
 }
 
-void MainWindow::restoreVideoWidgetLayout(QVideoWidget *widget)
-{
-    ui->widget->layout()->addWidget(widget);
-    widget->show();
-}
+//void MainWindow::restoreVideoWidgetLayout(QVideoWidget *widget)
+// {
+//     ui->widget->layout()->addWidget(widget);
+//     widget->show();
+// }
 
 QString MainWindow::loadStylesheet(const QString &templatePath, const QMap<QString, QString> &colors)
 {

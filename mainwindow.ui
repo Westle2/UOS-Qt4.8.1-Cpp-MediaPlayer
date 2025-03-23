@@ -394,6 +394,12 @@ max-width:200px;</string>
           </item>
           <item>
            <widget class="QSlider" name="horizontalSlider">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="maximum">
              <number>100</number>
             </property>

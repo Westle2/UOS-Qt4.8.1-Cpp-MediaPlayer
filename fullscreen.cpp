@@ -27,10 +27,10 @@ FullScreenWindow::FullScreenWindow(MainWindow *mainWin, QWidget *parent)
    videoWidget->show();
 }
 FullScreenWindow::~FullScreenWindow() {
-   qDebug()<<"~fullscreenWindow";
-   if (videoWidget) {
-       mainWindow->restoreVideoWidgetLayout(videoWidget);
-   }
+   // qDebug()<<"~fullscreenWindow";
+   // if (videoWidget) {
+   //     mainWindow->restoreVideoWidgetLayout(videoWidget);
+   // }
 }
 void FullScreenWindow::on_exit_fullscreen_clicked()
 {

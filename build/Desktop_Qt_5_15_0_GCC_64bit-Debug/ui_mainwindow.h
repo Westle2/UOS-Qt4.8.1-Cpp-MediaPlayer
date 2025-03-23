@@ -348,6 +348,7 @@ public:
 
         horizontalSlider = new QSlider(left_widget);
         horizontalSlider->setObjectName(QString::fromUtf8("horizontalSlider"));
+        horizontalSlider->setMinimumSize(QSize(100, 0));
         horizontalSlider->setMaximum(100);
         horizontalSlider->setOrientation(Qt::Horizontal);
 
