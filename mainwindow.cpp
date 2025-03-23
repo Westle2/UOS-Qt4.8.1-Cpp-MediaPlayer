@@ -82,24 +82,24 @@ void MainWindow::init()
     ui->widget->setMouseTracking(true);
     ui->widget->installEventFilter(this);
 
-//    // 隐藏框，设置透明背景
-//    control_frame = new QFrame(this);
-//    control_frame->setGeometry(ui->widget->x(), ui->widget->y() + ui->widget->height() - 50, ui->widget->width(), 50);
-//    control_frame->setStyleSheet("background-color: rgba(0, 0, 0, 100); border: none;");  // 半透明黑色背景
-//    control_frame->hide();
+   // 隐藏框，设置透明背景
+   // control_frame = new QFrame(this);
+   // control_frame->setGeometry(ui->widget->x(), ui->widget->y() + ui->widget->height() - 50, ui->widget->width(), 50);
+   // control_frame->setStyleSheet("background-color: rgba(0, 0, 0, 100); border: none;");  // 半透明黑色背景
+   // control_frame->hide();
 
-//    // 全屏按钮，调小尺寸
-//    btn_fullscreen = new QPushButton("全屏", control_frame);
-//    btn_fullscreen->setFixedSize(60, 30);  // 调小按钮大小
-//    btn_fullscreen->setObjectName("btn_fullscreen");
+   // // 全屏按钮，调小尺寸
+   // btn_fullscreen = new QPushButton("全屏", control_frame);
+   // btn_fullscreen->setFixedSize(60, 30);  // 调小按钮大小
+   // btn_fullscreen->setObjectName("btn_fullscreen");
 
-//    // 让按钮靠右对齐
-//    btn_fullscreen->move(control_frame->width() - btn_fullscreen->width() - 10, (control_frame->height() - btn_fullscreen->height()) / 2);
+   // // 让按钮靠右对齐
+   // btn_fullscreen->move(control_frame->width() - btn_fullscreen->width() - 10, (control_frame->height() - btn_fullscreen->height()) / 2);
 
-    // btn_fullscreen->setLayout(layout);
-    //fsWindow = new FullScreenWindow(this);
-    //connect(btn_fullscreen, &QPushButton::clicked, this, &MainWindow::on_btn_fullscreen_clicked);
-//    control_frame->show();
+   //  btn_fullscreen->setLayout(layout);
+   //  //fsWindow = new FullScreenWindow(this);
+   //  connect(btn_fullscreen, &QPushButton::clicked, this, &MainWindow::on_btn_fullscreen_clicked);
+   // control_frame->show();
 
     //按钮提示词
     ui->btn_speed->setToolTip("倍速");
@@ -689,7 +689,7 @@ void MainWindow::on_btn_open_folder_clicked()
 }
 
 //bool MainWindow::eventFilter(QObject *watched, QEvent *event)
-//{
+// {
 //    if (watched == ui->widget && event->type() == QEvent::MouseMove) {
 //            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
 //            int y = mouseEvent->pos().y();
@@ -703,9 +703,9 @@ void MainWindow::on_btn_open_folder_clicked()
 //            }
 //        }
 //        return QObject::eventFilter(watched, event);
-//}
+// }
 
-//void MainWindow::on_btn_fullscreen_clicked() {
+// void MainWindow::on_btn_fullscreen_clicked() {
 //    if (!videoWidget) return;
 
 //    if (isFullScreenMode) return; // 防止重复创建
@@ -717,26 +717,25 @@ void MainWindow::on_btn_open_folder_clicked()
 //    });
 //    fsc->showFullScreen();
 //    isFullScreenMode = true;
-//}
+// }
 
 
 
-//void MainWindow::on_exit_fullscreen()
-//{
+void MainWindow::on_exit_fullscreen()
+{
 
-//    qDebug()<<"on_exit_fullscreen";
-//    QLayout *existingLayout = ui->widget->layout();
-//    if (existingLayout) {
-//        existingLayout->addWidget(videoWidget);
-//    }
-//    videoWidget->show();
-//    isFullScreenMode = false;
-//    player->pause();
-//    videoWidget->setParent(this);
-//    player->play();
-//    videoWidget->update();
-//    isFullScreenMode = false;
-//}
+   qDebug()<<"on_exit_fullscreen";
+   QLayout *existingLayout = ui->widget->layout();
+   if (existingLayout) {
+       existingLayout->addWidget(videoWidget);
+   }
+   videoWidget->show();
+   isFullScreenMode = false;
+   player->pause();
+   videoWidget->setParent(this);
+   player->play();
+   videoWidget->update();
+}
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
@@ -757,6 +756,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 
 }
+
 
 // 关闭窗口时保存历史记录
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -1469,3 +1469,19 @@ QColor MainWindow::adjustButtonColor(const QColor &baseColor)
         return baseColor.darker(200); // 降低亮度
     }
 }
+
+void MainWindow::on_fullscreen_btn_clicked()
+{
+    if (!videoWidget) return;
+
+    if (isFullScreenMode) return; // 防止重复创建
+
+    FullScreenWindow* fsc = new FullScreenWindow(this);
+    fsc->setAttribute(Qt::WA_DeleteOnClose); // 确保关闭时自动删除
+    connect(fsc, &FullScreenWindow::destroyed, [this]() {
+        isFullScreenMode = false;
+    });
+    fsc->showFullScreen();
+    isFullScreenMode = true;
+}
+

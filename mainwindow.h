@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-//#include "fullscreen.h"
+#include "fullscreen.h"
 #include "RtAsrCallbacksImpl.h"  // 确保包含此头文件
 #include "Vokaturi.h"
 #include <QAudioProbe>
@@ -73,12 +73,12 @@ public:
     QString get_time_str(int msec);
 //    void show_media_name();
     void on_player_state_changed(QMediaPlayer::State newState);
-  //  void toggle_fullscreen();
+    //void toggle_fullscreen();
     void search();
 
     QVideoWidget* getVideoWidget() { return videoWidget; }  // 提供 videoWidget
     QMediaPlayer* getPlayer() { return player; }
-    //void enterFullScreen();
+    void enterFullScreen();
     void on_comboBox_playMode_currentIndexChanged(int index);
     void playNextSequential(QMediaPlayer::MediaStatus status);//顺序播放
     void playRandom(QMediaPlayer::MediaStatus status);//随机播放
@@ -111,10 +111,10 @@ public slots:
     void update_position();
     void on_horizontalSlider_2_sliderMoved(int position);
     void play_selected_media(int index);
- //   void on_exit_fullscreen();
-   // void on_btn_fullscreen_clicked();
+    void on_exit_fullscreen();
+    //void on_btn_fullscreen_clicked();
     //void on_btn_speed_changed(); // 响应倍速选择的槽函数
-//    void enter_fullscreen();
+    //void enter_fullscreen();
     void on_btn_speed_clicked();
     void add_to_history(const QString &filepath); // 存储文件路径
     void load_history();        // 加载历史记录
@@ -148,8 +148,8 @@ private:
     QVideoWidget *videoWidget;//视频区
     bool isFullScreenMode = false;//记录全屏状态
     QVBoxLayout *layout;
-    QFrame *control_frame; //隐藏控制框
-    QPushButton *btn_fullscreen;
+    //QFrame *control_frame; //隐藏控制框
+    //QPushButton *btn_fullscreen;
     QPushButton *speedButton;
     QMenu *speedMenu;  // 用于存放倍速选项的菜单
 
@@ -184,5 +184,7 @@ protected:
     void closeEvent(QCloseEvent *event) override;
     //void paintEvent(QPaintEvent *event) override;
 
+private slots:
+    void on_fullscreen_btn_clicked();
 };
 #endif // MAINWINDOW_H

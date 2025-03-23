@@ -15,6 +15,7 @@
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListWidget>
@@ -24,6 +25,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QTextEdit>
+#include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -46,6 +48,7 @@ public:
     QVBoxLayout *verticalLayout_2;
     QSpacerItem *verticalSpacer;
     QWidget *widget;
+    QTreeView *treeView;
     QTextEdit *textEdit_subtitles;
     QSpacerItem *verticalSpacer_2;
     QHBoxLayout *horizontalLayout_2;
@@ -57,6 +60,7 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_title;
     QPushButton *btn_speed;
+    QPushButton *fullscreen_btn;
     QCheckBox *btn_voice_to_text;
     QLabel *label;
     QSlider *horizontalSlider;
@@ -243,6 +247,11 @@ public:
 
         verticalLayout_2->addWidget(widget);
 
+        treeView = new QTreeView(left_widget);
+        treeView->setObjectName(QString::fromUtf8("treeView"));
+
+        verticalLayout_2->addWidget(treeView);
+
         textEdit_subtitles = new QTextEdit(left_widget);
         textEdit_subtitles->setObjectName(QString::fromUtf8("textEdit_subtitles"));
 
@@ -318,6 +327,12 @@ public:
         btn_speed->setStyleSheet(QString::fromUtf8(""));
 
         horizontalLayout_3->addWidget(btn_speed);
+
+        fullscreen_btn = new QPushButton(left_widget);
+        fullscreen_btn->setObjectName(QString::fromUtf8("fullscreen_btn"));
+        fullscreen_btn->setMaximumSize(QSize(16777211, 16777215));
+
+        horizontalLayout_3->addWidget(fullscreen_btn);
 
         btn_voice_to_text = new QCheckBox(left_widget);
         btn_voice_to_text->setObjectName(QString::fromUtf8("btn_voice_to_text"));
@@ -414,6 +429,7 @@ public:
         label_progress->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         label_title->setText(QCoreApplication::translate("MainWindow", "\346\255\214\346\233\262\345\220\215\347\247\260", nullptr));
         btn_speed->setText(QCoreApplication::translate("MainWindow", "\345\200\215\351\200\237", nullptr));
+        fullscreen_btn->setText(QCoreApplication::translate("MainWindow", "\345\205\250\345\261\217", nullptr));
         btn_voice_to_text->setText(QCoreApplication::translate("MainWindow", "\345\255\227\345\271\225", nullptr));
         label->setText(QString());
         label_2->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));

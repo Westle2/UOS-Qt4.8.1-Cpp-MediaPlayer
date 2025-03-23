@@ -56,13 +56,15 @@ SOURCES       = ../../main.cpp \
 		../../mainwindow.cpp \
 		../../fullscreen.cpp \
 		../../sparkchain.cpp qrc_qic.cpp \
-		moc_mainwindow.cpp
+		moc_mainwindow.cpp \
+		moc_fullscreen.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		fullscreen.o \
 		sparkchain.o \
 		qrc_qic.o \
-		moc_mainwindow.o
+		moc_mainwindow.o \
+		moc_fullscreen.o
 DIST          = ../../star.py \
 		/data/qt/5.15.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/data/qt/5.15.0/gcc_64/mkspecs/common/unix.conf \
@@ -838,17 +840,15 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /data/qt/5.15.0/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h /data/qt/5.15.0/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_fullscreen.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_fullscreen.cpp
 moc_mainwindow.cpp: ../../mainwindow.h \
-		../../RtAsrCallbacksImpl.h \
-		../../Vokaturi.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioProbe \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioprobe.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qobject.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
+		../../fullscreen.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qglobal.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig.h \
@@ -870,7 +870,14 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qmutex.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qnumeric.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qversiontagging.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobject.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qstring.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qchar.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearray.h \
@@ -898,23 +905,6 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiobuffer.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qhash.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmultimedia.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudio.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioformat.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMainWindow \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmainwindow.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qmargins.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qpaintdevice.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qrect.h \
@@ -935,6 +925,8 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qpixelformat.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qpixmap.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhash.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qfont.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qfontmetrics.h \
@@ -956,8 +948,42 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlayer \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplayer.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmultimedia.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediacontent.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaresource.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QSharedDataPointer \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QString \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QUrl \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmetaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudio.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/QVideoWidget \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
+		../../RtAsrCallbacksImpl.h \
+		../../Vokaturi.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioProbe \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioprobe.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiobuffer.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioformat.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMainWindow \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmainwindow.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QDir \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
@@ -982,27 +1008,8 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlayer \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplayer.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaobject.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediacontent.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaresource.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QSharedDataPointer \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QString \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QUrl \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QVariant \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qmetaobject.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlaylist \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplaylist.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/QVideoWidget \
-		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QTimer \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qtimer.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qbasictimer.h \
@@ -1025,7 +1032,6 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
 		/data/qt/5.15.0/gcc_64/include/QtGui/QMouseEvent \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMenu \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmenu.h \
@@ -1200,6 +1206,141 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/bin/moc
 	/data/qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/build/Desktop_Qt_5_15_0_GCC_64bit-Debug/moc_predefs.h -I/data/qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer -I/usr/include/x86_64-linux-gnu -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/include -I/data/qt/5.15.0/gcc_64/include -I/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets -I/data/qt/5.15.0/gcc_64/include/QtMultimedia -I/data/qt/5.15.0/gcc_64/include/QtWidgets -I/data/qt/5.15.0/gcc_64/include/QtGui -I/data/qt/5.15.0/gcc_64/include/QtWebSockets -I/data/qt/5.15.0/gcc_64/include/QtNetwork -I/data/qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../mainwindow.h -o moc_mainwindow.cpp
 
+moc_fullscreen.cpp: ../../fullscreen.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtcore-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsystemdetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qprocessordetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcompilerdetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtypeinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsysinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlogging.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qflags.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbasicatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qgenericatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_msvc.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qglobalstatic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmutex.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qnumeric.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qversiontagging.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstring.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qchar.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearray.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qrefcount.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qarraydata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringliteral.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringalgorithms.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringview.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringbuilder.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qalgorithms.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qiterator.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhashfunctions.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpair.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvector.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpoint.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearraylist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringlist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qregexp.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringmatcher.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcoreevent.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qscopedpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmetatype.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmargins.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpaintdevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qrect.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsize.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpalette.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qcolor.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qrgb.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qrgba64.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qbrush.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qmatrix.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpolygon.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qregion.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdatastream.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qiodevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qline.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtransform.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qimage.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpixelformat.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpixmap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhash.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfont.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfontmetrics.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfontinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qcursor.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qkeysequence.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qevent.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvariant.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdebug.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtextstream.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlocale.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qset.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontiguouscache.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qurl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qurlquery.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfile.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlayer \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplayer.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmultimedia.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediacontent.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaresource.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QSharedDataPointer \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QString \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QUrl \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmetaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudio.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/QVideoWidget \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
+		moc_predefs.h \
+		/data/qt/5.15.0/gcc_64/bin/moc
+	/data/qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/build/Desktop_Qt_5_15_0_GCC_64bit-Debug/moc_predefs.h -I/data/qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer -I/usr/include/x86_64-linux-gnu -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/include -I/data/qt/5.15.0/gcc_64/include -I/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets -I/data/qt/5.15.0/gcc_64/include/QtMultimedia -I/data/qt/5.15.0/gcc_64/include/QtWidgets -I/data/qt/5.15.0/gcc_64/include/QtGui -I/data/qt/5.15.0/gcc_64/include/QtWebSockets -I/data/qt/5.15.0/gcc_64/include/QtNetwork -I/data/qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../fullscreen.h -o moc_fullscreen.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
@@ -1230,13 +1371,11 @@ compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_heade
 ####### Compile
 
 main.o: ../../main.cpp ../../mainwindow.h \
-		../../RtAsrCallbacksImpl.h \
-		../../Vokaturi.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioProbe \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioprobe.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qobject.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
+		../../fullscreen.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qglobal.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig.h \
@@ -1258,7 +1397,14 @@ main.o: ../../main.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qmutex.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qnumeric.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qversiontagging.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobject.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qstring.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qchar.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearray.h \
@@ -1286,23 +1432,6 @@ main.o: ../../main.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiobuffer.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qhash.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmultimedia.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudio.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioformat.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMainWindow \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmainwindow.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qmargins.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qpaintdevice.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qrect.h \
@@ -1323,6 +1452,8 @@ main.o: ../../main.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qpixelformat.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qpixmap.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhash.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qfont.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qfontmetrics.h \
@@ -1344,8 +1475,42 @@ main.o: ../../main.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlayer \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplayer.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmultimedia.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediacontent.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaresource.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QSharedDataPointer \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QString \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QUrl \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmetaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudio.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/QVideoWidget \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
+		../../RtAsrCallbacksImpl.h \
+		../../Vokaturi.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioProbe \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioprobe.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiobuffer.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioformat.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMainWindow \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmainwindow.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QDir \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
@@ -1370,27 +1535,8 @@ main.o: ../../main.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlayer \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplayer.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaobject.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediacontent.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaresource.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QSharedDataPointer \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QString \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QUrl \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QVariant \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qmetaobject.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlaylist \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplaylist.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/QVideoWidget \
-		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QTimer \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qtimer.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qbasictimer.h \
@@ -1413,7 +1559,6 @@ main.o: ../../main.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
 		/data/qt/5.15.0/gcc_64/include/QtGui/QMouseEvent \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMenu \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmenu.h \
@@ -1592,13 +1737,11 @@ main.o: ../../main.cpp ../../mainwindow.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
 
 mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
-		../../RtAsrCallbacksImpl.h \
-		../../Vokaturi.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioProbe \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioprobe.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qobject.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
+		../../fullscreen.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qglobal.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig.h \
@@ -1620,7 +1763,14 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qmutex.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qnumeric.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qversiontagging.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobject.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qstring.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qchar.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearray.h \
@@ -1648,23 +1798,6 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiobuffer.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qhash.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmultimedia.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudio.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioformat.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMainWindow \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmainwindow.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qmargins.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qpaintdevice.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qrect.h \
@@ -1685,6 +1818,8 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qpixelformat.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qpixmap.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhash.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qfont.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qfontmetrics.h \
@@ -1706,8 +1841,42 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlayer \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplayer.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmultimedia.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediacontent.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaresource.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QSharedDataPointer \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QString \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QUrl \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmetaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudio.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/QVideoWidget \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
+		../../RtAsrCallbacksImpl.h \
+		../../Vokaturi.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioProbe \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioprobe.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiobuffer.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioformat.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMainWindow \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmainwindow.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QDir \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
@@ -1732,27 +1901,8 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlayer \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplayer.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaobject.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediacontent.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaresource.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QSharedDataPointer \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QString \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QUrl \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QVariant \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
-		/data/qt/5.15.0/gcc_64/include/QtCore/qmetaobject.h \
-		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlaylist \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplaylist.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/QVideoWidget \
-		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
-		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QTimer \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qtimer.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qbasictimer.h \
@@ -1775,7 +1925,6 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
 		/data/qt/5.15.0/gcc_64/include/QtGui/QMouseEvent \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMenu \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmenu.h \
@@ -1946,29 +2095,368 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiodeviceinfo.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QBuffer \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
-		ui_mainwindow.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/QIcon \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
-		/data/qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QCheckBox \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcheckbox.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QLineEdit \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlineedit.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QListWidget \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QSlider \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QSpacerItem
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../mainwindow.cpp
 
-fullscreen.o: ../../fullscreen.cpp 
+fullscreen.o: ../../fullscreen.cpp ../../fullscreen.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtcore-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsystemdetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qprocessordetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcompilerdetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtypeinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsysinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlogging.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qflags.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbasicatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qgenericatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_msvc.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qglobalstatic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmutex.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qnumeric.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qversiontagging.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstring.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qchar.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearray.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qrefcount.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qarraydata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringliteral.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringalgorithms.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringview.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringbuilder.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qalgorithms.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qiterator.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhashfunctions.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpair.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvector.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpoint.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearraylist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringlist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qregexp.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringmatcher.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcoreevent.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qscopedpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmetatype.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmargins.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpaintdevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qrect.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsize.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpalette.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qcolor.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qrgb.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qrgba64.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qbrush.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qmatrix.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpolygon.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qregion.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdatastream.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qiodevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qline.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtransform.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qimage.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpixelformat.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpixmap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhash.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfont.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfontmetrics.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfontinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qcursor.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qkeysequence.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qevent.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvariant.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdebug.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtextstream.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlocale.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qset.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontiguouscache.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qurl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qurlquery.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfile.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlayer \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplayer.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmultimedia.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediacontent.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaresource.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QSharedDataPointer \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QString \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QUrl \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmetaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudio.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/QVideoWidget \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
+		../../mainwindow.h \
+		../../RtAsrCallbacksImpl.h \
+		../../Vokaturi.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioProbe \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioprobe.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiobuffer.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioformat.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMainWindow \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmainwindow.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QDir \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdir.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QFile \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QFileInfo \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QFileInfoList \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QListWidgetItem \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlistwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlistview.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qstyleoption.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qvalidator.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qregularexpression.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qslider.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractslider.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlaylist \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplaylist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QTimer \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtimer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbasictimer.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QFileDialog \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qfiledialog.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QDebug \
+		/data/qt/5.15.0/gcc_64/include/QtGui/QStandardItemModel \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QStringList \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QScrollBar \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qscrollbar.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QTextStream \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QProcess \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qprocess.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QComboBox \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcombobox.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QVBoxLayout \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/QMouseEvent \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMenu \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmenu.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qaction.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qactiongroup.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QAction \
+		/data/qt/5.15.0/gcc_64/include/QtGui/QCloseEvent \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QSettings \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsettings.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QMessageBox \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmessagebox.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioFormat \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioBuffer \
+		/data/qt/5.15.0/gcc_64/include/QtGui/QPainter \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpainter.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtextoption.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpen.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/QLinearGradient \
+		/data/qt/5.15.0/gcc_64/include/QtGui/QPaintEvent \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QSplitter \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qsplitter.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QTextEdit \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtextedit.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtextdocument.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtextcursor.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtextformat.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QtCore \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QtCoreDepends \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qabstractanimation.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qabstractstate.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qabstracttransition.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qanimationgroup.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qarraydataops.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qarraydatapointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbitarray.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbuffer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcache.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcalendar.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcborarray.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcborvalue.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdatetime.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcborcommon.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/quuid.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcbormap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcborstream.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcborstreamreader.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfloat16.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcborstreamwriter.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcollator.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcommandlineoption.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcommandlineparser.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qconcatenatetablesproxymodel.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcryptographichash.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qelapsedtimer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdiriterator.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qeasingcurve.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qendian.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qeventtransition.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qexception.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfactoryinterface.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfileselector.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QObject \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfinalstate.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfuture.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfutureinterface.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qrunnable.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qresultstore.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfuturewatcher.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhistorystate.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qisenum.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qjsonarray.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qjsonvalue.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qjsondocument.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qjsonobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlibrary.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlibraryinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qversionnumber.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlinkedlist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlockfile.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qloggingcategory.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmath.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmimedata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmimedatabase.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmimetype.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpauseanimation.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qplugin.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpluginloader.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpropertyanimation.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvariantanimation.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qqueue.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qrandom.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qreadwritelock.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qresource.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsavefile.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qscopeguard.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsemaphore.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedmemory.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsignalmapper.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsignaltransition.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsocketnotifier.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstack.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstandardpaths.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstate.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstatemachine.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstorageinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringlistmodel.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtemporarydir.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtemporaryfile.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtextcodec.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qthread.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qthreadpool.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qthreadstorage.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtimeline.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtimezone.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtranslator.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtransposeproxymodel.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtypetraits.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qwaitcondition.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QDeadlineTimer \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qwineventnotifier.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qxmlstream.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtcoreversion.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QCryptographicHash \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QDateTime \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QMessageAuthenticationCode \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QUrlQuery \
+		/data/qt/5.15.0/gcc_64/include/QtWebSockets/QWebSocket \
+		/data/qt/5.15.0/gcc_64/include/QtWebSockets/qwebsocket.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/QAbstractSocket \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/QNetworkRequest \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/QNetworkProxy \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkproxy.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qhostaddress.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/QSslError \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qsslerror.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qsslcertificate.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qssl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QFlags \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/QSslConfiguration \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qsslsocket.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/data/qt/5.15.0/gcc_64/include/QtWebSockets/qwebsockets_global.h \
+		/data/qt/5.15.0/gcc_64/include/QtWebSockets/qwebsocketprotocol.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioInput \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioinput.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiodeviceinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QBuffer \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o fullscreen.o ../../fullscreen.cpp
 
 sparkchain.o: ../../sparkchain.cpp 
@@ -1979,6 +2467,9 @@ qrc_qic.o: qrc_qic.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+
+moc_fullscreen.o: moc_fullscreen.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_fullscreen.o moc_fullscreen.cpp
 
 ####### Install
 
