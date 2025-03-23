@@ -6,9 +6,9 @@ QWidget {
 
 /* 按钮样式 */
 QPushButton {
-    background-color: black; /* 浅灰色背景 */
+    background-color: #444; /* 浅灰色背景 */
     border: 1px solid black; /* 轻微边框 */
-    color: black;
+    color: #444;
     padding: 6px 12px;
     border-radius: 4px;
     transition: background-color 0.2s, border-color 0.2s;
@@ -20,6 +20,10 @@ QPushButton:hover {
 QPushButton:pressed {
     background-color: #e0e0e0; /* 按住变更浅 */
     border-color: #aaa;
+    /*左内边距为3像素，让按下时字向右移动3像素*/
+    padding-left:3px;
+    /*上内边距为3像素，让按下时字向下移动3像素*/
+    padding-top:3px;
 }
 QPushButton:disabled {
     background-color: #eeeeee;

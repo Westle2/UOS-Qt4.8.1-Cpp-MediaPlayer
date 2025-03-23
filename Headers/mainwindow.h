@@ -175,7 +175,7 @@ private:
     VokaturiVoice vokaturiVoice;
     QMap<int, int> visibleRowToSourceRow; // 记录可见行号到实际行号的映射
     int getCurrentVisibleRow(); // 新增
-    int currentTheme = DARK; //默认暗色主题，后续可修改为记录上一次主题状态
+    int currentTheme; //默认暗色主题，后续可修改为记录上一次主题状态
 
 protected:
     //bool eventFilter(QObject *watched, QEvent *event) override;

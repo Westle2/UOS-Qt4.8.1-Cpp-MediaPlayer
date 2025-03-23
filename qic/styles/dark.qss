@@ -18,6 +18,10 @@ QPushButton:hover {
 }
 QPushButton:pressed {
     background-color: #333; /* 按下变深 */
+    /*左内边距为3像素，让按下时字向右移动3像素*/
+    padding-left:3px;
+    /*上内边距为3像素，让按下时字向下移动3像素*/
+    padding-top:3px;
 }
 QPushButton:checked {
     background-color: #777; /* 选中状态（如果有） */

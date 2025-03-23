@@ -345,20 +345,19 @@ void MainWindow::on_btn_prev_clicked()
 //暂停/开始
 void MainWindow::on_btn_pause_keep_clicked()
 {
-    QString playIcon, pauseIcon;
-
+    QString keepIcon, pauseIcon;
     // 根据当前主题选择不同格式的图标
     if (currentTheme == LIGHT) {
-        playIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+        keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
         pauseIcon = ":/qic/images/pause.png";
     } else {
-        playIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+        keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
         pauseIcon = ":/qic/svg/pause.svg";
     }
 
     if (pause_keep_flag == 0) {
         pause_keep_flag = 1;
-        ui->btn_pause_keep->setIcon(QIcon(playIcon));
+        ui->btn_pause_keep->setIcon(QIcon(keepIcon));
         player->play();
     } else {
         pause_keep_flag = 0;
@@ -540,7 +539,11 @@ void MainWindow::on_horizontalSlider_valueChanged(int value)
     player->setVolume(value);
     ui->label_2->setText(QString::number(value));
     if (value > 0) {
-        ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
+        if (currentTheme == LIGHT) {
+            ui->label->setStyleSheet("border-image: url(:/qic/images/voice_open.png);");
+        }else {
+            ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
+        }
     }
     else if (value == 0) {
         ui->label->setStyleSheet("border-image: url(:/qic/images/voice_close.png);");
@@ -642,8 +645,17 @@ void MainWindow::on_btn_open_folder_clicked()
         item->setData(Qt::UserRole, filePath);  // 设置文件路径
         ui->listWidget->addItem(item);
         qDebug() << "添加文件：" << filePath;
-
-
+        connect(ui->listWidget, &QListWidget::itemClicked, [this](QListWidgetItem *item) {
+            // 获取可见行号（根据当前可见项计算）
+            int visibleRow = 0;
+            for (int i = 0; i < ui->listWidget->count(); ++i) {
+                QListWidgetItem *current = ui->listWidget->item(i);
+                if (current == item) break;
+                if (!current->isHidden()) visibleRow++;
+            }
+            play_selected_media(visibleRow);
+        });
+        save_history();
     }
 }
 
@@ -897,10 +909,20 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
     case LIGHT:
         path = ":/qic/styles/light.qss";
         qDebug() << "light";
+        currentTheme = LIGHT;
+        ui->btn_prev->setIcon(QIcon(":qic/images/prev.png"));
+        ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
+        ui->btn_pause_keep->setIcon(QIcon(":qic/images/pause.png"));
+        ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.png);");
         break;
     case DARK:
         path = ":/qic/styles/dark.qss";
         qDebug() << "Dark";
+        currentTheme = DARK;
+        ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
+        ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
+        ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
+        ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
         break;
     case COLORFUL:
         QColor selectedColor=QColorDialog::getColor(Qt::white,this,"ChooseYourColor",QColorDialog::ShowAlphaChannel|QColorDialog::DontUseNativeDialog);
@@ -920,6 +942,11 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         QString stylesheet =loadStylesheet(":/qic/styles/colorful.template.qss",colors);
         path=":/qic/styles/colorful.template.qss";
         qApp->setStyleSheet(stylesheet);
+        currentTheme = COLORFUL;
+        ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
+        ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
+        ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
+        ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
         break;
     }
     qDebug() << "Trying to open file:" << path;

@@ -185,36 +185,7 @@ QPushButton:pressed
           <item>
            <widget class="QPushButton" name="btn_shrink_expand">
             <property name="styleSheet">
-             <string notr="true">/*按钮普通态*/
-QPushButton
-{
-    /*字体为微软雅黑*/
-    font-family:Microsoft Yahei;
-    /*字体颜色为白色*/    
-    color:white;
-    /*背景颜色*/  
-    background-color:rgb(14 , 150 , 254);
-    /*边框圆角半径为8像素*/ 
-    border-radius:8px;
-}
- 
-/*按钮停留态*/
-QPushButton:hover
-{
-    /*背景颜色*/  
-    background-color:rgb(44 , 137 , 255);
-}
- 
-/*按钮按下态*/
-QPushButton:pressed
-{
-    /*背景颜色*/  
-    background-color:rgb(14 , 135 , 228);
-    /*左内边距为3像素，让按下时字向右移动3像素*/  
-    padding-left:3px;
-    /*上内边距为3像素，让按下时字向下移动3像素*/  
-    padding-top:3px;
-}</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>&gt;</string>
@@ -274,41 +245,7 @@ QPushButton:pressed
           <item>
            <widget class="QPushButton" name="btn_prev">
             <property name="styleSheet">
-             <string notr="true">QPushButton{
-url(:/qic/svg/prev.svg)
-}
-/*按钮普通态*/
-QPushButton
-{
-    /*字体为微软雅黑*/
-    font-family:Microsoft Yahei;
-    /*字体大小为20点*/
-    font-size:20pt;
-    /*字体颜色为白色*/    
-    color:white;
-    /*背景颜色*/  
-    background-color:rgb(14 , 150 , 254);
-    /*边框圆角半径为8像素*/ 
-    border-radius:8px;
-}
- 
-/*按钮停留态*/
-QPushButton:hover
-{
-    /*背景颜色*/  
-    background-color:rgb(44 , 137 , 255);
-}
- 
-/*按钮按下态*/
-QPushButton:pressed
-{
-    /*背景颜色*/  
-    background-color:rgb(14 , 135 , 228);
-    /*左内边距为3像素，让按下时字向右移动3像素*/  
-    padding-left:3px;
-    /*上内边距为3像素，让按下时字向下移动3像素*/  
-    padding-top:3px;
-}</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string/>
@@ -328,39 +265,7 @@ QPushButton:pressed
           <item>
            <widget class="QPushButton" name="btn_pause_keep">
             <property name="styleSheet">
-             <string notr="true">/*按钮普通态*/
-QPushButton
-{
-   url(:/qic/svg/pause.svg)
-    /*字体为微软雅黑*/
-    font-family:Microsoft Yahei;
-    /*字体大小为20点*/
-    font-size:20pt;
-    /*字体颜色为白色*/    
-    color:white;
-    /*背景颜色*/  
-    background-color:rgb(14 , 150 , 254);
-    /*边框圆角半径为8像素*/ 
-    border-radius:8px;
-}
- 
-/*按钮停留态*/
-QPushButton:hover
-{
-    /*背景颜色*/  
-    background-color:rgb(44 , 137 , 255);
-}
- 
-/*按钮按下态*/
-QPushButton:pressed
-{
-    /*背景颜色*/  
-    background-color:rgb(14 , 135 , 228);
-    /*左内边距为3像素，让按下时字向右移动3像素*/  
-    padding-left:3px;
-    /*上内边距为3像素，让按下时字向下移动3像素*/  
-    padding-top:3px;
-}</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string/>
@@ -380,41 +285,7 @@ QPushButton:pressed
           <item>
            <widget class="QPushButton" name="btn_next">
             <property name="styleSheet">
-             <string notr="true">QPushButton{
-url(:/qic/svg/next.svg)
-}
-/*按钮普通态*/
-QPushButton
-{
-    /*字体为微软雅黑*/
-    font-family:Microsoft Yahei;
-    /*字体大小为20点*/
-    font-size:20pt;
-    /*字体颜色为白色*/    
-    color:white;
-    /*背景颜色*/  
-    background-color:rgb(14 , 150 , 254);
-    /*边框圆角半径为8像素*/ 
-    border-radius:8px;
-}
- 
-/*按钮停留态*/
-QPushButton:hover
-{
-    /*背景颜色*/  
-    background-color:rgb(44 , 137 , 255);
-}
- 
-/*按钮按下态*/
-QPushButton:pressed
-{
-    /*背景颜色*/  
-    background-color:rgb(14 , 135 , 228);
-    /*左内边距为3像素，让按下时字向右移动3像素*/  
-    padding-left:3px;
-    /*上内边距为3像素，让按下时字向下移动3像素*/  
-    padding-top:3px;
-}</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string/>
@@ -540,36 +411,7 @@ max-width:200px;</string>
           <item>
            <widget class="QPushButton" name="btn_emotion">
             <property name="styleSheet">
-             <string notr="true">/*按钮普通态*/
-QPushButton
-{
-    /*字体为微软雅黑*/
-    font-family:Microsoft Yahei;
-    /*字体颜色为白色*/    
-    color:white;
-    /*背景颜色*/  
-    background-color:rgb(14 , 150 , 254);
-    /*边框圆角半径为8像素*/ 
-    border-radius:8px;
-}
- 
-/*按钮停留态*/
-QPushButton:hover
-{
-    /*背景颜色*/  
-    background-color:rgb(44 , 137 , 255);
-}
- 
-/*按钮按下态*/
-QPushButton:pressed
-{
-    /*背景颜色*/  
-    background-color:rgb(14 , 135 , 228);
-    /*左内边距为3像素，让按下时字向右移动3像素*/  
-    padding-left:3px;
-    /*上内边距为3像素，让按下时字向下移动3像素*/  
-    padding-top:3px;
-}</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>情绪识别</string>
@@ -592,36 +434,7 @@ QPushButton:pressed
           <item>
            <widget class="QPushButton" name="btn_open_folder">
             <property name="styleSheet">
-             <string notr="true">/*按钮普通态*/
-QPushButton
-{
-    /*字体为微软雅黑*/
-    font-family:Microsoft Yahei;
-    /*字体颜色为白色*/    
-    color:white;
-    /*背景颜色*/  
-    background-color:rgb(14 , 150 , 254);
-    /*边框圆角半径为8像素*/ 
-    border-radius:8px;
-}
- 
-/*按钮停留态*/
-QPushButton:hover
-{
-    /*背景颜色*/  
-    background-color:rgb(44 , 137 , 255);
-}
- 
-/*按钮按下态*/
-QPushButton:pressed
-{
-    /*背景颜色*/  
-    background-color:rgb(14 , 135 , 228);
-    /*左内边距为3像素，让按下时字向右移动3像素*/  
-    padding-left:3px;
-    /*上内边距为3像素，让按下时字向下移动3像素*/  
-    padding-top:3px;
-}</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>导入</string>
