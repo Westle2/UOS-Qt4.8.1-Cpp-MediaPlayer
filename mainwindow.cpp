@@ -69,6 +69,7 @@ void MainWindow::init()
     ui->comboBox_theme->addItem("dark");
     ui->comboBox_theme->addItem("light");
     ui->comboBox_theme->addItem("colorful");
+    ui->comboBox_theme->addItem("follow_emotion");
     ui->comboBox_theme->setEditable(0);
     ui->widget->setLayout(layout);
     // ui->widget->setLayout(ui->videoLayout);
@@ -93,14 +94,6 @@ void MainWindow::init()
    // btn_fullscreen->setFixedSize(60, 30);  // 调小按钮大小
    // btn_fullscreen->setObjectName("btn_fullscreen");
 
-   // // 让按钮靠右对齐
-   // btn_fullscreen->move(control_frame->width() - btn_fullscreen->width() - 10, (control_frame->height() - btn_fullscreen->height()) / 2);
-
-   //  btn_fullscreen->setLayout(layout);
-   //  //fsWindow = new FullScreenWindow(this);
-   //  connect(btn_fullscreen, &QPushButton::clicked, this, &MainWindow::on_btn_fullscreen_clicked);
-   // control_frame->show();
-
     //按钮提示词
     ui->btn_speed->setToolTip("倍速");
     ui->btn_next->setToolTip("下一曲");
@@ -117,7 +110,6 @@ void MainWindow::init()
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_position);
     connect(player, &QMediaPlayer::stateChanged, this, &MainWindow::on_player_state_changed);
     connect(ui->search_box, &QLineEdit::textChanged, this, &MainWindow::search_list);
-    //connect(m_vokaturi, &VokaturiWrapper::emotionUpdated,this, &MainWindow::updateEmotionUI);
 
     // 加载历史记录
     load_history();
@@ -954,10 +946,10 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
         break;
     case COLORFUL:
-        QColor selectedColor=QColorDialog::getColor(Qt::white,this,"ChooseYourColor",QColorDialog::ShowAlphaChannel|QColorDialog::DontUseNativeDialog);
+        selectedColor=QColorDialog::getColor(Qt::white,this,"ChooseYourColor",QColorDialog::ShowAlphaChannel|QColorDialog::DontUseNativeDialog);
         //qDebug()<<selectedColor.name().toStdString().c_str();
         currentColor=selectedColor;
-        QMap<QString,QString> colors;
+        // QMap<QString,QString> colors;
         colors["color"]=selectedColor.name();
         colors["window_background_color"]=selectedColor.name();
         colors["text_color"]=getContrastColor(selectedColor).name();
@@ -969,7 +961,7 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
             colors["text_color"]<<"     "  <<colors["button_color"];
 
 
-        QString stylesheet =loadStylesheet(":/qic/styles/colorful.template.qss",colors);
+        stylesheet =loadStylesheet(":/qic/styles/colorful.template.qss",colors);
         path=":/qic/styles/colorful.template.qss";
         qApp->setStyleSheet(stylesheet);
         currentTheme = COLORFUL;
@@ -985,9 +977,12 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         }
         ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
         break;
+    case FOLLOW_EMOTION:
+        emotion_to_theme();
+        return;
     }
     qDebug() << "Trying to open file:" << path;
-    if(index!=COLORFUL){
+    if(index!=COLORFUL && index!=FOLLOW_EMOTION){
         QFile file(path);
         if (file.open(QFile::ReadOnly | QFile::Text)) {
             QString styleSheet = file.readAll();
@@ -1004,7 +999,11 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
         pauseIcon = ":/qic/images/pause.png";
     }
-    else if(currentTheme==COLORFUL){
+    else if(currentTheme==DARK){
+        keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+        pauseIcon = ":/qic/svg/pause.svg";
+    }
+    else {
         if(isDarkColor(currentColor)){
             keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
             pauseIcon = ":/qic/svg/pause.svg";
@@ -1013,10 +1012,6 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
             keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
             pauseIcon = ":/qic/images/pause.png";
         }
-    }
-    else {
-        keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
-        pauseIcon = ":/qic/svg/pause.svg";
     }
     if (pause_keep_flag == 0) {
         ui->btn_pause_keep->setIcon(QIcon(pauseIcon));
@@ -1071,6 +1066,7 @@ void MainWindow::process_audio_buffer_emotion(const QAudioBuffer &buffer)
 
 void MainWindow::on_btn_emotion_clicked()
 {
+    QSettings settings("MyApp", "MusicPlayer");
     // 确保有足够的 PCM 数据
     if (pcmSamples.isEmpty()) {
         QMessageBox::warning(this, "情感分析", "未检测到足够的音频数据！");
@@ -1109,51 +1105,65 @@ void MainWindow::on_btn_emotion_clicked()
                  + QString("悲伤：%1%\n").arg(emotion.sadness * 100, 0, 'f', 2)
                  + QString("愤怒：%1%\n").arg(emotion.anger * 100, 0, 'f', 2)
                  + QString("恐惧：%1%\n").arg(emotion.fear * 100, 0, 'f', 2);
+        settings.setValue("emotion/neutrality", emotion.neutrality);
+        settings.setValue("emotion/happiness", emotion.happiness);
+        settings.setValue("emotion/sadness", emotion.sadness);
+        settings.setValue("emotion/anger", emotion.anger);
+        settings.setValue("emotion/fear", emotion.fear);
     } else {
         result = "未检测到有效的情感数据。";
     }
 
     // 显示分析结果
     QMessageBox::information(this, "情感分析结果", result);
+}
 
-    // **把情绪数据转换成字符串格式，空格分隔**
+void MainWindow::emotion_to_theme()
+{
+    float neutrality = settings->value("emotion/neutrality", 0.0).toFloat();
+    float happiness = settings->value("emotion/happiness", 0.0).toFloat();
+    float sadness = settings->value("emotion/sadness", 0.0).toFloat();
+    float anger = settings->value("emotion/anger", 0.0).toFloat();
+    float fear = settings->value("emotion/fear", 0.0).toFloat();
+
+    qDebug() << "加载的情绪数据：" << neutrality << happiness << sadness << anger << fear;
+    // 把情绪数据转换成字符串格式，空格分隔
     QString emotionStr = QString("%1 %2 %3 %4 %5")
-                             .arg(emotion.neutrality)
-                             .arg(emotion.happiness)
-                             .arg(emotion.sadness)
-                             .arg(emotion.anger)
-                             .arg(emotion.fear);
+                             .arg(neutrality)
+                             .arg(happiness)
+                             .arg(sadness)
+                             .arg(anger)
+                             .arg(fear);
 
-    // **用 QProcess 调用 Python**
+    // 用 QProcess 调用 Python
     QProcess process;
     QString program = "python3";  // 或 "python" 视系统而定
     QString scriptPath = "colorPre/colorChoose.py";  // Python 脚本路径
 
     QStringList arguments;
     arguments << scriptPath
-              << QString::number(emotion.neutrality)
-              << QString::number(emotion.happiness)
-              << QString::number(emotion.sadness)
-              << QString::number(emotion.anger)
-              << QString::number(emotion.fear);
-    arguments << scriptPath << emotionStr; // 传递字符串
+              << QString::number(neutrality,'f',2)
+              << QString::number(happiness,'f',2)
+              << QString::number(sadness,'f',2)
+              << QString::number(anger,'f',2)
+              << QString::number(fear,'f',2);
 
     process.start(program, arguments);
     process.waitForFinished();
 
-    // **获取 Python 输出的 RGB 值**
+    // 获取 Python 输出的 RGB 值
     QString outputColor = process.readAllStandardOutput().trimmed(); // 可能是 "250 235 215"
     QString errorMsg = process.readAllStandardError().trimmed(); // 捕获错误信息
     qDebug() << "color:" << outputColor;
     qDebug() << "error:" << errorMsg;  // 打印错误信息
-    // **检查输出是否符合 RGB 格式**
+    // 检查输出是否符合 RGB 格式
     QStringList rgbValues = outputColor.split(" ");
     if (rgbValues.size() != 3) {
         QMessageBox::warning(this, "错误", "未能正确获取颜色！");
         return;
     }
 
-    // **转换 RGB 数值**
+    // 转换 RGB 数值
     bool ok1, ok2, ok3;
     int r = rgbValues[0].toInt(&ok1);
     int g = rgbValues[1].toInt(&ok2);
@@ -1164,21 +1174,19 @@ void MainWindow::on_btn_emotion_clicked()
         return;
     }
 
-    // **转换为十六进制颜色代码**
+    // 转换为十六进制颜色
     QString hexColor = QString("#%1%2%3")
                            .arg(r, 2, 16, QChar('0'))
                            .arg(g, 2, 16, QChar('0'))
                            .arg(b, 2, 16, QChar('0'))
                            .toUpper();
 
-    // **更新窗口背景颜色**
+    // 更新窗口背景颜色
     QString styleSheet = QString("QWidget { background-color: %1; }").arg(hexColor);
     this->setStyleSheet(styleSheet);
-
     // **最终的情绪分析结果**
-    result += QString("\n\n预测的颜色（RGB）：%1").arg(outputColor);
-    result += QString("\n预测的颜色（Hex）：%1").arg(hexColor);
-
+    outputColor = QString("\n\n预测的颜色（RGB）：%1").arg(outputColor);
+    outputColor += QString("\n预测的颜色（Hex）：%1").arg(hexColor);
 }
 
 //收缩框
