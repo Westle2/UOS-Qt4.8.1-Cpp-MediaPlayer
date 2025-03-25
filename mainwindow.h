@@ -79,7 +79,8 @@ public:
     void on_player_state_changed(QMediaPlayer::State newState);
     //void toggle_fullscreen();
     void search();
-
+    // 将 Qt 资源文件提取到临时文件并返回临时文件路径
+    QString extractResourceToTempFile(const QString& resourcePath);
     QVideoWidget* getVideoWidget() { return videoWidget; }  // 提供 videoWidget
     QMediaPlayer* getPlayer() { return player; }
     void enterFullScreen();

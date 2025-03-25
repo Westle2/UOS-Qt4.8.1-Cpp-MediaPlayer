@@ -65,7 +65,11 @@ OBJECTS       = main.o \
 		qrc_qic.o \
 		moc_mainwindow.o \
 		moc_fullscreen.o
-DIST          = ../../star.py \
+DIST          = ../../colorPre/colorChoose.py \
+		../../colorPre/ds.py \
+		../../colorPre/main.py \
+		../../colorPre/model.pkl \
+		../../star.py \
 		/data/qt/5.15.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/data/qt/5.15.0/gcc_64/mkspecs/common/unix.conf \
 		/data/qt/5.15.0/gcc_64/mkspecs/common/linux.conf \
@@ -766,6 +770,8 @@ qrc_qic.cpp: ../../qic.qrc \
 		../../styles/colorful.template.qss \
 		../../styles/dark.qss \
 		../../styles/light.qss \
+		../../colorPre/model.pkl \
+		../../colorPre/colorChoose.py \
 		../../include/sc_knowledge.h \
 		../../include/sc_memory.h \
 		../../include/sc_imageTrans.h \
@@ -976,6 +982,8 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
 		../../RtAsrCallbacksImpl.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		../../Vokaturi.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioProbe \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioprobe.h \
@@ -1015,7 +1023,6 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qbasictimer.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QFileDialog \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qfiledialog.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QDebug \
 		/data/qt/5.15.0/gcc_64/include/QtGui/QStandardItemModel \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qstandarditemmodel.h \
@@ -1201,7 +1208,9 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioinput.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiodeviceinfo.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QBuffer \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonDocument \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonArray \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonObject \
 		moc_predefs.h \
 		/data/qt/5.15.0/gcc_64/bin/moc
 	/data/qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/build/Desktop_Qt_5_15_0_GCC_64bit-Debug/moc_predefs.h -I/data/qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer -I/usr/include/x86_64-linux-gnu -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/include -I/data/qt/5.15.0/gcc_64/include -I/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets -I/data/qt/5.15.0/gcc_64/include/QtMultimedia -I/data/qt/5.15.0/gcc_64/include/QtWidgets -I/data/qt/5.15.0/gcc_64/include/QtGui -I/data/qt/5.15.0/gcc_64/include/QtWebSockets -I/data/qt/5.15.0/gcc_64/include/QtNetwork -I/data/qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../mainwindow.h -o moc_mainwindow.cpp
@@ -1503,6 +1512,8 @@ main.o: ../../main.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
 		../../RtAsrCallbacksImpl.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		../../Vokaturi.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioProbe \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioprobe.h \
@@ -1542,7 +1553,6 @@ main.o: ../../main.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qbasictimer.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QFileDialog \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qfiledialog.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QDebug \
 		/data/qt/5.15.0/gcc_64/include/QtGui/QStandardItemModel \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qstandarditemmodel.h \
@@ -1728,7 +1738,9 @@ main.o: ../../main.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioinput.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiodeviceinfo.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QBuffer \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonDocument \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonArray \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonObject \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
@@ -1869,6 +1881,8 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
 		../../RtAsrCallbacksImpl.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		../../Vokaturi.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioProbe \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioprobe.h \
@@ -1908,7 +1922,6 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qbasictimer.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QFileDialog \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qfiledialog.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QDebug \
 		/data/qt/5.15.0/gcc_64/include/QtGui/QStandardItemModel \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qstandarditemmodel.h \
@@ -2094,8 +2107,30 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioinput.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiodeviceinfo.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QBuffer \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
-		ui_mainwindow.h
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonDocument \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonArray \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonObject \
+		ui_mainwindow.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/QIcon \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QCheckBox \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcheckbox.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QHeaderView \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qheaderview.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QLineEdit \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlineedit.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QListWidget \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QSlider \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QSpacerItem \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QTreeView \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtreeview.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../mainwindow.cpp
 
 fullscreen.o: ../../fullscreen.cpp ../../fullscreen.h \
@@ -2231,6 +2266,8 @@ fullscreen.o: ../../fullscreen.cpp ../../fullscreen.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
 		../../mainwindow.h \
 		../../RtAsrCallbacksImpl.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		../../Vokaturi.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QAudioProbe \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioprobe.h \
@@ -2270,7 +2307,6 @@ fullscreen.o: ../../fullscreen.cpp ../../fullscreen.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/qbasictimer.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QFileDialog \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qfiledialog.h \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QDebug \
 		/data/qt/5.15.0/gcc_64/include/QtGui/QStandardItemModel \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qstandarditemmodel.h \
@@ -2456,7 +2492,9 @@ fullscreen.o: ../../fullscreen.cpp ../../fullscreen.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudioinput.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudiodeviceinfo.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QBuffer \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonDocument \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonArray \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonObject
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o fullscreen.o ../../fullscreen.cpp
 
 sparkchain.o: ../../sparkchain.cpp 

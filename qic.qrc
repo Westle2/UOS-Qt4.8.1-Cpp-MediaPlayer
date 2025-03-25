@@ -39,5 +39,8 @@
         <file>include/sc_agent.h</file>
         <file>styles/colorful.template.qss</file>
         <file>svg/keep.svg</file>
+        <file>colorPre/colorChoose.py</file>
+        <file>colorPre/model.pkl</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

@@ -210,6 +210,8 @@ void MainWindow::on_player_state_changed(QMediaPlayer::State newState)
         }
     }
 }
+
+
 void MainWindow::on_comboBox_playMode_currentIndexChanged(int index)
 {
     //disconnectPlayerSignals();
@@ -603,7 +605,7 @@ void MainWindow::on_listWidget_currentTextChanged(const QString &currentText)
 
     player->setMedia(QUrl::fromLocalFile(filePath));
     player->play();
->>>>>>> e01acd804748353dbd3543a868df5432d534a9d4
+
     pause_keep_flag=1;
     QString keepIcon, pauseIcon;
     // 根据当前主题选择不同格式的图标
@@ -965,7 +967,6 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         //qDebug()<<selectedColor.name().toStdString().c_str();
         currentColor=selectedColor;
 
-        QMap<QString,QString> colors;
 
         // QMap<QString,QString> colors;
 
@@ -999,6 +1000,7 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
     case FOLLOW_EMOTION:
         emotion_to_theme();
         return;
+        break;
     }
     qDebug() << "Trying to open file:" << path;
     if(index!=COLORFUL && index!=FOLLOW_EMOTION){
@@ -1022,7 +1024,7 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
         pauseIcon = ":/qic/svg/pause.svg";
     }
-    else {
+    else if(currentTheme==COLORFUL){
         if(isDarkColor(currentColor)){
             keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
             pauseIcon = ":/qic/svg/pause.svg";
@@ -1161,15 +1163,18 @@ void MainWindow::emotion_to_theme()
     // 用 QProcess 调用 Python
     QProcess process;
     QString program = "python3";  // 或 "python" 视系统而定
-    QString scriptPath = "colorPre/colorChoose.py";  // Python 脚本路径
-
+    //QString scriptPath = "/colorPre/colorChoose.py";  // Python 脚本路径
+    //scriptPath=extractResourceToTempFile(scriptPath);
+    QString scriptPath = extractResourceToTempFile(":/qic/colorPre/colorChoose.py");
+    QString modelPath=extractResourceToTempFile(":/qic/colorPre/model.pkl");
     QStringList arguments;
     arguments << scriptPath
               << QString::number(neutrality,'f',2)
               << QString::number(happiness,'f',2)
               << QString::number(sadness,'f',2)
               << QString::number(anger,'f',2)
-              << QString::number(fear,'f',2);
+              << QString::number(fear,'f',2)
+            <<modelPath;
 
     process.start(program, arguments);
     process.waitForFinished();
@@ -1205,8 +1210,30 @@ void MainWindow::emotion_to_theme()
                            .toUpper();
 
     // 更新窗口背景颜色
-    QString styleSheet = QString("QWidget { background-color: %1; }").arg(hexColor);
-    this->setStyleSheet(styleSheet);
+    currentColor=QColor(hexColor);
+    selectedColor=QColor(hexColor);
+    colors["color"]=selectedColor.name();
+    colors["window_background_color"]=selectedColor.name();
+    colors["text_color"]=getContrastColor(selectedColor).name();
+    //botton's color can be darker to distinguish
+    colors["button_color"]=adjustButtonColor(selectedColor).name();
+
+    qDebug()<<colors["color"]<<"    "<<
+        colors["window_background_color"]<<"     "<<
+        colors["text_color"]<<"     "  <<colors["button_color"];
+
+
+    stylesheet =loadStylesheet(":/qic/styles/colorful.template.qss",colors);
+    qApp->setStyleSheet(stylesheet);
+    if(isDarkColor(currentColor)){
+        ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
+        ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
+    }
+    else{
+        ui->btn_prev->setIcon(QIcon(":qic/images/prev.png"));
+        ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
+    }
+
     // **最终的情绪分析结果**
     outputColor = QString("\n\n预测的颜色（RGB）：%1").arg(outputColor);
     outputColor += QString("\n预测的颜色（Hex）：%1").arg(hexColor);
@@ -1328,5 +1355,30 @@ void MainWindow::on_fullscreen_btn_clicked()
     });
     fsc->showFullScreen();
     isFullScreenMode = true;
+}
+
+// 将 Qt 资源文件提取到临时文件并返回临时文件路径
+QString MainWindow::extractResourceToTempFile(const QString &resourcePath)
+{
+    QTemporaryFile* tempFile = new QTemporaryFile;
+    if (tempFile->open()) {
+        QFile resourceFile(resourcePath);
+        if (resourceFile.open(QIODevice::ReadOnly)) {
+            tempFile->write(resourceFile.readAll());
+            resourceFile.close();
+            tempFile->close();
+            // 设置文件权限为可读
+            QFileInfo fileInfo(tempFile->fileName());
+            QFile::setPermissions(tempFile->fileName(), fileInfo.permissions() | QFile::ReadUser);
+            return tempFile->fileName();
+        } else {
+            qDebug() << "无法打开资源文件: " << resourceFile.errorString();
+            delete tempFile;
+        }
+    } else {
+        qDebug() << "无法创建临时文件: " << tempFile->errorString();
+        delete tempFile;
+    }
+    return "";
 }
 
