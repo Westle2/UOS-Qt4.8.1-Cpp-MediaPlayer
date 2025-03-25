@@ -41,6 +41,8 @@
         <file>svg/keep.svg</file>
         <file>colorPre/colorChoose.py</file>
         <file>colorPre/model.pkl</file>
+        <file>colorPre/followModel.pkl</file>
+        <file>colorPre/reverseModel.pkl</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

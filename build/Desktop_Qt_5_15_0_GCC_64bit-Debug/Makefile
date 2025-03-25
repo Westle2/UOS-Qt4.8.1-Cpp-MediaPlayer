@@ -771,6 +771,8 @@ qrc_qic.cpp: ../../qic.qrc \
 		../../styles/dark.qss \
 		../../styles/light.qss \
 		../../colorPre/model.pkl \
+		../../colorPre/followModel.pkl \
+		../../colorPre/reverseModel.pkl \
 		../../colorPre/colorChoose.py \
 		../../include/sc_knowledge.h \
 		../../include/sc_memory.h \
