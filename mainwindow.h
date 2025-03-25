@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include "fullscreen.h"
 #include "RtAsrCallbacksImpl.h"  // 确保包含此头文件
+#include"qcolordialog.h"
 #include "Vokaturi.h"
 #include <QAudioProbe>
 #include <QMainWindow>
@@ -48,7 +49,9 @@
 #include <QWebSocket>
 #include <QAudioInput>
 #include <QBuffer>
-#include"qcolordialog.h"
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -57,7 +60,8 @@ QT_END_NAMESPACE
 enum THEME{
     DARK,
     LIGHT,
-    COLORFUL
+    COLORFUL,
+    FOLLOW_EMOTION
 };
 
 //class FullScreenWindow;
@@ -89,17 +93,6 @@ public:
     QProcess* process;
     void start_voice_to_text();
     QString loadStylesheet(const QString& templatePath, const QMap<QString, QString>& colors);
-    //void convert_file_to_wav(const QString &inputFile, const QString &outputFile);
-    //void init_stream_to_text();
-//    QString generateSigna(const QString &appId, const QString &apiKey);
-//    QWebSocket *webSocket;
-//    void on_WebSocketConnected();
-//    void on_WebSocketDisconnected();
-//    void on_WebSocketError(QAbstractSocket::SocketError error); // 错误处理
-//    void on_WebSocketTextMessageReceived(const QString &message); // 处理返回结果
-//    void stop_AudioCapture();
-    //void send_AudioData();
-
 
 public slots:
     void on_btn_prev_clicked();
@@ -124,6 +117,7 @@ public slots:
     void delete_item(QListWidgetItem *item);         // 删除选中的项
     void on_comboBox_theme_currentIndexChanged(int index);
     void on_btn_emotion_clicked();
+    void emotion_to_theme();
     void process_audio_buffer_emotion(const QAudioBuffer &buffer);
     void on_btn_shrink_expand_clicked();
     void on_btn_voice_to_text_toggled(bool checked);
@@ -176,6 +170,9 @@ private:
     QMap<int, int> visibleRowToSourceRow; // 记录可见行号到实际行号的映射
     int getCurrentVisibleRow(); // 新增
     int currentTheme; //默认暗色主题，后续可修改为记录上一次主题状态
+    QString stylesheet;  // 在switch外部声明
+    QMap<QString, QString> colors;  // 在switch外部声明
+    QColor selectedColor;  // 在switch外部声明
     QColor currentColor;//current color keep it for change of other widgets
 protected:
     //bool eventFilter(QObject *watched, QEvent *event) override;

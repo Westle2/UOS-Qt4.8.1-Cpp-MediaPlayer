@@ -57,5 +57,9 @@ RESOURCES += \
 #    ../../../../OpenVokaturi-4-0/OpenVokaturi-4-0/lib/open/linux/OpenVokaturi-4-0-linux.o
 
 DISTFILES += \
+    colorPre/colorChoose.py \
+    colorPre/ds.py \
+    colorPre/main.py \
+    colorPre/model.pkl \
     star.py
 
