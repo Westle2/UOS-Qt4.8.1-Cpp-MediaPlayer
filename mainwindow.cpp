@@ -82,24 +82,24 @@ void MainWindow::init()
     ui->widget->setMouseTracking(true);
     ui->widget->installEventFilter(this);
 
-//    // 隐藏框，设置透明背景
-//    control_frame = new QFrame(this);
-//    control_frame->setGeometry(ui->widget->x(), ui->widget->y() + ui->widget->height() - 50, ui->widget->width(), 50);
-//    control_frame->setStyleSheet("background-color: rgba(0, 0, 0, 100); border: none;");  // 半透明黑色背景
-//    control_frame->hide();
+   // 隐藏框，设置透明背景
+   // control_frame = new QFrame(this);
+   // control_frame->setGeometry(ui->widget->x(), ui->widget->y() + ui->widget->height() - 50, ui->widget->width(), 50);
+   // control_frame->setStyleSheet("background-color: rgba(0, 0, 0, 100); border: none;");  // 半透明黑色背景
+   // control_frame->hide();
 
-//    // 全屏按钮，调小尺寸
-//    btn_fullscreen = new QPushButton("全屏", control_frame);
-//    btn_fullscreen->setFixedSize(60, 30);  // 调小按钮大小
-//    btn_fullscreen->setObjectName("btn_fullscreen");
+   // // 全屏按钮，调小尺寸
+   // btn_fullscreen = new QPushButton("全屏", control_frame);
+   // btn_fullscreen->setFixedSize(60, 30);  // 调小按钮大小
+   // btn_fullscreen->setObjectName("btn_fullscreen");
 
-//    // 让按钮靠右对齐
-//    btn_fullscreen->move(control_frame->width() - btn_fullscreen->width() - 10, (control_frame->height() - btn_fullscreen->height()) / 2);
+   // // 让按钮靠右对齐
+   // btn_fullscreen->move(control_frame->width() - btn_fullscreen->width() - 10, (control_frame->height() - btn_fullscreen->height()) / 2);
 
-    // btn_fullscreen->setLayout(layout);
-    //fsWindow = new FullScreenWindow(this);
-    //connect(btn_fullscreen, &QPushButton::clicked, this, &MainWindow::on_btn_fullscreen_clicked);
-//    control_frame->show();
+   //  btn_fullscreen->setLayout(layout);
+   //  //fsWindow = new FullScreenWindow(this);
+   //  connect(btn_fullscreen, &QPushButton::clicked, this, &MainWindow::on_btn_fullscreen_clicked);
+   // control_frame->show();
 
     //按钮提示词
     ui->btn_speed->setToolTip("倍速");
@@ -350,7 +350,18 @@ void MainWindow::on_btn_pause_keep_clicked()
     if (currentTheme == LIGHT) {
         keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
         pauseIcon = ":/qic/images/pause.png";
-    } else {
+    }
+    else if(currentTheme==COLORFUL){
+        if(isDarkColor(currentColor)){
+            keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+            pauseIcon = ":/qic/svg/pause.svg";
+        }
+        else{
+            keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+            pauseIcon = ":/qic/images/pause.png";
+        }
+    }
+    else {
         keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
         pauseIcon = ":/qic/svg/pause.svg";
     }
@@ -586,6 +597,24 @@ void MainWindow::on_listWidget_currentTextChanged(const QString &currentText)
     // 设置媒体源并播放
     player->setMedia(QUrl::fromLocalFile(filePath));
     player->play();
+    pause_keep_flag=1;
+    QString keepIcon, pauseIcon;
+    // 根据当前主题选择不同格式的图标
+    if (currentTheme == LIGHT) {
+        keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+    }
+    else if(currentTheme==COLORFUL){
+        if(isDarkColor(currentColor)){
+            keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+        }
+        else{
+            keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+        }
+    }
+    else {
+        keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+    }
+    ui->btn_pause_keep->setIcon(QIcon(keepIcon));
 
     // 更新 UI 显示
     ui->label_title->setText(item ? item->text() : "null");
@@ -660,7 +689,7 @@ void MainWindow::on_btn_open_folder_clicked()
 }
 
 //bool MainWindow::eventFilter(QObject *watched, QEvent *event)
-//{
+// {
 //    if (watched == ui->widget && event->type() == QEvent::MouseMove) {
 //            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
 //            int y = mouseEvent->pos().y();
@@ -674,9 +703,9 @@ void MainWindow::on_btn_open_folder_clicked()
 //            }
 //        }
 //        return QObject::eventFilter(watched, event);
-//}
+// }
 
-//void MainWindow::on_btn_fullscreen_clicked() {
+// void MainWindow::on_btn_fullscreen_clicked() {
 //    if (!videoWidget) return;
 
 //    if (isFullScreenMode) return; // 防止重复创建
@@ -688,26 +717,25 @@ void MainWindow::on_btn_open_folder_clicked()
 //    });
 //    fsc->showFullScreen();
 //    isFullScreenMode = true;
-//}
+// }
 
 
 
-//void MainWindow::on_exit_fullscreen()
-//{
+void MainWindow::on_exit_fullscreen()
+{
 
-//    qDebug()<<"on_exit_fullscreen";
-//    QLayout *existingLayout = ui->widget->layout();
-//    if (existingLayout) {
-//        existingLayout->addWidget(videoWidget);
-//    }
-//    videoWidget->show();
-//    isFullScreenMode = false;
-//    player->pause();
-//    videoWidget->setParent(this);
-//    player->play();
-//    videoWidget->update();
-//    isFullScreenMode = false;
-//}
+   qDebug()<<"on_exit_fullscreen";
+   QLayout *existingLayout = ui->widget->layout();
+   if (existingLayout) {
+       existingLayout->addWidget(videoWidget);
+   }
+   videoWidget->show();
+   isFullScreenMode = false;
+   player->pause();
+   videoWidget->setParent(this);
+   player->play();
+   videoWidget->update();
+}
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
@@ -728,6 +756,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 
 }
+
 
 // 关闭窗口时保存历史记录
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -877,11 +906,11 @@ void MainWindow::disconnectPlayerSignals()
     //disconnect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::loopPlaylist);
 }
 
-void MainWindow::restoreVideoWidgetLayout(QVideoWidget *widget)
-{
-    ui->widget->layout()->addWidget(widget);
-    widget->show();
-}
+//void MainWindow::restoreVideoWidgetLayout(QVideoWidget *widget)
+// {
+//     ui->widget->layout()->addWidget(widget);
+//     widget->show();
+// }
 
 QString MainWindow::loadStylesheet(const QString &templatePath, const QMap<QString, QString> &colors)
 {
@@ -912,7 +941,7 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         currentTheme = LIGHT;
         ui->btn_prev->setIcon(QIcon(":qic/images/prev.png"));
         ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
-        ui->btn_pause_keep->setIcon(QIcon(":qic/images/pause.png"));
+        //ui->btn_pause_keep->setIcon(QIcon(":qic/images/pause.png"));
         ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.png);");
         break;
     case DARK:
@@ -921,12 +950,13 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         currentTheme = DARK;
         ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
         ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
-        ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
+        //ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
         ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
         break;
     case COLORFUL:
         QColor selectedColor=QColorDialog::getColor(Qt::white,this,"ChooseYourColor",QColorDialog::ShowAlphaChannel|QColorDialog::DontUseNativeDialog);
         //qDebug()<<selectedColor.name().toStdString().c_str();
+        currentColor=selectedColor;
         QMap<QString,QString> colors;
         colors["color"]=selectedColor.name();
         colors["window_background_color"]=selectedColor.name();
@@ -943,9 +973,16 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         path=":/qic/styles/colorful.template.qss";
         qApp->setStyleSheet(stylesheet);
         currentTheme = COLORFUL;
-        ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
-        ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
-        ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
+        if(isDarkColor(currentColor)){
+            ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
+            ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
+            //ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
+        }
+        else{
+            ui->btn_prev->setIcon(QIcon(":qic/images/prev.png"));
+            ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
+            //ui->btn_pause_keep->setIcon(QIcon(":qic/images/pause.png"));
+        }
         ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
         break;
     }
@@ -959,6 +996,32 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         } else {
             qDebug() << "Failed to open file:" << path << "Error:" << file.errorString();
         }
+    }
+
+    QString keepIcon, pauseIcon;
+    // 根据当前主题选择不同格式的图标
+    if (currentTheme == LIGHT) {
+        keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+        pauseIcon = ":/qic/images/pause.png";
+    }
+    else if(currentTheme==COLORFUL){
+        if(isDarkColor(currentColor)){
+            keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+            pauseIcon = ":/qic/svg/pause.svg";
+        }
+        else{
+            keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+            pauseIcon = ":/qic/images/pause.png";
+        }
+    }
+    else {
+        keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+        pauseIcon = ":/qic/svg/pause.svg";
+    }
+    if (pause_keep_flag == 0) {
+        ui->btn_pause_keep->setIcon(QIcon(pauseIcon));
+    } else {
+        ui->btn_pause_keep->setIcon(QIcon(keepIcon));
     }
 }
 
@@ -1052,6 +1115,70 @@ void MainWindow::on_btn_emotion_clicked()
 
     // 显示分析结果
     QMessageBox::information(this, "情感分析结果", result);
+
+    // **把情绪数据转换成字符串格式，空格分隔**
+    QString emotionStr = QString("%1 %2 %3 %4 %5")
+                             .arg(emotion.neutrality)
+                             .arg(emotion.happiness)
+                             .arg(emotion.sadness)
+                             .arg(emotion.anger)
+                             .arg(emotion.fear);
+
+    // **用 QProcess 调用 Python**
+    QProcess process;
+    QString program = "python3";  // 或 "python" 视系统而定
+    QString scriptPath = "colorPre/colorChoose.py";  // Python 脚本路径
+
+    QStringList arguments;
+    arguments << scriptPath
+              << QString::number(emotion.neutrality)
+              << QString::number(emotion.happiness)
+              << QString::number(emotion.sadness)
+              << QString::number(emotion.anger)
+              << QString::number(emotion.fear);
+    arguments << scriptPath << emotionStr; // 传递字符串
+
+    process.start(program, arguments);
+    process.waitForFinished();
+
+    // **获取 Python 输出的 RGB 值**
+    QString outputColor = process.readAllStandardOutput().trimmed(); // 可能是 "250 235 215"
+    QString errorMsg = process.readAllStandardError().trimmed(); // 捕获错误信息
+    qDebug() << "color:" << outputColor;
+    qDebug() << "error:" << errorMsg;  // 打印错误信息
+    // **检查输出是否符合 RGB 格式**
+    QStringList rgbValues = outputColor.split(" ");
+    if (rgbValues.size() != 3) {
+        QMessageBox::warning(this, "错误", "未能正确获取颜色！");
+        return;
+    }
+
+    // **转换 RGB 数值**
+    bool ok1, ok2, ok3;
+    int r = rgbValues[0].toInt(&ok1);
+    int g = rgbValues[1].toInt(&ok2);
+    int b = rgbValues[2].toInt(&ok3);
+
+    if (!ok1 || !ok2 || !ok3) {
+        QMessageBox::warning(this, "错误", "颜色转换失败！");
+        return;
+    }
+
+    // **转换为十六进制颜色代码**
+    QString hexColor = QString("#%1%2%3")
+                           .arg(r, 2, 16, QChar('0'))
+                           .arg(g, 2, 16, QChar('0'))
+                           .arg(b, 2, 16, QChar('0'))
+                           .toUpper();
+
+    // **更新窗口背景颜色**
+    QString styleSheet = QString("QWidget { background-color: %1; }").arg(hexColor);
+    this->setStyleSheet(styleSheet);
+
+    // **最终的情绪分析结果**
+    result += QString("\n\n预测的颜色（RGB）：%1").arg(outputColor);
+    result += QString("\n预测的颜色（Hex）：%1").arg(hexColor);
+
 }
 
 //收缩框
@@ -1080,256 +1207,6 @@ void MainWindow::on_btn_shrink_expand_clicked()
     splitter->setSizes(sizes);
 }
 
-//void MainWindow::on_btn_voice_to_text_clicked()
-//{
-//    // 创建 QProcess 对象，用于启动外部命令
-//    QProcess* process = new QProcess(this);
-
-//    // 设置命令和参数，假设模型文件和程序路径已经准备好
-//    QString program = "/home/srh/Downloads/voice_to_text/SenseVoice.cpp/build/bin/sense-voice-stream";  // sense-voice-stream 可执行文件路径
-//    QStringList arguments;
-//    arguments << "-m" << "/home/srh/Downloads/voice_to_text/SenseVoiceGGUF/sense-voice-small-fp16.gguf" << "--use-vad";  // 模型文件路径
-
-//    // 启动外部命令
-//    process->start(program, arguments);
-
-
-//    // 获取文本输出的控件（假设是 QTextEdit 控件）
-//    QTextEdit* textOutput = ui->textEdit_subtitles;  // 假设你的 QTextEdit 对象命名为 textEdit
-//    if (!process->waitForStarted()) {
-//        textOutput->append("Error: Failed to start the process.");
-//        return;
-//    }
-
-//    // 连接标准输出和错误输出到 QTextEdit 控件
-//    connect(process, &QProcess::readyReadStandardOutput, [process, textOutput]() {
-//        QByteArray output = process->readAllStandardOutput();
-//        textOutput->append(QString(output));  // 将输出添加到 QTextEdit 中
-//    });
-
-//    connect(process, &QProcess::readyReadStandardError, [process, textOutput]() {
-//        QByteArray errorOutput = process->readAllStandardError();
-//        textOutput->append("Error: " + QString(errorOutput));  // 错误输出也显示在 QTextEdit 中
-//    });
-
-//    // 进程结束后清理
-//    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-//            process, &QProcess::deleteLater);
-
-//}
-//void MainWindow::convert_file_to_wav(const QString &filePath, const QString &outputFile)
-//{
-//    // 使用 QFileInfo 确保 filePath 是绝对路径
-//    QFileInfo fileInfo(filePath);
-//    QString absoluteFilePath = fileInfo.absoluteFilePath();
-
-//    // 确保输出文件是绝对路径
-//    QFileInfo outputFileInfo(outputFile);
-//    QString absoluteOutputPath = outputFileInfo.absoluteFilePath();
-
-//    // 检查输出文件是否已经存在，如果存在则不执行转换
-//    if (QFile::exists(absoluteOutputPath)) {
-//        ui->textEdit_subtitles->append("Output file already exists, skipping conversion.");
-//        return;  // 如果输出文件已存在，跳过转换
-//    }
-
-//    // 创建 QProcess 对象来运行 ffmpeg 命令
-//    QProcess* process = new QProcess(this);
-
-//    // 设置 ffmpeg 转换命令和参数
-//    QString program = "ffmpeg";
-//    QStringList arguments;
-
-//    // 如果文件名中有空格，则添加引号
-//    if (absoluteOutputPath.contains(" ")) {
-//        absoluteOutputPath = "\"" + absoluteOutputPath + "\"";  // 只有路径中有空格时才加引号
-//    }
-
-//    // 设置 ffmpeg 参数
-//    arguments << "-i" << "\"" + absoluteFilePath + "\"" << absoluteOutputPath;
-
-//    // 启动外部进程
-//    process->start(program, arguments);
-
-//    // 获取输出并显示在 textEdit_subtitles 控件中
-//    connect(process, &QProcess::readyReadStandardOutput, [process, this]() {
-//        QByteArray output = process->readAllStandardOutput();
-//        ui->textEdit_subtitles->append(QString(output));  // 将标准输出内容追加到 textEdit
-//    });
-
-//    // 获取错误输出并显示
-//    connect(process, &QProcess::readyReadStandardError, [process, this]() {
-//        QByteArray errorOutput = process->readAllStandardError();
-//        ui->textEdit_subtitles->append(QString(errorOutput));  // 将错误输出追加到 textEdit
-//    });
-
-//    // 进程结束后清理
-//    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-//            process, &QProcess::deleteLater);
-//}
-
-
-//void MainWindow::on_btn_voice_to_text_clicked()
-//{
-//    // 获取选中的项
-//    QListWidgetItem *item = ui->listWidget->currentItem();
-
-//    // 获取选中的文件路径
-//    QString filePath = item->data(Qt::UserRole).toString();
-
-//    // 生成输出文件路径（可以自定义文件名或者使用与输入文件相同的文件名）
-//    QString outputFile = filePath.section('.', 0, 0) + ".wav";  // 假设输出的文件名为 .wav 格式
-
-//    // 调用转换函数进行转换
-//    convert_file_to_wav(filePath, outputFile);
-
-//    // 创建 QProcess 来调用语音识别命令
-//    QProcess* process = new QProcess(this);
-
-//    // 设置环境变量确保与命令行相同
-//    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-//    process->setEnvironment(env.toStringList());
-
-//    QString program = "/home/srh/Downloads/voice_to_text/SenseVoice.cpp/build/bin/sense-voice-stream";
-
-//    // 确保文件路径中包含空格或特殊字符时，加上引号
-//    QStringList arguments;
-//    arguments << "-m" << "/home/srh/Downloads/voice_to_text/SenseVoiceGGUF/sense-voice-small-fp16.gguf";
-
-//    // 这里加引号，确保路径无论是否有空格或特殊字符都正确传递
-// //   arguments << outputFile ;  // 加引号来包裹文件路径
-
-// //   arguments << "-t" << "4" << "-ng";
-
-//    // 启动语音识别命令
-//    process->start(program, arguments);
-
-//    // 获取输出并显示在 textEdit_subtitles 控件中
-//    connect(process, &QProcess::readyReadStandardOutput, [process, this]() {
-//        QByteArray output = process->readAllStandardOutput();
-//        ui->textEdit_subtitles->append(QString(output));  // 将标准输出内容追加到 textEdit
-//    });
-
-//    // 获取错误输出并显示
-//    connect(process, &QProcess::readyReadStandardError, [process, this]() {
-//        QByteArray errorOutput = process->readAllStandardError();
-//        ui->textEdit_subtitles->append(QString(errorOutput));  // 将错误输出追加到 textEdit
-//    });
-
-//    // 异步处理，防止阻塞主线程
-//    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-//            process, &QProcess::deleteLater);
-//}
-//void MainWindow::update_subtitles(QString text)
-//{
-//    if (!text.isEmpty()) {
-//        ui->textEdit_subtitles->append(text);
-//    }else{
-//        qDebug() << "result is empty";
-//    }
-//}
-
-//void MainWindow::on_btn_voice_to_text_clicked() {
-//    if (pause_keep_flag == 0) {
-//        stop_stream_to_text();  // 停止语音识别
-//        qDebug() << "语音识别已停止";
-//    } else {
-//        init_stream_to_text();  // 启动语音识别
-//        qDebug() << "语音识别已启动";
-//    }
-//}
-
-
-//void MainWindow::init_stream_to_text() {
-//    // 1. 初始化 SDK
-//    SparkChain::SparkChainConfig* config = SparkChain::SparkChainConfig::builder();
-//    config->appID("3e98e979")
-//          ->apiKey("146853e87965f64bbe0ac4e3701d3841")
-//          ->apiSecret("root")
-//          ->logLevel(2)
-//          ->logPath("/home/srh/Downloads/project/MusicPlayer/MusicPlayer-vv/log");
-
-//    int ret = SparkChain::init(config);
-//    if (ret != 0) {
-//        qDebug() << "SDK 初始化失败! 错误码: " << ret;
-//        return;
-//    }
-
-//    // 2. 初始化 RTASR
-//    rtasr = new SparkChain::RTASR("146853e87965f64bbe0ac4e3701d3841");
-//    //rtasr->transType("normal");
-//    rtasr->transStrategy(0);
-//    rtasr->engLangType(4);
-//    //rtasr->targetLang("cn");
-
-//    // 3. 创建回调
-//    SparkChain::RtAsrCallbacksImpl* mRTASRCallbacks = new SparkChain::RtAsrCallbacksImpl(this);
-//    connect(mRTASRCallbacks, &SparkChain::RtAsrCallbacksImpl::asrResultReceived, this, &MainWindow::update_subtitles);
-//    connect(mRTASRCallbacks, &SparkChain::RtAsrCallbacksImpl::asrErrorReceived, this, &MainWindow::update_subtitles);
-//    rtasr->registerCallbacks(mRTASRCallbacks);
-
-//    qDebug() << "Spark 语音识别已启动";
-
-//    // 4. 监听 QMediaPlayer 的音频数据
-//    audioProbe = new QAudioProbe(this);
-//    connect(audioProbe, &QAudioProbe::audioBufferProbed, this, &MainWindow::process_audio_buffer_text);
-
-//    if (!audioProbe->setSource(player)) {
-//        qDebug() << "无法监听 QMediaPlayer 的音频流！";
-//        return;
-//    }
-
-//    // 5. 开启会话
-//    if (rtasr->start() != 0) {
-//        qDebug() << "RTASR 会话启动失败!";
-//        return;
-//    }
-
-//    qDebug() << "RTASR 会话已开启";
-//}
-
-// 处理 QAudioProbe 获取的音频数据
-//void MainWindow::process_audio_buffer_text(const QAudioBuffer& buffer) {
-//    static QByteArray audioCache;  // 用于缓存音频数据
-//    const qint16* data = buffer.constData<qint16>();  // 16-bit PCM 数据
-//    int bytes = buffer.byteCount();
-
-//    // 确保音频数据格式是16-bit PCM，并转换为char数组
-//    audioCache.append(reinterpret_cast<const char*>(data), bytes);
-
-//    // 如果缓存有足够的数据块（1280字节），就进行传送
-//    while (audioCache.size() >= 1280) {
-//        QByteArray chunk = audioCache.left(1280);  // 获取前1280字节
-//        char *dataBuffer = new char[1280];  // 为数据分配内存
-//        memcpy(dataBuffer, chunk.data(), 1280);  // 将音频数据复制到buffer中
-
-//        // 将数据发送到rtasr
-//        rtasr->write(dataBuffer, 1280);
-//        QThread::msleep(40);
-//        // 清理内存
-//        delete[] dataBuffer;
-
-//        audioCache.remove(0, 1280);  // 移除已处理的音频数据块
-//    }
-//}
-
-// 结束会话
-//void MainWindow::stop_stream_to_text() {
-//    if (rtasr) {
-//        rtasr->stop();
-//        qDebug() << "RTASR 语音识别结束";
-//        SparkChain::unInit();
-//        qDebug() << "SparkChain SDK 逆初始化完成";
-//    }
-//}
-// 生成 signa 签名
-//QString MainWindow::generateSigna(const QString &appId, const QString &apiKey) {
-//    QString ts = QString::number(QDateTime::currentSecsSinceEpoch());
-//    QString baseString = appId + ts;
-//    QByteArray md5Data = QCryptographicHash::hash(baseString.toUtf8(), QCryptographicHash::Md5).toHex();
-//    QByteArray hmacData = QMessageAuthenticationCode::hash(md5Data, apiKey.toUtf8(), QCryptographicHash::Sha1).toBase64();
-//    return hmacData;
-//}
 // 点击按钮后启动 WebSocket 连接
 void MainWindow::on_btn_voice_to_text_toggled(bool checked) {
     if (checked) {
@@ -1406,3 +1283,19 @@ QColor MainWindow::adjustButtonColor(const QColor &baseColor)
         return baseColor.darker(200); // 降低亮度
     }
 }
+
+void MainWindow::on_fullscreen_btn_clicked()
+{
+    if (!videoWidget) return;
+
+    if (isFullScreenMode) return; // 防止重复创建
+
+    FullScreenWindow* fsc = new FullScreenWindow(this);
+    fsc->setAttribute(Qt::WA_DeleteOnClose); // 确保关闭时自动删除
+    connect(fsc, &FullScreenWindow::destroyed, [this]() {
+        isFullScreenMode = false;
+    });
+    fsc->showFullScreen();
+    isFullScreenMode = true;
+}
+
