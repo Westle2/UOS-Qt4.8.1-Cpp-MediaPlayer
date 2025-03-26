@@ -761,6 +761,7 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_qic.cpp
 qrc_qic.cpp: ../../qic.qrc \
 		/data/qt/5.15.0/gcc_64/bin/rcc \
+		../../star.py \
 		../../images/keep.png \
 		../../images/voice_open.png \
 		../../images/voice_close.png \

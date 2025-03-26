@@ -59,6 +59,7 @@ public:
     QLabel *label_progress;
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_title;
+    QSpacerItem *horizontalSpacer_4;
     QPushButton *btn_speed;
     QPushButton *fullscreen_btn;
     QCheckBox *btn_voice_to_text;
@@ -79,7 +80,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(777, 637);
+        MainWindow->resize(894, 632);
         MainWindow->setStyleSheet(QString::fromUtf8(""));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
@@ -321,6 +322,10 @@ public:
 "max-width:200px;"));
 
         horizontalLayout_3->addWidget(label_title);
+
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_4);
 
         btn_speed = new QPushButton(left_widget);
         btn_speed->setObjectName(QString::fromUtf8("btn_speed"));

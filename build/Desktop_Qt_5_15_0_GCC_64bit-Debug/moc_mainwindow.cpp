@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[43];
-    char stringdata0[719];
+    QByteArrayData data[44];
+    char stringdata0[729];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -63,18 +63,19 @@ QT_MOC_LITERAL(27, 432, 4), // "item"
 QT_MOC_LITERAL(28, 437, 37), // "on_comboBox_theme_currentInde..."
 QT_MOC_LITERAL(29, 475, 22), // "on_btn_emotion_clicked"
 QT_MOC_LITERAL(30, 498, 16), // "emotion_to_theme"
-QT_MOC_LITERAL(31, 515, 28), // "process_audio_buffer_emotion"
-QT_MOC_LITERAL(32, 544, 12), // "QAudioBuffer"
-QT_MOC_LITERAL(33, 557, 6), // "buffer"
-QT_MOC_LITERAL(34, 564, 28), // "on_btn_shrink_expand_clicked"
-QT_MOC_LITERAL(35, 593, 28), // "on_btn_voice_to_text_toggled"
-QT_MOC_LITERAL(36, 622, 7), // "checked"
-QT_MOC_LITERAL(37, 630, 11), // "isDarkColor"
-QT_MOC_LITERAL(38, 642, 5), // "color"
-QT_MOC_LITERAL(39, 648, 16), // "getContrastColor"
-QT_MOC_LITERAL(40, 665, 9), // "baseColor"
-QT_MOC_LITERAL(41, 675, 17), // "adjustButtonColor"
-QT_MOC_LITERAL(42, 693, 25) // "on_fullscreen_btn_clicked"
+QT_MOC_LITERAL(31, 515, 9), // "modelPath"
+QT_MOC_LITERAL(32, 525, 28), // "process_audio_buffer_emotion"
+QT_MOC_LITERAL(33, 554, 12), // "QAudioBuffer"
+QT_MOC_LITERAL(34, 567, 6), // "buffer"
+QT_MOC_LITERAL(35, 574, 28), // "on_btn_shrink_expand_clicked"
+QT_MOC_LITERAL(36, 603, 28), // "on_btn_voice_to_text_toggled"
+QT_MOC_LITERAL(37, 632, 7), // "checked"
+QT_MOC_LITERAL(38, 640, 11), // "isDarkColor"
+QT_MOC_LITERAL(39, 652, 5), // "color"
+QT_MOC_LITERAL(40, 658, 16), // "getContrastColor"
+QT_MOC_LITERAL(41, 675, 9), // "baseColor"
+QT_MOC_LITERAL(42, 685, 17), // "adjustButtonColor"
+QT_MOC_LITERAL(43, 703, 25) // "on_fullscreen_btn_clicked"
 
     },
     "MainWindow\0on_btn_prev_clicked\0\0"
@@ -92,8 +93,8 @@ QT_MOC_LITERAL(42, 693, 25) // "on_fullscreen_btn_clicked"
     "QListWidgetItem*\0item\0"
     "on_comboBox_theme_currentIndexChanged\0"
     "on_btn_emotion_clicked\0emotion_to_theme\0"
-    "process_audio_buffer_emotion\0QAudioBuffer\0"
-    "buffer\0on_btn_shrink_expand_clicked\0"
+    "modelPath\0process_audio_buffer_emotion\0"
+    "QAudioBuffer\0buffer\0on_btn_shrink_expand_clicked\0"
     "on_btn_voice_to_text_toggled\0checked\0"
     "isDarkColor\0color\0getContrastColor\0"
     "baseColor\0adjustButtonColor\0"
@@ -134,14 +135,14 @@ static const uint qt_meta_data_MainWindow[] = {
       25,    1,  179,    2, 0x0a /* Public */,
       28,    1,  182,    2, 0x0a /* Public */,
       29,    0,  185,    2, 0x0a /* Public */,
-      30,    0,  186,    2, 0x0a /* Public */,
-      31,    1,  187,    2, 0x0a /* Public */,
-      34,    0,  190,    2, 0x0a /* Public */,
-      35,    1,  191,    2, 0x0a /* Public */,
-      37,    1,  194,    2, 0x0a /* Public */,
-      39,    1,  197,    2, 0x0a /* Public */,
-      41,    1,  200,    2, 0x0a /* Public */,
-      42,    0,  203,    2, 0x08 /* Private */,
+      30,    1,  186,    2, 0x0a /* Public */,
+      32,    1,  189,    2, 0x0a /* Public */,
+      35,    0,  192,    2, 0x0a /* Public */,
+      36,    1,  193,    2, 0x0a /* Public */,
+      38,    1,  196,    2, 0x0a /* Public */,
+      40,    1,  199,    2, 0x0a /* Public */,
+      42,    1,  202,    2, 0x0a /* Public */,
+      43,    0,  205,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -163,13 +164,13 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void, 0x80000000 | 26,   27,
     QMetaType::Void, QMetaType::Int,   14,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,   31,
+    QMetaType::Void, 0x80000000 | 33,   34,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 32,   33,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   36,
-    QMetaType::Bool, QMetaType::QColor,   38,
-    QMetaType::QColor, QMetaType::QColor,   40,
-    QMetaType::QColor, QMetaType::QColor,   40,
+    QMetaType::Void, QMetaType::Bool,   37,
+    QMetaType::Bool, QMetaType::QColor,   39,
+    QMetaType::QColor, QMetaType::QColor,   41,
+    QMetaType::QColor, QMetaType::QColor,   41,
     QMetaType::Void,
 
        0        // eod
@@ -200,7 +201,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 16: _t->delete_item((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
         case 17: _t->on_comboBox_theme_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 18: _t->on_btn_emotion_clicked(); break;
-        case 19: _t->emotion_to_theme(); break;
+        case 19: _t->emotion_to_theme((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 20: _t->process_audio_buffer_emotion((*reinterpret_cast< const QAudioBuffer(*)>(_a[1]))); break;
         case 21: _t->on_btn_shrink_expand_clicked(); break;
         case 22: _t->on_btn_voice_to_text_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;

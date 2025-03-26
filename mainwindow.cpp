@@ -1301,7 +1301,8 @@ void MainWindow::start_voice_to_text() {
 
     QString program = "python3";
     QStringList arguments;
-    arguments << "star.py" << filePath;
+    QString starPath=extractResourceToTempFile(":/qic/star.py");
+    arguments << starPath << filePath;
 
     QProcess *process = new QProcess(this);
 

@@ -43,6 +43,7 @@
         <file>colorPre/model.pkl</file>
         <file>colorPre/followModel.pkl</file>
         <file>colorPre/reverseModel.pkl</file>
+        <file>star.py</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
