@@ -66,10 +66,12 @@ void MainWindow::init()
     ui->comboBox_playMode->addItem("单个播放");
     ui->comboBox_playMode->addItem("单个循环");
     //ui->comboBox_playMode->addItem("列表循环");
-    ui->comboBox_theme->addItem("dark");
-    ui->comboBox_theme->addItem("light");
-    ui->comboBox_theme->addItem("colorful");
-    ui->comboBox_theme->addItem("follow_emotion");
+    ui->comboBox_theme->addItem("深色");
+    ui->comboBox_theme->addItem("浅色");
+    ui->comboBox_theme->addItem("自定义");
+    ui->comboBox_theme->addItem("跟随情绪");
+    ui->comboBox_theme->addItem("逆转情绪");
+    ui->comboBox_theme->addItem("自动推荐");
     ui->comboBox_theme->setEditable(0);
     ui->widget->setLayout(layout);
     // ui->widget->setLayout(ui->videoLayout);
@@ -355,7 +357,11 @@ void MainWindow::on_btn_pause_keep_clicked()
         keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
         pauseIcon = ":/qic/images/pause.png";
     }
-    else if(currentTheme==COLORFUL){
+    else if(currentTheme==DARK){
+        keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
+        pauseIcon = ":/qic/svg/pause.svg";
+    }
+    else {
         if(isDarkColor(currentColor)){
             keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
             pauseIcon = ":/qic/svg/pause.svg";
@@ -364,10 +370,6 @@ void MainWindow::on_btn_pause_keep_clicked()
             keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
             pauseIcon = ":/qic/images/pause.png";
         }
-    }
-    else {
-        keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
-        pauseIcon = ":/qic/svg/pause.svg";
     }
 
     if (pause_keep_flag == 0) {
@@ -873,18 +875,18 @@ void MainWindow::delete_item(QListWidgetItem *item)
 
     QString filePath = playListMap[fileName];
 
-    // **如果正在播放这个文件，就先停止播放**
+    // 如果正在播放这个文件，就先停止播放
     if (is_playing_flag && player->media().canonicalUrl().toLocalFile() == filePath) {
         qDebug() << "正在播放该文件，停止播放";
         player->stop();
         is_playing_flag = false;
     }
 
-    // **删除 map 中的路径**
+    // 删除 map 中的路径
     playListMap.remove(fileName);
     qDebug() << "已从 playListMap 删除：" << fileName;
 
-    // **删除 UI 中的 listWidget 项**
+    // 删除 UI 中的 listWidget 项
     delete ui->listWidget->takeItem(ui->listWidget->row(item));
     qDebug() << "已从 UI 删除：" << fileName;
     save_history();
@@ -966,21 +968,15 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         selectedColor=QColorDialog::getColor(Qt::white,this,"ChooseYourColor",QColorDialog::ShowAlphaChannel|QColorDialog::DontUseNativeDialog);
         //qDebug()<<selectedColor.name().toStdString().c_str();
         currentColor=selectedColor;
-
-
         // QMap<QString,QString> colors;
-
         colors["color"]=selectedColor.name();
         colors["window_background_color"]=selectedColor.name();
         colors["text_color"]=getContrastColor(selectedColor).name();
         //botton's color can be darker to distinguish
         colors["button_color"]=adjustButtonColor(selectedColor).name();
-
         qDebug()<<colors["color"]<<"    "<<
             colors["window_background_color"]<<"     "<<
             colors["text_color"]<<"     "  <<colors["button_color"];
-
-
         stylesheet =loadStylesheet(":/qic/styles/colorful.template.qss",colors);
         path=":/qic/styles/colorful.template.qss";
         qApp->setStyleSheet(stylesheet);
@@ -998,8 +994,16 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
         break;
     case FOLLOW_EMOTION:
-        emotion_to_theme();
-        return;
+        modelPath = ":qic/colorPre/followModel.pkl";
+        emotion_to_theme(modelPath);
+        break;
+    case REVERSE_EMOTION:
+        modelPath = ":qic/colorPre/reverseModel.pkl";
+        emotion_to_theme(modelPath);
+        break;
+    case AUTO_EMOTION:
+        modelPath = ":qic/colorPre/model.pkl";
+        emotion_to_theme(modelPath);
         break;
     }
     qDebug() << "Trying to open file:" << path;
@@ -1143,7 +1147,7 @@ void MainWindow::on_btn_emotion_clicked()
     QMessageBox::information(this, "情感分析结果", result);
 }
 
-void MainWindow::emotion_to_theme()
+void MainWindow::emotion_to_theme(const QString &modelPath)
 {
     float neutrality = settings->value("emotion/neutrality", 0.0).toFloat();
     float happiness = settings->value("emotion/happiness", 0.0).toFloat();
@@ -1160,13 +1164,13 @@ void MainWindow::emotion_to_theme()
                              .arg(anger)
                              .arg(fear);
 
+    qDebug() << "modle路径：" << modelPath;
     // 用 QProcess 调用 Python
     QProcess process;
     QString program = "python3";  // 或 "python" 视系统而定
-    //QString scriptPath = "/colorPre/colorChoose.py";  // Python 脚本路径
-    //scriptPath=extractResourceToTempFile(scriptPath);
-    QString scriptPath = extractResourceToTempFile(":/qic/colorPre/colorChoose.py");
-    QString modelPath=extractResourceToTempFile(":/qic/colorPre/model.pkl");
+
+    QString scriptPath = extractResourceToTempFile(":qic/colorPre/colorChoose.py");
+    QString model_path=extractResourceToTempFile(modelPath);
     QStringList arguments;
     arguments << scriptPath
               << QString::number(neutrality,'f',2)
@@ -1174,7 +1178,7 @@ void MainWindow::emotion_to_theme()
               << QString::number(sadness,'f',2)
               << QString::number(anger,'f',2)
               << QString::number(fear,'f',2)
-            <<modelPath;
+            <<model_path;
 
     process.start(program, arguments);
     process.waitForFinished();
@@ -1234,7 +1238,7 @@ void MainWindow::emotion_to_theme()
         ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
     }
 
-    // **最终的情绪分析结果**
+    // 最终的情绪分析结果
     outputColor = QString("\n\n预测的颜色（RGB）：%1").arg(outputColor);
     outputColor += QString("\n预测的颜色（Hex）：%1").arg(hexColor);
 }

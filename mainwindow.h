@@ -61,7 +61,9 @@ enum THEME{
     DARK,
     LIGHT,
     COLORFUL,
-    FOLLOW_EMOTION
+    FOLLOW_EMOTION,
+    REVERSE_EMOTION,
+    AUTO_EMOTION
 };
 
 //class FullScreenWindow;
@@ -118,7 +120,7 @@ public slots:
     void delete_item(QListWidgetItem *item);         // 删除选中的项
     void on_comboBox_theme_currentIndexChanged(int index);
     void on_btn_emotion_clicked();
-    void emotion_to_theme();
+    void emotion_to_theme(const QString &modelPath);
     void process_audio_buffer_emotion(const QAudioBuffer &buffer);
     void on_btn_shrink_expand_clicked();
     void on_btn_voice_to_text_toggled(bool checked);
@@ -175,6 +177,7 @@ private:
     QMap<QString, QString> colors;  // 在switch外部声明
     QColor selectedColor;  // 在switch外部声明
     QColor currentColor;//current color keep it for change of other widgets
+    QString modelPath;
 protected:
     //bool eventFilter(QObject *watched, QEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
