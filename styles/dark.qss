@@ -91,4 +91,8 @@ QLineEdit {
 QLineEdit:focus {
     border: 2px solid #bbb; /* 聚焦时边框变亮 */
 }
-
+QSplitter::handle {
+    background-color: #333; /* 分隔条颜色 */
+    border: 1px solid #333; /* 添加黑色边框，使其更明显 */
+    width: 5px; /* 分隔条宽度 */
+}

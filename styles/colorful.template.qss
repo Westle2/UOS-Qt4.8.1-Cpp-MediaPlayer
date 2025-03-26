@@ -71,3 +71,8 @@ QLineEdit {
     border-radius: 4px;
     color: ${text_color};
 }
+QSplitter::handle {
+    background-color: #555; /* 分隔条颜色 */
+    border: 1px solid #555; /* 添加黑色边框，使其更明显 */
+    width: 5px; /* 分隔条宽度 */
+}
