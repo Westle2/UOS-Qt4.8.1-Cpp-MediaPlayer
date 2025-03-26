@@ -1149,6 +1149,8 @@ void MainWindow::on_btn_emotion_clicked()
 
 void MainWindow::emotion_to_theme(const QString &modelPath)
 {
+    // 读取当前存储的情绪数据
+    QStringList emotionHistory = settings->value("emotion/history").toStringList();
     float neutrality = settings->value("emotion/neutrality", 0.0).toFloat();
     float happiness = settings->value("emotion/happiness", 0.0).toFloat();
     float sadness = settings->value("emotion/sadness", 0.0).toFloat();
@@ -1163,7 +1165,14 @@ void MainWindow::emotion_to_theme(const QString &modelPath)
                              .arg(sadness)
                              .arg(anger)
                              .arg(fear);
-
+    emotionHistory.append(emotionStr);
+    // 限制存储数量，保留最近 20 条
+    while (emotionHistory.size() > 20) {
+        emotionHistory.removeFirst();  // 删除最早的记录
+    }
+    // 将更新后的列表存回 QSettings
+    settings->setValue("emotion/history", emotionHistory);
+    settings->sync();
     qDebug() << "modle路径：" << modelPath;
     // 用 QProcess 调用 Python
     QProcess process;
