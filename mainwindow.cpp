@@ -84,28 +84,6 @@ void MainWindow::init()
 
     ui->widget->setMouseTracking(true);
     ui->widget->installEventFilter(this);
-
-   // 隐藏框，设置透明背景
-   // control_frame = new QFrame(this);
-   // control_frame->setGeometry(ui->widget->x(), ui->widget->y() + ui->widget->height() - 50, ui->widget->width(), 50);
-   // control_frame->setStyleSheet("background-color: rgba(0, 0, 0, 100); border: none;");  // 半透明黑色背景
-   // control_frame->hide();
-
-   // // 全屏按钮，调小尺寸
-   // btn_fullscreen = new QPushButton("全屏", control_frame);
-   // btn_fullscreen->setFixedSize(60, 30);  // 调小按钮大小
-   // btn_fullscreen->setObjectName("btn_fullscreen");
-
-
-   // // 让按钮靠右对齐
-   // btn_fullscreen->move(control_frame->width() - btn_fullscreen->width() - 10, (control_frame->height() - btn_fullscreen->height()) / 2);
-
-   //  btn_fullscreen->setLayout(layout);
-   //  //fsWindow = new FullScreenWindow(this);
-   //  connect(btn_fullscreen, &QPushButton::clicked, this, &MainWindow::on_btn_fullscreen_clicked);
-   // control_frame->show();
-
-
     //按钮提示词
     ui->btn_speed->setToolTip("倍速");
     ui->btn_next->setToolTip("下一曲");
@@ -116,6 +94,8 @@ void MainWindow::init()
     ui->comboBox_theme->setToolTip("主题切换");
     ui->btn_emotion->setToolTip("情绪检测");
     ui->search_box->setToolTip("搜索");
+    ui->btn_shrink_expand->setToolTip("收缩/展开");
+    ui->btn_voice_to_text->setToolTip("字幕");
     // 监听事件
     ui->widget->installEventFilter(this);
 

@@ -6,9 +6,9 @@ QWidget {
 
 /* 按钮样式 */
 QPushButton {
-    background-color: #444; /* 浅灰色背景 */
+    background-color: #666; /* 浅灰色背景 */
     border: 1px solid black; /* 轻微边框 */
-    color: #444;
+    color: #666;
     padding: 6px 12px;
     border-radius: 4px;
     transition: background-color 0.2s, border-color 0.2s;
@@ -93,4 +93,9 @@ QLineEdit {
 }
 QLineEdit:focus {
     border-color: #888;
+}
+QSplitter::handle {
+    background-color: #555; /* 分隔条颜色 */
+    border: 1px solid #555; /* 添加黑色边框，使其更明显 */
+    width: 5px; /* 分隔条宽度 */
 }
