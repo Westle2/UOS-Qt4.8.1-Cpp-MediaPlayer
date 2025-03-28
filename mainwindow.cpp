@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     settings = new QSettings("MyApp", "MusicPlayer", this);
     ui->setupUi(this);
+    this->setWindowTitle("绪音");
     // 检查 QSettings 是否正确初始化
     if (settings == nullptr) {
         qDebug() << "QSettings initialization failed!";
@@ -466,6 +467,16 @@ void MainWindow::on_btn_speed_clicked()
 
 void MainWindow::play_selected_media(int row)
 {
+    connect(ui->listWidget, &QListWidget::itemClicked, [this](QListWidgetItem *item) {
+        // 获取可见行号（根据当前可见项计算）
+        int visibleRow = 0;
+        for (int i = 0; i < ui->listWidget->count(); ++i) {
+            QListWidgetItem *current = ui->listWidget->item(i);
+            if (current == item) break;
+            if (!current->isHidden()) visibleRow++;
+        }
+        play_selected_media(visibleRow);
+    });
     // 双重保险：确保不会在无意义的情况下触发
     if (row < 0 || row >= ui->listWidget->count()) return;
 
@@ -1375,5 +1386,25 @@ QString MainWindow::extractResourceToTempFile(const QString &resourcePath)
         delete tempFile;
     }
     return "";
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    // 停止当前播放的文件（如果有）
+    if (is_playing_flag) {
+        qDebug() << "停止播放并清空列表";
+        player->stop();
+        is_playing_flag = false;
+    }
+
+    // 清空 playListMap
+    playListMap.clear();
+    qDebug() << "已从 playListMap 清空所有项";
+
+    // 清空 UI 中的所有项
+    ui->listWidget->clear();
+    qDebug() << "已从 UI 清空所有项";
+    save_history();
 }
 

@@ -1,7 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "fullscreen.h"
-#include "RtAsrCallbacksImpl.h"  // 确保包含此头文件
 #include"qcolordialog.h"
 #include "Vokaturi.h"
 #include <QAudioProbe>
@@ -187,5 +186,6 @@ protected:
 
 private slots:
     void on_fullscreen_btn_clicked();
+    void on_pushButton_clicked();
 };
 #endif // MAINWINDOW_H
