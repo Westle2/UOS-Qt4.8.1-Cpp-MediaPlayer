@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[44];
-    char stringdata0[729];
+    QByteArrayData data[45];
+    char stringdata0[751];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -75,7 +75,8 @@ QT_MOC_LITERAL(39, 652, 5), // "color"
 QT_MOC_LITERAL(40, 658, 16), // "getContrastColor"
 QT_MOC_LITERAL(41, 675, 9), // "baseColor"
 QT_MOC_LITERAL(42, 685, 17), // "adjustButtonColor"
-QT_MOC_LITERAL(43, 703, 25) // "on_fullscreen_btn_clicked"
+QT_MOC_LITERAL(43, 703, 25), // "on_fullscreen_btn_clicked"
+QT_MOC_LITERAL(44, 729, 21) // "on_pushButton_clicked"
 
     },
     "MainWindow\0on_btn_prev_clicked\0\0"
@@ -98,7 +99,8 @@ QT_MOC_LITERAL(43, 703, 25) // "on_fullscreen_btn_clicked"
     "on_btn_voice_to_text_toggled\0checked\0"
     "isDarkColor\0color\0getContrastColor\0"
     "baseColor\0adjustButtonColor\0"
-    "on_fullscreen_btn_clicked"
+    "on_fullscreen_btn_clicked\0"
+    "on_pushButton_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -108,7 +110,7 @@ static const uint qt_meta_data_MainWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      27,   14, // methods
+      28,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -116,33 +118,34 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  149,    2, 0x0a /* Public */,
-       3,    0,  150,    2, 0x0a /* Public */,
-       4,    0,  151,    2, 0x0a /* Public */,
-       5,    0,  152,    2, 0x0a /* Public */,
-       6,    1,  153,    2, 0x0a /* Public */,
-       8,    1,  156,    2, 0x0a /* Public */,
-      10,    0,  159,    2, 0x0a /* Public */,
-      11,    1,  160,    2, 0x0a /* Public */,
-      13,    1,  163,    2, 0x0a /* Public */,
-      15,    0,  166,    2, 0x0a /* Public */,
-      16,    0,  167,    2, 0x0a /* Public */,
-      17,    1,  168,    2, 0x0a /* Public */,
-      19,    0,  171,    2, 0x0a /* Public */,
-      20,    0,  172,    2, 0x0a /* Public */,
-      21,    1,  173,    2, 0x0a /* Public */,
-      23,    1,  176,    2, 0x0a /* Public */,
-      25,    1,  179,    2, 0x0a /* Public */,
-      28,    1,  182,    2, 0x0a /* Public */,
-      29,    0,  185,    2, 0x0a /* Public */,
-      30,    1,  186,    2, 0x0a /* Public */,
-      32,    1,  189,    2, 0x0a /* Public */,
-      35,    0,  192,    2, 0x0a /* Public */,
-      36,    1,  193,    2, 0x0a /* Public */,
-      38,    1,  196,    2, 0x0a /* Public */,
-      40,    1,  199,    2, 0x0a /* Public */,
-      42,    1,  202,    2, 0x0a /* Public */,
-      43,    0,  205,    2, 0x08 /* Private */,
+       1,    0,  154,    2, 0x0a /* Public */,
+       3,    0,  155,    2, 0x0a /* Public */,
+       4,    0,  156,    2, 0x0a /* Public */,
+       5,    0,  157,    2, 0x0a /* Public */,
+       6,    1,  158,    2, 0x0a /* Public */,
+       8,    1,  161,    2, 0x0a /* Public */,
+      10,    0,  164,    2, 0x0a /* Public */,
+      11,    1,  165,    2, 0x0a /* Public */,
+      13,    1,  168,    2, 0x0a /* Public */,
+      15,    0,  171,    2, 0x0a /* Public */,
+      16,    0,  172,    2, 0x0a /* Public */,
+      17,    1,  173,    2, 0x0a /* Public */,
+      19,    0,  176,    2, 0x0a /* Public */,
+      20,    0,  177,    2, 0x0a /* Public */,
+      21,    1,  178,    2, 0x0a /* Public */,
+      23,    1,  181,    2, 0x0a /* Public */,
+      25,    1,  184,    2, 0x0a /* Public */,
+      28,    1,  187,    2, 0x0a /* Public */,
+      29,    0,  190,    2, 0x0a /* Public */,
+      30,    1,  191,    2, 0x0a /* Public */,
+      32,    1,  194,    2, 0x0a /* Public */,
+      35,    0,  197,    2, 0x0a /* Public */,
+      36,    1,  198,    2, 0x0a /* Public */,
+      38,    1,  201,    2, 0x0a /* Public */,
+      40,    1,  204,    2, 0x0a /* Public */,
+      42,    1,  207,    2, 0x0a /* Public */,
+      43,    0,  210,    2, 0x08 /* Private */,
+      44,    0,  211,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -171,6 +174,7 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Bool, QMetaType::QColor,   39,
     QMetaType::QColor, QMetaType::QColor,   41,
     QMetaType::QColor, QMetaType::QColor,   41,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -212,6 +216,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 25: { QColor _r = _t->adjustButtonColor((*reinterpret_cast< const QColor(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QColor*>(_a[0]) = std::move(_r); }  break;
         case 26: _t->on_fullscreen_btn_clicked(); break;
+        case 27: _t->on_pushButton_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -257,13 +262,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 27)
+        if (_id < 28)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 27;
+        _id -= 28;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 27)
+        if (_id < 28)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 27;
+        _id -= 28;
     }
     return _id;
 }

@@ -73,6 +73,7 @@ public:
     QHBoxLayout *horizontalLayout;
     QPushButton *btn_emotion;
     QSpacerItem *horizontalSpacer_2;
+    QPushButton *pushButton;
     QPushButton *btn_open_folder;
     QLineEdit *search_box;
     QVBoxLayout *verticalLayout_4;
@@ -409,6 +410,11 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer_2);
 
+        pushButton = new QPushButton(right_widget);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+
+        horizontalLayout->addWidget(pushButton);
+
         btn_open_folder = new QPushButton(right_widget);
         btn_open_folder->setObjectName(QString::fromUtf8("btn_open_folder"));
         btn_open_folder->setStyleSheet(QString::fromUtf8(""));
@@ -462,6 +468,7 @@ public:
         label->setText(QString());
         label_2->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         btn_emotion->setText(QCoreApplication::translate("MainWindow", "\346\203\205\347\273\252\350\257\206\345\210\253", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "\346\270\205\347\251\272\345\210\227\350\241\250", nullptr));
         btn_open_folder->setText(QCoreApplication::translate("MainWindow", "\345\257\274\345\205\245", nullptr));
 #if QT_CONFIG(whatsthis)
         search_box->setWhatsThis(QCoreApplication::translate("MainWindow", "<html><head/><body><p>&quot;\346\220\234\347\264\242\345\216\206\345\217\262\350\256\260\345\275\225&quot;</p></body></html>", nullptr));

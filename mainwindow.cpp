@@ -472,13 +472,13 @@ void MainWindow::play_selected_media(int row)
 
     // 使用 QSignalBlocker 替代 blockSignals(true/false)，更安全
     const QSignalBlocker blocker(ui->listWidget); // 作用域内自动阻塞信号
-    // // 直接通过 item 获取数据，而非依赖行号
-    // if (!visibleRowToSourceRow.contains(row)) {
-    //     qDebug() << "无效的可见行号：" << row;
-    //     return;
-    // }
-    // int actualRow = visibleRowToSourceRow[row];
-    int actualRow = getCurrentVisibleRow();
+    // 直接通过 item 获取数据，而非依赖行号
+    if (!visibleRowToSourceRow.contains(row)) {
+        qDebug() << "无效的可见行号：" << row;
+        return;
+    }
+    int actualRow = visibleRowToSourceRow[row];
+    //int actualRow = getCurrentVisibleRow();
     // 设置选中项（实际行号）
     QListWidgetItem *item = ui->listWidget->item(actualRow);
     ui->listWidget->setCurrentItem(item);
@@ -586,8 +586,8 @@ void MainWindow::on_listWidget_currentTextChanged(const QString &currentText)
     // player->setMedia(QUrl::fromLocalFile(filePath));
     // player->play();
 
-    player->setMedia(QUrl::fromLocalFile(filePath));
-    player->play();
+    // player->setMedia(QUrl::fromLocalFile(filePath));
+    // player->play();
 
     pause_keep_flag=1;
     QString keepIcon, pauseIcon;
@@ -666,16 +666,15 @@ void MainWindow::on_btn_open_folder_clicked()
         item->setData(Qt::UserRole, filePath);  // 设置文件路径
         ui->listWidget->addItem(item);
         qDebug() << "添加文件：" << filePath;
-        connect(ui->listWidget, &QListWidget::itemClicked, [this](QListWidgetItem *item) {
-            // 获取可见行号（根据当前可见项计算）
-            int visibleRow = 0;
-            for (int i = 0; i < ui->listWidget->count(); ++i) {
-                QListWidgetItem *current = ui->listWidget->item(i);
-                if (current == item) break;
-                if (!current->isHidden()) visibleRow++;
-            }
-            play_selected_media(visibleRow);
-        });
+
+        int visibleRow = 0;
+
+        for (int sourceRow = 0; sourceRow < ui->listWidget->count(); ++sourceRow) {
+            QListWidgetItem *item = ui->listWidget->item(sourceRow);
+            // 记录可见项的映射
+            visibleRowToSourceRow[visibleRow] = sourceRow;
+            visibleRow++;
+        }
         save_history();
     }
 }
@@ -1398,4 +1397,4 @@ void MainWindow::on_pushButton_clicked()
     save_history();
 }
 
->>>>>>> 46b5effbfbd48f1d9ffbed64f37ae295ef118cbc
+
