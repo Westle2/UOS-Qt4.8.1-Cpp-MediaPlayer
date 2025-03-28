@@ -675,7 +675,17 @@ void MainWindow::on_btn_open_folder_clicked()
             }
             play_selected_media(visibleRow);
         });
+
+        //...
+        int visibleRow=0;
+        for (int sourceRow = 0; sourceRow < ui->listWidget->count(); ++sourceRow) {
+            QListWidgetItem *item = ui->listWidget->item(sourceRow);
+            // 记录可见项的映射
+            visibleRowToSourceRow[visibleRow] = sourceRow;
+            visibleRow++;
+        }
         save_history();
+
     }
 }
 

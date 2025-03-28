@@ -14,8 +14,8 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListWidget>
@@ -25,7 +25,6 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QTextEdit>
-#include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -48,9 +47,12 @@ public:
     QVBoxLayout *verticalLayout_2;
     QSpacerItem *verticalSpacer;
     QWidget *widget;
-    QTreeView *treeView;
-    QTextEdit *textEdit_subtitles;
+    QFrame *line_3;
     QSpacerItem *verticalSpacer_2;
+    QFrame *line;
+    QTextEdit *textEdit_subtitles;
+    QSpacerItem *verticalSpacer_3;
+    QFrame *line_2;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *btn_prev;
     QPushButton *btn_pause_keep;
@@ -80,7 +82,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(894, 632);
+        MainWindow->resize(865, 632);
         MainWindow->setStyleSheet(QString::fromUtf8(""));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
@@ -248,22 +250,42 @@ public:
 
         verticalLayout_2->addWidget(widget);
 
-        treeView = new QTreeView(left_widget);
-        treeView->setObjectName(QString::fromUtf8("treeView"));
+        line_3 = new QFrame(left_widget);
+        line_3->setObjectName(QString::fromUtf8("line_3"));
+        line_3->setFrameShape(QFrame::VLine);
+        line_3->setFrameShadow(QFrame::Sunken);
 
-        verticalLayout_2->addWidget(treeView);
+        verticalLayout_2->addWidget(line_3);
+
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_2->addItem(verticalSpacer_2);
+
+        line = new QFrame(left_widget);
+        line->setObjectName(QString::fromUtf8("line"));
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+
+        verticalLayout_2->addWidget(line);
 
         textEdit_subtitles = new QTextEdit(left_widget);
         textEdit_subtitles->setObjectName(QString::fromUtf8("textEdit_subtitles"));
 
         verticalLayout_2->addWidget(textEdit_subtitles);
 
-        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        verticalLayout_2->addItem(verticalSpacer_2);
+        verticalLayout_2->addItem(verticalSpacer_3);
 
 
         verticalLayout_3->addLayout(verticalLayout_2);
+
+        line_2 = new QFrame(left_widget);
+        line_2->setObjectName(QString::fromUtf8("line_2"));
+        line_2->setFrameShape(QFrame::VLine);
+        line_2->setFrameShadow(QFrame::Sunken);
+
+        verticalLayout_3->addWidget(line_2);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
