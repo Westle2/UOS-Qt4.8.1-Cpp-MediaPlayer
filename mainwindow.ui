@@ -498,6 +498,13 @@ max-width:200px;</string>
            </spacer>
           </item>
           <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>清空列表</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="btn_open_folder">
             <property name="styleSheet">
              <string notr="true"/>

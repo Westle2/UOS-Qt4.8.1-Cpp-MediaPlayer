@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     settings = new QSettings("MyApp", "MusicPlayer", this);
     ui->setupUi(this);
+    this->setWindowTitle("绪音");
     // 检查 QSettings 是否正确初始化
     if (settings == nullptr) {
         qDebug() << "QSettings initialization failed!";
@@ -471,13 +472,13 @@ void MainWindow::play_selected_media(int row)
 
     // 使用 QSignalBlocker 替代 blockSignals(true/false)，更安全
     const QSignalBlocker blocker(ui->listWidget); // 作用域内自动阻塞信号
-    // 直接通过 item 获取数据，而非依赖行号
-    if (!visibleRowToSourceRow.contains(row)) {
-        qDebug() << "无效的可见行号：" << row;
-        return;
-    }
-    int actualRow = visibleRowToSourceRow[row];
-
+    // // 直接通过 item 获取数据，而非依赖行号
+    // if (!visibleRowToSourceRow.contains(row)) {
+    //     qDebug() << "无效的可见行号：" << row;
+    //     return;
+    // }
+    // int actualRow = visibleRowToSourceRow[row];
+    int actualRow = getCurrentVisibleRow();
     // 设置选中项（实际行号）
     QListWidgetItem *item = ui->listWidget->item(actualRow);
     ui->listWidget->setCurrentItem(item);
@@ -675,17 +676,7 @@ void MainWindow::on_btn_open_folder_clicked()
             }
             play_selected_media(visibleRow);
         });
-
-        //...
-        int visibleRow=0;
-        for (int sourceRow = 0; sourceRow < ui->listWidget->count(); ++sourceRow) {
-            QListWidgetItem *item = ui->listWidget->item(sourceRow);
-            // 记录可见项的映射
-            visibleRowToSourceRow[visibleRow] = sourceRow;
-            visibleRow++;
-        }
         save_history();
-
     }
 }
 
@@ -1293,6 +1284,7 @@ void MainWindow::start_voice_to_text() {
     QStringList arguments;
     QString starPath=extractResourceToTempFile(":/qic/star.py");
     arguments << starPath << filePath;
+    arguments << starPath << filePath;
 
     QProcess *process = new QProcess(this);
 
@@ -1386,3 +1378,24 @@ QString MainWindow::extractResourceToTempFile(const QString &resourcePath)
     return "";
 }
 
+
+void MainWindow::on_pushButton_clicked()
+{
+    // 停止当前播放的文件（如果有）
+    if (is_playing_flag) {
+        qDebug() << "停止播放并清空列表";
+        player->stop();
+        is_playing_flag = false;
+    }
+
+    // 清空 playListMap
+    playListMap.clear();
+    qDebug() << "已从 playListMap 清空所有项";
+
+    // 清空 UI 中的所有项
+    ui->listWidget->clear();
+    qDebug() << "已从 UI 清空所有项";
+    save_history();
+}
+
+>>>>>>> 46b5effbfbd48f1d9ffbed64f37ae295ef118cbc
