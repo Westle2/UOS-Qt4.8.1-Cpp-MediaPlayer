@@ -467,28 +467,18 @@ void MainWindow::on_btn_speed_clicked()
 
 void MainWindow::play_selected_media(int row)
 {
-    connect(ui->listWidget, &QListWidget::itemClicked, [this](QListWidgetItem *item) {
-        // 获取可见行号（根据当前可见项计算）
-        int visibleRow = 0;
-        for (int i = 0; i < ui->listWidget->count(); ++i) {
-            QListWidgetItem *current = ui->listWidget->item(i);
-            if (current == item) break;
-            if (!current->isHidden()) visibleRow++;
-        }
-        play_selected_media(visibleRow);
-    });
     // 双重保险：确保不会在无意义的情况下触发
     if (row < 0 || row >= ui->listWidget->count()) return;
 
     // 使用 QSignalBlocker 替代 blockSignals(true/false)，更安全
     const QSignalBlocker blocker(ui->listWidget); // 作用域内自动阻塞信号
-    // 直接通过 item 获取数据，而非依赖行号
-    if (!visibleRowToSourceRow.contains(row)) {
-        qDebug() << "无效的可见行号：" << row;
-        return;
-    }
-    int actualRow = visibleRowToSourceRow[row];
-
+    // // 直接通过 item 获取数据，而非依赖行号
+    // if (!visibleRowToSourceRow.contains(row)) {
+    //     qDebug() << "无效的可见行号：" << row;
+    //     return;
+    // }
+    // int actualRow = visibleRowToSourceRow[row];
+    int actualRow = getCurrentVisibleRow();
     // 设置选中项（实际行号）
     QListWidgetItem *item = ui->listWidget->item(actualRow);
     ui->listWidget->setCurrentItem(item);
