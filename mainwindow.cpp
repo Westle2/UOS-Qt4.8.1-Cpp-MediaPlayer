@@ -57,9 +57,10 @@ void MainWindow::init()
     ui->right_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     //UI
-    QVBoxLayout *layout = new QVBoxLayout(ui->widget);
-    layout->addWidget(videoWidget);
-
+    videoLayout = new QVBoxLayout(ui->widget);
+    videoLayout->setSizeConstraint(QLayout::SetNoConstraint);
+    videoLayout->addWidget(videoWidget);
+    videoWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     // 构造函数中初始化播放模式
     // 设置ComboBox
     ui->comboBox_playMode->addItem("顺序播放");
@@ -74,7 +75,7 @@ void MainWindow::init()
     ui->comboBox_theme->addItem("逆转情绪");
     ui->comboBox_theme->addItem("自动推荐");
     ui->comboBox_theme->setEditable(0);
-    ui->widget->setLayout(layout);
+    ui->widget->setLayout(videoLayout);
     // ui->widget->setLayout(ui->videoLayout);
     ui->horizontalSlider->setRange(0,100);
     ui->horizontalSlider->setValue(0);
@@ -497,8 +498,14 @@ void MainWindow::play_selected_media(int row)
 
     // 停止当前播放并重置媒体
     player->stop();
+    player->setVideoOutput(static_cast<QVideoWidget*>(nullptr));
+    videoWidget->update();
     player->setMedia(QUrl::fromLocalFile(filePath));
+    player->setVideoOutput(videoWidget);
     ui->label_title->setText(item ? item->text() : "null");
+    videoWidget->updateGeometry();
+    videoLayout->invalidate();
+    videoLayout->activate();
     player->play();
 
     // 确保先断开所有旧连接

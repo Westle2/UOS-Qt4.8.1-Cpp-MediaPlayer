@@ -95,7 +95,7 @@ public:
     QProcess* process;
     void start_voice_to_text();
     QString loadStylesheet(const QString& templatePath, const QMap<QString, QString>& colors);
-
+    QVBoxLayout *videoLayout;
 public slots:
     void on_btn_prev_clicked();
     void on_btn_pause_keep_clicked();
