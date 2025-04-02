@@ -1,0 +1,84 @@
+init:加了一个波形控件layout
+
+void MainWindow::init()
+{
+    start_flag = 0;
+    pause_keep_flag = 0;
+    is_playing_flag = false;
+
+    playlist = new QMediaPlaylist(this);
+    player = new QMediaPlayer(this);
+    videoWidget = new QVideoWidget(this);
+
+    // 初始化 QAudioProbe
+    audioProbe = new QAudioProbe(this);
+
+    //设置视频输出
+    player->setVideoOutput(videoWidget);
+    videoWidget->setAspectRatioMode(Qt::KeepAspectRatio);
+//    // 获取UI中的QSplitter对象，假设它的objectName是splitter
+    QSplitter *splitter = ui->splitter;
+    // 设置分隔条初始大小
+    splitter->setSizes({400, 300});  // 例如左侧400px，右侧300px
+
+    // 设置最小尺寸
+    ui->left_widget->setMinimumSize(200, 200);  // 设置视频区域最小尺寸
+    ui->right_widget->setMinimumSize(150, 200);  // 设置listWidget的最小尺寸
+
+    // 设置sizePolicy来确保控件大小可自适应
+    ui->left_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->right_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    //UI
+    QVBoxLayout *layout = new QVBoxLayout(ui->widget);
+    layout->addWidget(videoWidget);
+    // 创建并添加波形控件
+    waveformWidget = new WaveformWidget(this);
+    layout->addWidget(waveformWidget);
+剩下同
+
+————————————————————————————————————————————————
+play_selected_media:监听
+
+  // 停止当前播放并重置媒体
+    player->stop();
+    player->setMedia(QUrl::fromLocalFile(filePath));
+
+    ui->label_title->setText(item ? item->text() : "null");
+    player->play();
+    audioProbe = new QAudioProbe(this);
+    connect(audioProbe, &QAudioProbe::audioBufferProbed, this, &MainWindow::processAudioBuffer);
+
+    if (!audioProbe->setSource(player)) {
+        qDebug() << "无法连接到音频流，QAudioProbe 不支持该音频格式！";
+    }
+    // 确保先断开所有旧连接
+    disconnectPlayerSignals();
+
+——————————————————————————————————————————————————
+// 处理音频数据
+void MainWindow::processAudioBuffer(const QAudioBuffer &buffer)
+{
+    if (!buffer.isValid()) return;
+
+    QVector<qint16> newSamples;
+    const qint16 *data = buffer.constData<qint16>();
+
+    for (int i = 0; i < buffer.sampleCount(); ++i) {
+        newSamples.append(data[i]);
+    }
+
+    // 保持一部分历史数据，避免波形只有一条线
+    waveformWidget->appendSamples(newSamples);
+    waveformWidget->update();  // 触发重绘
+}
+注释掉了字幕部分
+——————————————————————————————————
+——————————————————————————————————
+mainwindow.h
+
+public solts：
+	void processAudioBuffer(const QAudioBuffer &buffer);
+
+private:
+	WaveformWidget *waveformWidget;  // 添加指针
