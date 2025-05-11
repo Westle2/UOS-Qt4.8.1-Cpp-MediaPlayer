@@ -1,6 +1,7 @@
 /* 通用窗口背景 */
-QWidget {
+#centralwidget {
     background-color: ${window_background_color};
+    border-radius:10px;
     color: ${text_color};
 }
 

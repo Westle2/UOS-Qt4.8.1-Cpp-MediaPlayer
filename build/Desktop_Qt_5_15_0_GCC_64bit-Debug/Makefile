@@ -55,16 +55,20 @@ OBJECTS_DIR   = ./
 SOURCES       = ../../main.cpp \
 		../../mainwindow.cpp \
 		../../fullscreen.cpp \
-		../../sparkchain.cpp qrc_qic.cpp \
+		../../sparkchain.cpp \
+		../../videoplay.cpp qrc_qic.cpp \
 		moc_mainwindow.cpp \
-		moc_fullscreen.cpp
+		moc_fullscreen.cpp \
+		moc_videoplay.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		fullscreen.o \
 		sparkchain.o \
+		videoplay.o \
 		qrc_qic.o \
 		moc_mainwindow.o \
-		moc_fullscreen.o
+		moc_fullscreen.o \
+		moc_videoplay.o
 DIST          = ../../colorPre/colorChoose.py \
 		../../colorPre/ds.py \
 		../../colorPre/main.py \
@@ -280,10 +284,12 @@ DIST          = ../../colorPre/colorChoose.py \
 		../../../../MusicPlayer.pro ../../mainwindow.h \
 		../../fullscreen.h \
 		../../Vokaturi.h \
-		../../RtAsrCallbacksImpl.h ../../main.cpp \
+		../../RtAsrCallbacksImpl.h \
+		../../videoplay.h ../../main.cpp \
 		../../mainwindow.cpp \
 		../../fullscreen.cpp \
-		../../sparkchain.cpp
+		../../sparkchain.cpp \
+		../../videoplay.cpp
 QMAKE_TARGET  = MusicPlayer
 DESTDIR       = 
 TARGET        = MusicPlayer
@@ -292,7 +298,7 @@ TARGET        = MusicPlayer
 first: all
 ####### Build rules
 
-MusicPlayer: ui_dockwidget.h ui_mainwindow.h $(OBJECTS)  
+MusicPlayer: ui_dockwidget.h ui_mainwindow.h ui_videoplay.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../../MusicPlayer.pro /data/qt/5.15.0/gcc_64/mkspecs/linux-g++/qmake.conf /data/qt/5.15.0/gcc_64/mkspecs/features/spec_pre.prf \
@@ -730,9 +736,9 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../qic.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /data/qt/5.15.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../mainwindow.h ../../fullscreen.h ../../Vokaturi.h ../../RtAsrCallbacksImpl.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../fullscreen.cpp ../../sparkchain.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../dockwidget.ui ../../mainwindow.ui ../../dockwidget.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../../mainwindow.h ../../fullscreen.h ../../Vokaturi.h ../../RtAsrCallbacksImpl.h ../../videoplay.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../fullscreen.cpp ../../sparkchain.cpp ../../videoplay.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../dockwidget.ui ../../mainwindow.ui ../../dockwidget.ui ../../videoplay.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -764,8 +770,12 @@ qrc_qic.cpp: ../../qic.qrc \
 		../../star.py \
 		../../images/keep.png \
 		../../images/voice_open.png \
+		../../images/action-3195378\ 1.png \
 		../../images/voice_close.png \
 		../../images/next.png \
+		../../images/search.png \
+		../../images/setting.svg \
+		../../images/setting_Light.svg \
 		../../images/pause.png \
 		../../images/prev.png \
 		../../styles/colorful.template.qss \
@@ -804,6 +814,7 @@ qrc_qic.cpp: ../../qic.qrc \
 		../../svg/voice_open.svg \
 		../../svg/keep.svg \
 		../../svg/next.svg \
+		../../svg/Smile.svg \
 		../../svg/speed.svg \
 		../../include/sc_type.h \
 		../../include/sc_type.h \
@@ -849,9 +860,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /data/qt/5.15.0/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h /data/qt/5.15.0/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_fullscreen.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_fullscreen.cpp moc_videoplay.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_fullscreen.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_fullscreen.cpp moc_videoplay.cpp
 moc_mainwindow.cpp: ../../mainwindow.h \
 		../../fullscreen.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
@@ -984,7 +995,6 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
-		../../RtAsrCallbacksImpl.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		../../Vokaturi.h \
@@ -1214,6 +1224,9 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonDocument \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonArray \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonObject \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QGraphicsDropShadowEffect \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qgraphicseffect.h \
+		../../videoplay.h \
 		moc_predefs.h \
 		/data/qt/5.15.0/gcc_64/bin/moc
 	/data/qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/build/Desktop_Qt_5_15_0_GCC_64bit-Debug/moc_predefs.h -I/data/qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer -I/usr/include/x86_64-linux-gnu -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/include -I/data/qt/5.15.0/gcc_64/include -I/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets -I/data/qt/5.15.0/gcc_64/include/QtMultimedia -I/data/qt/5.15.0/gcc_64/include/QtWidgets -I/data/qt/5.15.0/gcc_64/include/QtGui -I/data/qt/5.15.0/gcc_64/include/QtWebSockets -I/data/qt/5.15.0/gcc_64/include/QtNetwork -I/data/qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../mainwindow.h -o moc_mainwindow.cpp
@@ -1353,13 +1366,146 @@ moc_fullscreen.cpp: ../../fullscreen.h \
 		/data/qt/5.15.0/gcc_64/bin/moc
 	/data/qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/build/Desktop_Qt_5_15_0_GCC_64bit-Debug/moc_predefs.h -I/data/qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer -I/usr/include/x86_64-linux-gnu -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/include -I/data/qt/5.15.0/gcc_64/include -I/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets -I/data/qt/5.15.0/gcc_64/include/QtMultimedia -I/data/qt/5.15.0/gcc_64/include/QtWidgets -I/data/qt/5.15.0/gcc_64/include/QtGui -I/data/qt/5.15.0/gcc_64/include/QtWebSockets -I/data/qt/5.15.0/gcc_64/include/QtNetwork -I/data/qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../fullscreen.h -o moc_fullscreen.cpp
 
+moc_videoplay.cpp: ../../videoplay.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtcore-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsystemdetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qprocessordetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcompilerdetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtypeinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsysinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlogging.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qflags.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbasicatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qgenericatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_msvc.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qglobalstatic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmutex.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qnumeric.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qversiontagging.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstring.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qchar.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearray.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qrefcount.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qarraydata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringliteral.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringalgorithms.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringview.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringbuilder.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qalgorithms.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qiterator.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhashfunctions.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpair.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvector.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpoint.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearraylist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringlist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qregexp.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringmatcher.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcoreevent.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qscopedpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmetatype.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmargins.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpaintdevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qrect.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsize.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpalette.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qcolor.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qrgb.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qrgba64.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qbrush.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qmatrix.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpolygon.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qregion.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdatastream.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qiodevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qline.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtransform.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qimage.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpixelformat.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpixmap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhash.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfont.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfontmetrics.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfontinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qcursor.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qkeysequence.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qevent.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvariant.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdebug.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtextstream.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlocale.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qset.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontiguouscache.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qurl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qurlquery.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfile.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlayer \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplayer.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmultimedia.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediacontent.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaresource.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QSharedDataPointer \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QString \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QUrl \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmetaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudio.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlaylist \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplaylist.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/QVideoWidget \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
+		moc_predefs.h \
+		/data/qt/5.15.0/gcc_64/bin/moc
+	/data/qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/build/Desktop_Qt_5_15_0_GCC_64bit-Debug/moc_predefs.h -I/data/qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer -I/usr/include/x86_64-linux-gnu -I/home/zzh/桌面/qtprj/git_one/UOS-Qt4.8.1-Cpp-MediaPlayer/include -I/data/qt/5.15.0/gcc_64/include -I/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets -I/data/qt/5.15.0/gcc_64/include/QtMultimedia -I/data/qt/5.15.0/gcc_64/include/QtWidgets -I/data/qt/5.15.0/gcc_64/include/QtGui -I/data/qt/5.15.0/gcc_64/include/QtWebSockets -I/data/qt/5.15.0/gcc_64/include/QtNetwork -I/data/qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../videoplay.h -o moc_videoplay.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_dockwidget.h ui_mainwindow.h ui_dockwidget.h
+compiler_uic_make_all: ui_dockwidget.h ui_mainwindow.h ui_dockwidget.h ui_videoplay.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_dockwidget.h ui_mainwindow.h ui_dockwidget.h
+	-$(DEL_FILE) ui_dockwidget.h ui_mainwindow.h ui_dockwidget.h ui_videoplay.h
 ui_dockwidget.h: ../../dockwidget.ui \
 		/data/qt/5.15.0/gcc_64/bin/uic
 	/data/qt/5.15.0/gcc_64/bin/uic ../../dockwidget.ui -o ui_dockwidget.h
@@ -1371,6 +1517,10 @@ ui_mainwindow.h: ../../mainwindow.ui \
 ui_dockwidget.h: ../../dockwidget.ui \
 		/data/qt/5.15.0/gcc_64/bin/uic
 	/data/qt/5.15.0/gcc_64/bin/uic ../../dockwidget.ui -o ui_dockwidget.h
+
+ui_videoplay.h: ../../videoplay.ui \
+		/data/qt/5.15.0/gcc_64/bin/uic
+	/data/qt/5.15.0/gcc_64/bin/uic ../../videoplay.ui -o ui_videoplay.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -1514,7 +1664,6 @@ main.o: ../../main.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
-		../../RtAsrCallbacksImpl.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		../../Vokaturi.h \
@@ -1744,6 +1893,9 @@ main.o: ../../main.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonDocument \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonArray \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonObject \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QGraphicsDropShadowEffect \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qgraphicseffect.h \
+		../../videoplay.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
@@ -1883,7 +2035,6 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
-		../../RtAsrCallbacksImpl.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		../../Vokaturi.h \
@@ -2113,6 +2264,9 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonDocument \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonArray \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonObject \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QGraphicsDropShadowEffect \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qgraphicseffect.h \
+		../../videoplay.h \
 		ui_mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/QIcon \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
@@ -2122,9 +2276,8 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QCheckBox \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcheckbox.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QFrame \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QHeaderView \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qheaderview.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QLineEdit \
@@ -2132,8 +2285,8 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QListWidget \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QSlider \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/QSpacerItem \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/QTreeView \
-		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtreeview.h
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QStackedWidget \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qstackedwidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../mainwindow.cpp
 
 fullscreen.o: ../../fullscreen.cpp ../../fullscreen.h \
@@ -2268,7 +2421,6 @@ fullscreen.o: ../../fullscreen.cpp ../../fullscreen.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
 		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
 		../../mainwindow.h \
-		../../RtAsrCallbacksImpl.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcolordialog.h \
 		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		../../Vokaturi.h \
@@ -2497,11 +2649,186 @@ fullscreen.o: ../../fullscreen.cpp ../../fullscreen.h \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QBuffer \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonDocument \
 		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonArray \
-		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonObject
+		/data/qt/5.15.0/gcc_64/include/QtCore/QJsonObject \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QGraphicsDropShadowEffect \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qgraphicseffect.h \
+		../../videoplay.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o fullscreen.o ../../fullscreen.cpp
 
 sparkchain.o: ../../sparkchain.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sparkchain.o ../../sparkchain.cpp
+
+videoplay.o: ../../videoplay.cpp ../../videoplay.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qconfig.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtcore-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsystemdetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qprocessordetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcompilerdetection.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtypeinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsysinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlogging.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qflags.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbasicatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qgenericatomic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qatomic_msvc.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qglobalstatic.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmutex.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qnumeric.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qversiontagging.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstring.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qchar.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearray.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qrefcount.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qarraydata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringliteral.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringalgorithms.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringview.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringbuilder.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qalgorithms.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qiterator.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhashfunctions.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpair.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvector.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qpoint.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qbytearraylist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringlist.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qregexp.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qstringmatcher.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcoreevent.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qscopedpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmetatype.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmargins.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpaintdevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qrect.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsize.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpalette.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qcolor.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qrgb.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qrgba64.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qbrush.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qmatrix.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpolygon.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qregion.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdatastream.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qiodevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qline.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtransform.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qimage.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpixelformat.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qpixmap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qhash.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfont.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfontmetrics.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qfontinfo.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qcursor.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qkeysequence.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qevent.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qvariant.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmap.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qdebug.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qtextstream.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qlocale.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qset.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcontiguouscache.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qurl.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qurlquery.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfile.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlayer \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplayer.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmultimedia.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediacontent.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaresource.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QSharedDataPointer \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QString \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QUrl \
+		/data/qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qmetaobject.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qaudio.h \
+		/data/qt/5.15.0/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/QMediaPlaylist \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediaplaylist.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimedia/qmediabindableinterface.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/QVideoWidget \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qvideowidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtMultimediaWidgets/qtmultimediawidgetdefs.h \
+		ui_videoplay.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/QIcon \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QComboBox \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qcombobox.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qstyleoption.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/data/qt/5.15.0/gcc_64/include/QtGui/qvalidator.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qregularexpression.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qslider.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractslider.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		/data/qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QSlider \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QSpacerItem \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/QVBoxLayout \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qaction.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qactiongroup.h \
+		/data/qt/5.15.0/gcc_64/include/QtWidgets/qmenu.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o videoplay.o ../../videoplay.cpp
 
 qrc_qic.o: qrc_qic.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_qic.o qrc_qic.cpp
@@ -2511,6 +2838,9 @@ moc_mainwindow.o: moc_mainwindow.cpp
 
 moc_fullscreen.o: moc_fullscreen.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_fullscreen.o moc_fullscreen.cpp
+
+moc_videoplay.o: moc_videoplay.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_videoplay.o moc_videoplay.cpp
 
 ####### Install
 

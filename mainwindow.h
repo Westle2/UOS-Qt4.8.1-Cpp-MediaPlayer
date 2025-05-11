@@ -51,7 +51,8 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-
+#include<QGraphicsDropShadowEffect>
+#include"videoplay.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -96,6 +97,12 @@ public:
     void start_voice_to_text();
     QString loadStylesheet(const QString& templatePath, const QMap<QString, QString>& colors);
     QVBoxLayout *videoLayout;
+    QColor getContrastColor(const QColor &baseColor);
+    QColor adjustButtonColor(const QColor &baseColor);
+    bool isDarkColor(const QColor &color);
+    bool isDrag;
+    QPointF dVal;
+    VideoPlay* vp;
 public slots:
     void on_btn_prev_clicked();
     void on_btn_pause_keep_clicked();
@@ -121,12 +128,12 @@ public slots:
     void on_btn_emotion_clicked();
     void emotion_to_theme(const QString &modelPath);
     void process_audio_buffer_emotion(const QAudioBuffer &buffer);
-    void on_btn_shrink_expand_clicked();
+    // void on_btn_shrink_expand_clicked();
     void on_btn_voice_to_text_toggled(bool checked);
-    bool isDarkColor(const QColor &color);
-    QColor getContrastColor(const QColor &baseColor);
-    QColor adjustButtonColor(const QColor &baseColor);
 
+    void mousePressEvent(QMouseEvent*) override;
+    void mouseMoveEvent(QMouseEvent*)override;
+    void mouseReleaseEvent(QMouseEvent*) override;
 
 private:
     Ui::MainWindow *ui;
@@ -187,5 +194,6 @@ protected:
 private slots:
     void on_fullscreen_btn_clicked();
     void on_pushButton_clicked();
+    void on_search_but_clicked();
 };
 #endif // MAINWINDOW_H

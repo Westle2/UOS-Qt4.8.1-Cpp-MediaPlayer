@@ -44,6 +44,11 @@
         <file>colorPre/followModel.pkl</file>
         <file>colorPre/reverseModel.pkl</file>
         <file>star.py</file>
+        <file>images/search.png</file>
+        <file>images/action-3195378 1.png</file>
+        <file>images/setting.svg</file>
+        <file>images/setting_Light.svg</file>
+        <file>svg/Smile.svg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

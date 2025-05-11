@@ -32,10 +32,19 @@ void MainWindow::init()
     start_flag = 0;
     pause_keep_flag = 0;
     is_playing_flag = false;
+    //设置无边框
+    setAttribute(Qt::WA_TranslucentBackground);
+    setWindowFlag(Qt::FramelessWindowHint);
+    QGraphicsDropShadowEffect* shadow=new QGraphicsDropShadowEffect(this);
+    shadow->setBlurRadius(15);
+    shadow->setColor(QColor(0x00,0x00,0x00,255));
+    shadow->setOffset(0);
+    setGraphicsEffect(shadow);
+
 
     playlist = new QMediaPlaylist(this);
     player = new QMediaPlayer(this);
-    videoWidget = new QVideoWidget(this);
+    videoWidget = new QVideoWidget(ui->VideoWidget);
 
     // 初始化 QAudioProbe
     audioProbe = new QAudioProbe(this);
@@ -44,20 +53,20 @@ void MainWindow::init()
     player->setVideoOutput(videoWidget);
     videoWidget->setAspectRatioMode(Qt::KeepAspectRatio);
 //    // 获取UI中的QSplitter对象，假设它的objectName是splitter
-    QSplitter *splitter = ui->splitter;
+    //QSplitter *splitter = ui->splitter;
     // 设置分隔条初始大小
-    splitter->setSizes({400, 300});  // 例如左侧400px，右侧300px
+    //splitter->setSizes({400, 300});  // 例如左侧400px，右侧300px
 
-    // 设置最小尺寸
-    ui->left_widget->setMinimumSize(200, 200);  // 设置视频区域最小尺寸
-    ui->right_widget->setMinimumSize(150, 200);  // 设置listWidget的最小尺寸
+    // // 设置最小尺寸
+    // ui->left_widget->setMinimumSize(200, 200);  // 设置视频区域最小尺寸
+    // ui->right_widget->setMinimumSize(150, 200);  // 设置listWidget的最小尺寸
 
-    // 设置sizePolicy来确保控件大小可自适应
-    ui->left_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    ui->right_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // // 设置sizePolicy来确保控件大小可自适应
+    // ui->left_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // ui->right_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     //UI
-    videoLayout = new QVBoxLayout(ui->widget);
+    videoLayout = new QVBoxLayout(ui->VideoWidget);
     videoLayout->setSizeConstraint(QLayout::SetNoConstraint);
     videoLayout->addWidget(videoWidget);
     videoWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
@@ -75,7 +84,7 @@ void MainWindow::init()
     ui->comboBox_theme->addItem("逆转情绪");
     ui->comboBox_theme->addItem("自动推荐");
     ui->comboBox_theme->setEditable(0);
-    ui->widget->setLayout(videoLayout);
+    ui->VideoWidget->setLayout(videoLayout);
     // ui->widget->setLayout(ui->videoLayout);
     ui->horizontalSlider->setRange(0,100);
     ui->horizontalSlider->setValue(0);
@@ -84,8 +93,8 @@ void MainWindow::init()
     ui->label_progress->setText("00:00/00:00");
     ui->label_title->setText("暂未播放");
 
-    ui->widget->setMouseTracking(true);
-    ui->widget->installEventFilter(this);
+    ui->VideoWidget->setMouseTracking(true);
+    ui->VideoWidget->installEventFilter(this);
     //按钮提示词
     ui->btn_speed->setToolTip("倍速");
     ui->btn_next->setToolTip("下一曲");
@@ -99,7 +108,7 @@ void MainWindow::init()
     ui->btn_shrink_expand->setToolTip("收缩/展开");
     ui->btn_voice_to_text->setToolTip("字幕");
     // 监听事件
-    ui->widget->installEventFilter(this);
+    ui->VideoWidget->installEventFilter(this);
 
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_position);
     connect(player, &QMediaPlayer::stateChanged, this, &MainWindow::on_player_state_changed);
@@ -138,6 +147,9 @@ void MainWindow::init()
     start_flag = 1;
     is_playing_flag = false;//防止初始化时自动播放
     search_list(""); // 显示所有项
+    // vp=new VideoPlay(this);
+    // vp->show();
+    ui->unused->setVisible(false);
 }
 
 int MainWindow::getCurrentVisibleRow() {
@@ -723,7 +735,7 @@ void MainWindow::on_exit_fullscreen()
 {
 
    qDebug()<<"on_exit_fullscreen";
-   QLayout *existingLayout = ui->widget->layout();
+   QLayout *existingLayout = ui->VideoWidget->layout();
    if (existingLayout) {
        existingLayout->addWidget(videoWidget);
    }
@@ -1240,30 +1252,30 @@ void MainWindow::emotion_to_theme(const QString &modelPath)
 }
 
 //收缩框
-void MainWindow::on_btn_shrink_expand_clicked()
-{
-    // 获取 QSplitter
-    QSplitter *splitter = findChild<QSplitter *>("splitter"); // 把"splitter_name"换成你的QSplitter对象名称
+// void MainWindow::on_btn_shrink_expand_clicked()
+// {
+//     // 获取 QSplitter
+//     QSplitter *splitter = findChild<QSplitter *>("splitter"); // 把"splitter_name"换成你的QSplitter对象名称
 
-    if (!splitter) return;  // 防止获取失败
+//     if (!splitter) return;  // 防止获取失败
 
-    // 获取当前 splitter 里两个部分的大小
-    QList<int> sizes = splitter->sizes();
+//     // 获取当前 splitter 里两个部分的大小
+//     QList<int> sizes = splitter->sizes();
 
-    // 记录 right_widget 的初始宽度（你可以调整这个值）
-    static int initialWidth = sizes[1] > 0 ? sizes[1] : 200;
+//     // 记录 right_widget 的初始宽度（你可以调整这个值）
+//     static int initialWidth = sizes[1] > 0 ? sizes[1] : 200;
 
-    if (sizes[1] > 0) {  // right_widget 处于展开状态
-        sizes[1] = 0;  // 收缩 right_widget
-        ui->btn_shrink_expand->setText("<");  // 改为“展开”状态
-    } else {  // right_widget 处于收缩状态
-        sizes[1] = initialWidth;  // 恢复到原来的宽度
-        ui->btn_shrink_expand->setText(">");  // 改为“收缩”状态
-    }
+//     if (sizes[1] > 0) {  // right_widget 处于展开状态
+//         sizes[1] = 0;  // 收缩 right_widget
+//         ui->btn_shrink_expand->setText("<");  // 改为“展开”状态
+//     } else {  // right_widget 处于收缩状态
+//         sizes[1] = initialWidth;  // 恢复到原来的宽度
+//         ui->btn_shrink_expand->setText(">");  // 改为“收缩”状态
+//     }
 
-    // 设置 splitter 的新大小
-    splitter->setSizes(sizes);
-}
+//     // 设置 splitter 的新大小
+//     splitter->setSizes(sizes);
+// }
 
 // 点击按钮后启动 WebSocket 连接
 void MainWindow::on_btn_voice_to_text_toggled(bool checked) {
@@ -1344,6 +1356,24 @@ QColor MainWindow::adjustButtonColor(const QColor &baseColor)
     }
 }
 
+void MainWindow::mousePressEvent(QMouseEvent *ev)
+{
+    if(ev->button()==Qt::LeftButton){
+        dVal=ev->globalPos()-pos();
+        isDrag=1;
+    }
+}
+void MainWindow::mouseMoveEvent(QMouseEvent *ev)
+{
+    if(isDrag){
+        move((ev->globalPos()-dVal).toPoint());
+    }
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
+{
+    isDrag=0;
+}
 void MainWindow::on_fullscreen_btn_clicked()
 {
     if (!videoWidget) return;
@@ -1404,4 +1434,10 @@ void MainWindow::on_pushButton_clicked()
     save_history();
 }
 
+
+
+void MainWindow::on_search_but_clicked()
+{
+    ui->RU_stackedWidget->setCurrentIndex(1);
+}
 

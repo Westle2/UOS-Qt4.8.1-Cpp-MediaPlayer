@@ -1,7 +1,8 @@
 /* 通用窗口背景 */
-QWidget {
+#centralwidget {
     background-color: #f9f9f9; /* 浅灰色 */
     color: #333;
+    border-radius:10px;
 }
 
 /* 按钮样式 */

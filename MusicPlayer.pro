@@ -30,20 +30,23 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     fullscreen.cpp \
-    sparkchain.cpp
+    sparkchain.cpp \
+    videoplay.cpp
 
 
 HEADERS += \
     mainwindow.h \
     fullscreen.h \
     Vokaturi.h \
-    RtAsrCallbacksImpl.h
+    RtAsrCallbacksImpl.h \
+    videoplay.h
 
 
 FORMS += \
     dockwidget.ui \
     mainwindow.ui \
-    dockwidget.ui
+    dockwidget.ui \
+    videoplay.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
