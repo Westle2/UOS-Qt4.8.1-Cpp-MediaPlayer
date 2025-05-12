@@ -27,25 +27,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    chat.cpp \
     main.cpp \
     mainwindow.cpp \
     fullscreen.cpp \
+    settingdialog.cpp \
     sparkchain.cpp \
     videoplay.cpp
 
 
 HEADERS += \
+    chat.h \
     mainwindow.h \
     fullscreen.h \
     Vokaturi.h \
     RtAsrCallbacksImpl.h \
+    settingdialog.h \
     videoplay.h
 
 
 FORMS += \
+    chat.ui \
     dockwidget.ui \
     mainwindow.ui \
     dockwidget.ui \
+    settingdialog.ui \
     videoplay.ui
 
 # Default rules for deployment.

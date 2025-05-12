@@ -53,18 +53,19 @@
 #include <QJsonObject>
 #include<QGraphicsDropShadowEffect>
 #include"videoplay.h"
+#include"settingdialog.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-//themes:
-enum THEME{
-    DARK,
-    LIGHT,
-    COLORFUL,
-    FOLLOW_EMOTION,
-    REVERSE_EMOTION,
-    AUTO_EMOTION
-};
+// //themes:
+// enum THEME{
+//     DARK,
+//     LIGHT,
+//     COLORFUL,
+//     FOLLOW_EMOTION,
+//     REVERSE_EMOTION,
+//     AUTO_EMOTION
+// };
 
 //class FullScreenWindow;
 //class RtAsrCallbacksImpl;
@@ -162,12 +163,12 @@ private:
     QPushButton *exitButton;
     QSettings *settings;
     QMap<QString, QString> playListMap;
-    enum PlayMode {
-        Sequential,   // 顺序播放
-        Shuffle,      // 随机播放
-        Single,       // 单个播放
-        SingleLoop,   // 单个循环
-    };
+    // enum PlayMode {
+    //     Sequential,   // 顺序播放
+    //     Shuffle,      // 随机播放
+    //     Single,       // 单个播放
+    //     SingleLoop,   // 单个循环
+    // };
     PlayMode currentMode;
    // bool is_auto_change = true;
     QPushButton *pushButton;
@@ -195,5 +196,6 @@ private slots:
     void on_fullscreen_btn_clicked();
     void on_pushButton_clicked();
     void on_search_but_clicked();
+    void on_btn_setting_clicked();
 };
 #endif // MAINWINDOW_H

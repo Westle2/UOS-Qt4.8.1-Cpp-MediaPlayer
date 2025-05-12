@@ -1438,6 +1438,13 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_search_but_clicked()
 {
-    ui->RU_stackedWidget->setCurrentIndex(1);
+    ui->RU_stackedWidget->setCurrentIndex(2);
+}
+
+
+void MainWindow::on_btn_setting_clicked()
+{
+    SettingDialog* sd=new SettingDialog(this);
+    sd->exec();
 }
 
