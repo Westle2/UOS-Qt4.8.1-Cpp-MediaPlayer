@@ -5,6 +5,7 @@
 #include "chat.h"
 #include "waveformwidget.h"
 #include "Vokaturi.h"
+#include"videoplay.h"
 #include <QAudioProbe>
 #include <QMainWindow>
 #include <QDir>
@@ -52,6 +53,8 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
+#include<QGraphicsDropShadowEffect>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -97,6 +100,12 @@ public:
     void start_voice_to_text();
     QString loadStylesheet(const QString& templatePath, const QMap<QString, QString>& colors);
     QVBoxLayout *videoLayout;
+    QColor getContrastColor(const QColor &baseColor);
+    QColor adjustButtonColor(const QColor &baseColor);
+    bool isDarkColor(const QColor &color);
+    bool isDrag;
+    QPointF dVal;
+    VideoPlay* vp;
 
 public slots:
     void on_btn_prev_clicked();
@@ -104,14 +113,14 @@ public slots:
     void on_btn_next_clicked();
     void on_btn_open_folder_clicked();
     void on_horizontalSlider_valueChanged(int value);
-    void on_listWidget_currentTextChanged(const QString &currentText);
+    void on_listWidget_2_currentTextChanged(const QString &currentText);
     void update_position();
     void on_horizontalSlider_2_sliderMoved(int position);
     void play_selected_media(int index);
     void on_exit_fullscreen();
     //void on_btn_fullscreen_clicked();
     //void on_btn_speed_changed(); // 响应倍速选择的槽函数
-    //void enter_fullscreen();
+    //void enter_zfullscreen();
     void on_btn_speed_clicked();
     void add_to_history(const QString &filepath); // 存储文件路径
     void load_history();        // 加载历史记录
@@ -125,10 +134,13 @@ public slots:
     void process_audio_buffer_emotion(const QAudioBuffer &buffer);
     void on_btn_shrink_expand_clicked();
     void on_btn_voice_to_text_toggled(bool checked);
-    bool isDarkColor(const QColor &color);
-    QColor getContrastColor(const QColor &baseColor);
-    QColor adjustButtonColor(const QColor &baseColor);
+    //bool isDarkColor(const QColor &color);
+    // QColor getContrastColor(const QColor &baseColor);
+    // QColor adjustButtonColor(const QColor &baseColor);
     void processAudioBuffer(const QAudioBuffer &buffer);
+    void mousePressEvent(QMouseEvent*) override;
+    void mouseMoveEvent(QMouseEvent*)override;
+    void mouseReleaseEvent(QMouseEvent*) override;
 
 
 private:
@@ -183,7 +195,7 @@ private:
     QString installPath;
     QString qicPath;
     WaveformWidget *waveformWidget;  // 添加指针
-    ChatWindow *chatDock;
+    ChatWindow *chatDock = nullptr;
 
 
 protected:
@@ -194,5 +206,7 @@ protected:
 private slots:
     void on_fullscreen_btn_clicked();
     void on_pushButton_clicked();
+    void on_search_but_clicked();
+    void on_btn_chat_clicked();
 };
 #endif // MAINWINDOW_H
