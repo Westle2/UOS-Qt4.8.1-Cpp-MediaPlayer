@@ -197,7 +197,7 @@ border-top-right-radius:30px;
                 </property>
                 <property name="icon">
                  <iconset resource="qic.qrc">
-                  <normaloff>:/qic/svg/Smile.svg</normaloff>:/qic/svg/Smile.svg</iconset>
+                  <normaloff>:/qic/images/聊天机器人.png</normaloff>:/qic/images/聊天机器人.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -559,20 +559,47 @@ background-color:transparent;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="btn_open_folder">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                   <property name="text">
-                    <string>导入</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="pushButton">
-                   <property name="text">
-                    <string>清空列表</string>
-                   </property>
+                  <widget class="QWidget" name="folder_Widget" native="true">
+                   <layout class="QHBoxLayout" name="horizontalLayout_8">
+                    <item>
+                     <widget class="QPushButton" name="btn_open_folder">
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="qic.qrc">
+                        <normaloff>:/qic/images/上传文件.png</normaloff>:/qic/images/上传文件.png</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_5">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="pushButton">
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="qic.qrc">
+                        <normaloff>:/qic/images/清空列表.png</normaloff>:/qic/images/清空列表.png</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </widget>
                  </item>
                  <item>
