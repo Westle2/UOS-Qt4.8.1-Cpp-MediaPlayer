@@ -13,7 +13,194 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#VideoPlay{
+background-color:rgb(238, 238, 236);
+border-radius:5px;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QWidget" name="headWidget" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>45</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>45</height>
+      </size>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>593</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QWidget" name="CMWidget" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QPushButton" name="chMaxBut">
+           <property name="minimumSize">
+            <size>
+             <width>15</width>
+             <height>15</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>15</width>
+             <height>15</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#chMaxBut{
+background-color:transparent;
+border:none;
+}
+#chMaxBut:pressed{
+background-color:rgb(238, 238, 236);
+border:none;
+}
+#chMaxBut:hover{
+background-color:rgb(114, 159, 207);
+border:none;
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="qic.qrc">
+             <normaloff>:/qic/svg/ch_max.svg</normaloff>:/qic/svg/ch_max.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="miniBut">
+           <property name="minimumSize">
+            <size>
+             <width>15</width>
+             <height>15</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>15</width>
+             <height>15</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#miniBut{
+background-color:transparent;
+border:none;
+}
+#miniBut:pressed{
+background-color:rgb(238, 238, 236);
+border:none;
+}
+#miniBut:hover{
+background-color:rgb(239, 41, 41);
+border:none;
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="qic.qrc">
+             <normaloff>:/qic/svg/mini.svg</normaloff>:/qic/svg/mini.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="closeBut">
+           <property name="minimumSize">
+            <size>
+             <width>15</width>
+             <height>15</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>15</width>
+             <height>15</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#closeBut{
+background-color:transparent;
+border:none;
+}
+#closeBut:pressed{
+background-color:rgb(238, 238, 236);
+border:none;
+}
+#closeBut:hover{
+background-color:rgb(239, 41, 41);
+border:none;
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="qic.qrc">
+             <normaloff>:/qic/svg/close_black.svg</normaloff>:/qic/svg/close_black.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item>
     <widget class="QWidget" name="Video" native="true">
      <property name="sizePolicy">
@@ -32,9 +219,20 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>100</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#cntWidget{
+background-color:rgb(136, 138, 133);
+}</string>
+     </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
-       <number>0</number>
+       <number>10</number>
       </property>
       <property name="leftMargin">
        <number>0</number>
@@ -50,6 +248,12 @@
       </property>
       <item>
        <widget class="QWidget" name="progressWidget" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>50</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -58,44 +262,32 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="spacing">
-          <number>0</number>
+          <number>10</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>10</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>10</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>10</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>10</number>
          </property>
          <item>
-          <widget class="QPushButton" name="btn_prev">
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="qic.qrc">
-             <normaloff>:/qic/svg/prev.svg</normaloff>:/qic/svg/prev.svg</iconset>
-           </property>
-           <property name="iconSize">
+          <widget class="QPushButton" name="btn_pause_keep">
+           <property name="minimumSize">
             <size>
-             <width>20</width>
-             <height>20</height>
+             <width>30</width>
+             <height>30</height>
             </size>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_pause_keep">
            <property name="styleSheet">
-            <string notr="true"/>
+            <string notr="true">#btn_pause_keep{
+background-color:transparent;
+}</string>
            </property>
            <property name="text">
             <string/>
@@ -109,29 +301,6 @@
              <width>20</width>
              <height>20</height>
             </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_next">
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="qic.qrc">
-             <normaloff>:/qic/svg/next.svg</normaloff>:/qic/svg/next.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -169,18 +338,21 @@
           <height>30</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="spacing">
-          <number>0</number>
+          <number>5</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>5</number>
          </property>
          <property name="topMargin">
           <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>5</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -192,7 +364,7 @@
 max-width:200px;</string>
            </property>
            <property name="text">
-            <string>歌曲名称</string>
+            <string>正在播放：</string>
            </property>
           </widget>
          </item>
@@ -217,13 +389,36 @@ max-width:200px;</string>
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="btn_speed">
+          <widget class="QComboBox" name="speedComb">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
-           <property name="text">
-            <string>倍速</string>
-           </property>
+           <item>
+            <property name="text">
+             <string>1x</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>0.75x</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>1.5x</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2x</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item>
@@ -236,50 +431,6 @@ max-width:200px;</string>
            </property>
            <property name="text">
             <string>全屏</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_playMode">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">/*按钮普通态*/
-QPushButton
-{
-    /*字体为微软雅黑*/
-    font-family:Microsoft Yahei;
-    /*字体大小为20点*/
-    font-size:20pt;
-    /*字体颜色为白色*/    
-    color:white;
-    /*背景颜色*/  
-    background-color:rgb(14 , 150 , 254);
-    /*边框圆角半径为8像素*/ 
-    border-radius:8px;
-}
- 
-/*按钮停留态*/
-QPushButton:hover
-{
-    /*背景颜色*/  
-    background-color:rgb(44 , 137 , 255);
-}
- 
-/*按钮按下态*/
-QPushButton:pressed
-{
-    /*背景颜色*/  
-    background-color:rgb(14 , 135 , 228);
-    /*左内边距为3像素，让按下时字向右移动3像素*/  
-    padding-left:3px;
-    /*上内边距为3像素，让按下时字向下移动3像素*/  
-    padding-top:3px;
-}</string>
            </property>
           </widget>
          </item>
@@ -312,6 +463,13 @@ QPushButton:pressed
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="curVoiceLab">
+           <property name="text">
+            <string>0</string>
            </property>
           </widget>
          </item>

@@ -52,6 +52,7 @@
         <file>svg/close.svg</file>
         <file>svg/mini.svg</file>
         <file>svg/close_black.svg</file>
+        <file>svg/ch_max.svg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

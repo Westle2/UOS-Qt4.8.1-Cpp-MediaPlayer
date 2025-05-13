@@ -147,8 +147,8 @@ void MainWindow::init()
     start_flag = 1;
     is_playing_flag = false;//防止初始化时自动播放
     search_list(""); // 显示所有项
-    // vp=new VideoPlay(this);
-    // vp->show();
+    vp=new VideoPlay(this,player);
+    vp->show();
     ui->unused->setVisible(false);
 }
 
@@ -169,7 +169,6 @@ int MainWindow::getCurrentVisibleRow() {
             return it.key(); // 返回可见行号
         }
     }
-
     // 如果当前项被隐藏
     return -1;
 }
