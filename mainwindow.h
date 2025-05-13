@@ -3,6 +3,10 @@
 #include "fullscreen.h"
 #include"qcolordialog.h"
 #include "Vokaturi.h"
+#include"videoplay.h"
+#include "chat.h"
+#include "waveformwidget.h"
+#include"settingdialog.h"
 #include <QAudioProbe>
 #include <QMainWindow>
 #include <QDir>
@@ -52,8 +56,8 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include<QGraphicsDropShadowEffect>
-#include"videoplay.h"
-#include"settingdialog.h"
+#include <QWidgetAction>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -110,7 +114,7 @@ public slots:
     void on_btn_next_clicked();
     void on_btn_open_folder_clicked();
     void on_horizontalSlider_valueChanged(int value);
-    void on_listWidget_currentTextChanged(const QString &currentText);
+    void on_listWidget_2_currentTextChanged(const QString &currentText);
     void update_position();
     void on_horizontalSlider_2_sliderMoved(int position);
     void play_selected_media(int index);
@@ -128,6 +132,7 @@ public slots:
     void on_comboBox_theme_currentIndexChanged(int index);
     void on_btn_emotion_clicked();
     void emotion_to_theme(const QString &modelPath);
+    void update_emo_rank();
     void process_audio_buffer_emotion(const QAudioBuffer &buffer);
     // void on_btn_shrink_expand_clicked();
     void on_btn_voice_to_text_toggled(bool checked);
@@ -185,6 +190,11 @@ private:
     QColor selectedColor;  // 在switch外部声明
     QColor currentColor;//current color keep it for change of other widgets
     QString modelPath;
+    QString installPath;
+    QString qicPath;
+    WaveformWidget *waveformWidget;  // 添加指针
+    ChatWindow *chatDock = nullptr;
+    QFrame *volumePopup = nullptr;
 protected:
     //bool eventFilter(QObject *watched, QEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
@@ -197,5 +207,6 @@ private slots:
     void on_pushButton_clicked();
     void on_search_but_clicked();
     void on_btn_setting_clicked();
+    void on_btn_chat_clicked();
 };
 #endif // MAINWINDOW_H
