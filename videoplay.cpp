@@ -20,7 +20,7 @@ VideoPlay::VideoPlay(QWidget *parent, QMediaPlayer* mplayer)    : QWidget(parent
     getPlayer(mplayer);
     uiInit();
     eventInit();
-    mplayer->setVideoOutput(video);
+    player->play();
 }
 
 VideoPlay::~VideoPlay()
@@ -50,7 +50,7 @@ void VideoPlay::on_player_state_changed(QMediaPlayer::State newState)
     // 如果播放器停止了，根据当前播放模式决定是否播放下一首
     if (newState == QMediaPlayer::StoppedState) {
         if (player->mediaStatus() == QMediaPlayer::EndOfMedia) {  // 仅当播放自然结束时切换
-            this->close();
+            this->hide();
             }
         }
 }
@@ -59,6 +59,8 @@ void VideoPlay::on_player_state_changed(QMediaPlayer::State newState)
 void VideoPlay::uiInit()
 {
     video=new QVideoWidget(ui->Video);
+    QVBoxLayout *layout=new QVBoxLayout(ui->Video);
+    layout->addWidget(video);
     player->setVideoOutput(video);
     ui->label_progress->adjustSize();
     ui->label_progress->setText("00:00/00:00");
@@ -127,7 +129,7 @@ void VideoPlay::on_voiceSlider_valueChanged(int value)
 
 void VideoPlay::on_closeBut_clicked()
 {
-    this->close();
+    this->hide();
 }
 
 

@@ -106,14 +106,15 @@ void MainWindow::init()
 
     playlist = new QMediaPlaylist(this);
     player = new QMediaPlayer(this);
-    videoWidget = new QVideoWidget(ui->VideoWidget);
-
+    //videoWidget = new QVideoWidget(ui->VideoWidget);
+    vp=new VideoPlay(this,getPlayer());
+    vp->hide();
     // 初始化 QAudioProbe
     audioProbe = new QAudioProbe(this);
 
     //设置视频输出
-    player->setVideoOutput(videoWidget);
-    videoWidget->setAspectRatioMode(Qt::KeepAspectRatio);
+    // player->setVideoOutput(videoWidget);
+    // videoWidget->setAspectRatioMode(Qt::KeepAspectRatio);
 //    // 获取UI中的QSplitter对象，假设它的objectName是splitter
     //QSplitter *splitter = ui->splitter;
     // 设置分隔条初始大小
@@ -128,10 +129,10 @@ void MainWindow::init()
     // ui->right_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     //UI
-    videoLayout = new QVBoxLayout(ui->VideoWidget);
-    videoLayout->setSizeConstraint(QLayout::SetNoConstraint);
-    videoLayout->addWidget(videoWidget);
-    videoWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    // videoLayout = new QVBoxLayout(ui->VideoWidget);
+    // videoLayout->setSizeConstraint(QLayout::SetNoConstraint);
+    // videoLayout->addWidget(videoWidget);
+    // videoWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     // 构造函数中初始化播放模式
     // 设置ComboBox
     ui->comboBox_playMode->addItem("顺序播放");
@@ -146,7 +147,7 @@ void MainWindow::init()
     ui->comboBox_theme->addItem("逆转情绪");
     ui->comboBox_theme->addItem("自动推荐");
     ui->comboBox_theme->setEditable(0);
-    ui->VideoWidget->setLayout(videoLayout);
+    //ui->VideoWidget->setLayout(videoLayout);
     // ui->widget->setLayout(ui->videoLayout);
     ui->horizontalSlider->setRange(0,100);
     ui->horizontalSlider->setValue(0);
@@ -155,8 +156,8 @@ void MainWindow::init()
     ui->label_progress->setText("00:00/00:00");
     ui->label_title->setText("暂未播放");
 
-    ui->VideoWidget->setMouseTracking(true);
-    ui->VideoWidget->installEventFilter(this);
+    // ui->VideoWidget->setMouseTracking(true);
+    // ui->VideoWidget->installEventFilter(this);
     //按钮提示词
     ui->btn_speed->setToolTip("倍速");
     ui->btn_next->setToolTip("下一曲");
@@ -170,7 +171,7 @@ void MainWindow::init()
     ui->btn_shrink_expand->setToolTip("收缩/展开");
     ui->btn_voice_to_text->setToolTip("字幕");
     // 监听事件
-    ui->VideoWidget->installEventFilter(this);
+    //ui->VideoWidget->installEventFilter(this);
 
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_position);
     connect(player, &QMediaPlayer::stateChanged, this, &MainWindow::on_player_state_changed);
@@ -182,7 +183,7 @@ void MainWindow::init()
     ui->listWidget_2->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->listWidget_2, &QListWidget::customContextMenuRequested, this, &MainWindow::show_context_menu);
     this->setFocusPolicy(Qt::StrongFocus);
-    videoWidget->show();
+    //videoWidget->show();
 
     connect(audioProbe, &QAudioProbe::audioBufferProbed, this, &MainWindow::process_audio_buffer_emotion);
     connect(ui->listWidget_2, &QListWidget::itemClicked, [this](QListWidgetItem *item) {
@@ -572,16 +573,34 @@ void MainWindow::play_selected_media(int row)
 
     // 停止当前播放并重置媒体
     player->stop();
-    player->setVideoOutput(static_cast<QVideoWidget*>(nullptr));
-    videoWidget->update();
+    // player->setVideoOutput(static_cast<QVideoWidget*>(nullptr));
+    // videoWidget->update();
     player->setMedia(QUrl::fromLocalFile(filePath));
-    player->setVideoOutput(videoWidget);
-    ui->label_title->setText(item ? item->text() : "null");
-    videoWidget->updateGeometry();
-    videoLayout->invalidate();
-    videoLayout->activate();
+    // player->setVideoOutput(videoWidget);
+    // ui->label_title->setText(item ? item->text() : "null");
+    // videoWidget->updateGeometry();
+    // if(status==QM)
+    // if(player->isVideoAvailable()){
+    //         VideoPlay* vp=new VideoPlay(this,getPlayer());
+    //         vp->show();
+    //     }
+    // videoLayout->invalidate();
+    // videoLayout->activate();
     player->play();
-
+    connect(player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
+        //if (status == QMediaPlayer::LoadedMedia) { // 媒体加载完成
+            // 此处执行延迟的逻辑（判断音视频、更新界面、切换歌曲后的操作）
+            bool isVideo = player->isVideoAvailable();
+            if (isVideo) {
+                vp->show();
+                qDebug()<<"video ok";
+            } else {
+                vp->hide();
+                qDebug()<<"no video";
+            }
+            // 其他需要媒体就绪后执行的操作（如获取时长、更新进度条等）
+        //}
+    });
     // 确保先断开所有旧连接
     disconnectPlayerSignals();
     qDebug() << "select请求播放行号：" << row

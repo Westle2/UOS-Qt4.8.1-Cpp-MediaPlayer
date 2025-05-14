@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#VideoPlay{
-background-color:rgb(238, 238, 236);
+background-color:rgb(211, 215, 207);
 border-radius:5px;
 }</string>
   </property>
@@ -49,7 +49,28 @@ border-radius:5px;
        <height>45</height>
       </size>
      </property>
+     <property name="styleSheet">
+      <string notr="true">#headWidget{
+background-color:rgb(136, 138, 133);
+border-radius: 10px,10px ,0px,0px;
+}</string>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
@@ -65,50 +86,16 @@ border-radius:5px;
       </item>
       <item>
        <widget class="QWidget" name="CMWidget" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QPushButton" name="chMaxBut">
-           <property name="minimumSize">
-            <size>
-             <width>15</width>
-             <height>15</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>15</width>
-             <height>15</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">#chMaxBut{
-background-color:transparent;
-border:none;
-}
-#chMaxBut:pressed{
-background-color:rgb(238, 238, 236);
-border:none;
-}
-#chMaxBut:hover{
-background-color:rgb(114, 159, 207);
-border:none;
-}</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="qic.qrc">
-             <normaloff>:/qic/svg/ch_max.svg</normaloff>:/qic/svg/ch_max.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>25</width>
-             <height>25</height>
-            </size>
-           </property>
-          </widget>
-         </item>
+         <property name="spacing">
+          <number>20</number>
+         </property>
          <item>
           <widget class="QPushButton" name="miniBut">
            <property name="minimumSize">
@@ -119,8 +106,8 @@ border:none;
            </property>
            <property name="maximumSize">
             <size>
-             <width>15</width>
-             <height>15</height>
+             <width>20</width>
+             <height>20</height>
             </size>
            </property>
            <property name="styleSheet">
@@ -153,6 +140,49 @@ border:none;
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="chMaxBut">
+           <property name="minimumSize">
+            <size>
+             <width>15</width>
+             <height>15</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#chMaxBut{
+background-color:transparent;
+border:none;
+}
+#chMaxBut:pressed{
+background-color:rgb(238, 238, 236);
+border:none;
+}
+#chMaxBut:hover{
+background-color:rgb(114, 159, 207);
+border:none;
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="qic.qrc">
+             <normaloff>:/qic/svg/ch_max.svg</normaloff>:/qic/svg/ch_max.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="closeBut">
            <property name="minimumSize">
             <size>
@@ -162,8 +192,8 @@ border:none;
            </property>
            <property name="maximumSize">
             <size>
-             <width>15</width>
-             <height>15</height>
+             <width>20</width>
+             <height>20</height>
             </size>
            </property>
            <property name="styleSheet">
@@ -208,6 +238,12 @@ border:none;
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#Video{
+background-color:rgb(211, 215, 207);
+border-radius:5px;
+}</string>
      </property>
     </widget>
    </item>
