@@ -24,7 +24,12 @@ public:
     void getPlayer(QMediaPlayer*);
     double curSpeed;
     bool isPlaying;
-
+    bool isDrag;
+    QPointF dVal;
+public slots:
+    void mousePressEvent(QMouseEvent*) override;
+    void mouseMoveEvent(QMouseEvent*)override;
+    void mouseReleaseEvent(QMouseEvent*) override;
 private:
     void uiInit();
     void eventInit();
@@ -41,6 +46,8 @@ private slots:
     void on_miniBut_clicked();
 
     void on_fullscreen_btn_clicked();
+
+    void on_chMaxBut_clicked();
 
 private:
     Ui::VideoPlay *ui;

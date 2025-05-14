@@ -95,7 +95,7 @@ void MainWindow::init()
     connect(btn_close, &QPushButton::clicked, this, &MainWindow::close);
     connect(btn_min, &QPushButton::clicked, this, &MainWindow::showMinimized);
     connect(btn_max, &QPushButton::clicked, [=]() {
-        if (isMaximized()) {
+        if (isFullScreen()) {
             showNormal();
         } else {
             showFullScreen();

@@ -1,6 +1,7 @@
 #include "videoplay.h"
 #include "ui_videoplay.h"
 
+#include <QMouseEvent>
 #include <qaction.h>
 #include <qmenu.h>
 
@@ -68,6 +69,24 @@ void VideoPlay::uiInit()
     //按钮提示词
     ui->speedComb->setToolTip("倍速");
     ui->btn_pause_keep->setToolTip("播放/暂停");
+}
+void VideoPlay::mousePressEvent(QMouseEvent *ev)
+{
+    if(ev->button()==Qt::LeftButton){
+        dVal=ev->globalPos()-pos();
+        isDrag=1;
+    }
+}
+void VideoPlay::mouseMoveEvent(QMouseEvent *ev)
+{
+    if(isDrag){
+        move((ev->globalPos()-dVal).toPoint());
+    }
+}
+
+void VideoPlay::mouseReleaseEvent(QMouseEvent *ev)
+{
+    isDrag=0;
 }
 
 void VideoPlay::eventInit()
@@ -149,5 +168,12 @@ void VideoPlay::on_miniBut_clicked()
 void VideoPlay::on_fullscreen_btn_clicked()
 {
     this->showFullScreen();
+}
+
+
+void VideoPlay::on_chMaxBut_clicked()
+{
+    if(!this->isFullScreen())this->showFullScreen();
+    else this->showNormal();
 }
 
