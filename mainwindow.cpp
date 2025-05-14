@@ -42,9 +42,9 @@ void MainWindow::init()
     setGraphicsEffect(shadow);
     /*========全屏/关闭/缩小=========*/
     // 系统按钮
-    QPushButton *btn_min = new QPushButton(this);
-    QPushButton *btn_max = new QPushButton(this);
-    QPushButton *btn_close = new QPushButton(this);
+    btn_min = new QPushButton(this);
+    btn_max = new QPushButton(this);
+    btn_close = new QPushButton(this);
 
     QIcon iconMin = QIcon(":/qic/svg/mini.svg");
     QIcon iconMax = QIcon(":/qic/svg/ch_max.svg");
@@ -98,7 +98,7 @@ void MainWindow::init()
         if (isMaximized()) {
             showNormal();
         } else {
-            showMaximized();
+            showFullScreen();
         }
     });
 
@@ -1545,6 +1545,16 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev)
 void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
 {
     isDrag=0;
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    btn_close->move(width()-btn_min->width()-5,5);
+    btn_min->move(btn_close->x()-btn_min->width()-5,5);
+    btn_max->move(btn_min->x()-btn_min->width()-5,5);
+    btn_close->raise();
+    btn_min->raise();
+    btn_max->raise();
 }
 void MainWindow::on_fullscreen_btn_clicked()
 {

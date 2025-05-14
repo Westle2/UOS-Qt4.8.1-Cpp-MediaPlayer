@@ -108,6 +108,9 @@ public:
     bool isDrag;
     QPointF dVal;
     VideoPlay* vp;
+    QPushButton *btn_min;
+    QPushButton *btn_max;
+    QPushButton *btn_close;
 public slots:
     void on_btn_prev_clicked();
     void on_btn_pause_keep_clicked();
@@ -140,7 +143,7 @@ public slots:
     void mousePressEvent(QMouseEvent*) override;
     void mouseMoveEvent(QMouseEvent*)override;
     void mouseReleaseEvent(QMouseEvent*) override;
-
+    void resizeEvent(QResizeEvent *event) override;
 private:
     Ui::MainWindow *ui;
     QMediaPlaylist *playlist;//播放列表

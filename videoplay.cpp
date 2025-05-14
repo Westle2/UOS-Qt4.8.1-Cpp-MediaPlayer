@@ -73,6 +73,13 @@ void VideoPlay::uiInit()
 void VideoPlay::eventInit()
 {
     connect(player, &QMediaPlayer::stateChanged, this, &VideoPlay::on_player_state_changed);
+    connect(ui->chMaxBut, &QPushButton::clicked, [=]() {
+        if (isMaximized()) {
+            showNormal();
+        } else {
+            showMaximized();
+        }
+    });
     isPlaying=0;
 }
 
