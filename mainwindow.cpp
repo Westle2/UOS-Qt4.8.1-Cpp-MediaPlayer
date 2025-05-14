@@ -41,28 +41,14 @@ void MainWindow::init()
     shadow->setOffset(0);
     setGraphicsEffect(shadow);
     /*========全屏/关闭/缩小=========*/
-    // ========== 先拿到 centralWidget 和已有 layout ==========
-    QWidget *central = ui->centralwidget;
-    QVBoxLayout *centralLayout = qobject_cast<QVBoxLayout*>(central->layout());
-    if (!centralLayout) {
-        qDebug() << "centralwidget 没有 layout，别忘了 UI 里先加一个 VBoxLayout";
-        return;
-    }
-
-    // ========== 创建 titleBar ==========
-    QWidget *titleBar = new QWidget(this);
-    titleBar->setMinimumHeight(30);
-    titleBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    titleBar->setStyleSheet("background-color: #f0f0f0;");
-
     // 系统按钮
-    QPushButton *btn_min = new QPushButton(titleBar);
-    QPushButton *btn_max = new QPushButton(titleBar);
-    QPushButton *btn_close = new QPushButton(titleBar);
+    QPushButton *btn_min = new QPushButton(this);
+    QPushButton *btn_max = new QPushButton(this);
+    QPushButton *btn_close = new QPushButton(this);
 
-    QIcon iconMin = style()->standardIcon(QStyle::SP_TitleBarMinButton);
-    QIcon iconMax = style()->standardIcon(QStyle::SP_TitleBarMaxButton);
-    QIcon iconClose = style()->standardIcon(QStyle::SP_TitleBarCloseButton);
+    QIcon iconMin = QIcon(":/qic/svg/mini.svg");
+    QIcon iconMax = QIcon(":/qic/svg/ch_max.svg");
+    QIcon iconClose = QIcon(":/qic/svg/close.svg");
 
     btn_min->setIcon(iconMin);
     btn_max->setIcon(iconMax);
@@ -79,32 +65,44 @@ void MainWindow::init()
     btn_min->setFlat(true);
     btn_max->setFlat(true);
     btn_close->setFlat(true);
-
-    // titleBar 内部右对齐 layout
-    QHBoxLayout *layout = new QHBoxLayout(titleBar);
-    layout->addStretch();
-    layout->addWidget(btn_min);
-    layout->addWidget(btn_max);
-    layout->addWidget(btn_close);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing(0);
-
+    QString ss = R"(
+    QPushButton {
+        background-color: transparent;
+        border: none;
+        border-radius: 15px;
+        min-width: 30px;
+        min-height: 30px;
+    }
+    QPushButton:hover {
+        background-color: rgb(239, 41, 41);
+    }
+    QPushButton:pressed {
+        background-color: rgb(238, 238, 236);
+        padding-top: 2px;
+        padding-left: 2px;
+    }
+)";
+    btn_close->move(width()-btn_min->width()-5,5);
+    btn_min->move(btn_close->x()-btn_min->width()-5,5);
+    btn_max->move(btn_min->x()-btn_min->width()-5,5);
+    btn_close->raise();
+    btn_min->raise();
+    btn_max->raise();
+    btn_close->setStyleSheet(ss);
+    btn_min->setStyleSheet(ss);
+    btn_max->setStyleSheet(ss);
     // 按钮连接
     connect(btn_close, &QPushButton::clicked, this, &MainWindow::close);
     connect(btn_min, &QPushButton::clicked, this, &MainWindow::showMinimized);
     connect(btn_max, &QPushButton::clicked, [=]() {
         if (isMaximized()) {
             showNormal();
-            btn_max->setIcon(style()->standardIcon(QStyle::SP_TitleBarMaxButton));
         } else {
             showMaximized();
-            btn_max->setIcon(style()->standardIcon(QStyle::SP_TitleBarNormalButton));
         }
     });
 
-    // ========== 把 titleBar 插到 centralLayout 最顶端 ==========
-    centralLayout->insertWidget(0, titleBar);
-    /*==============================*/
+
 
     playlist = new QMediaPlaylist(this);
     player = new QMediaPlayer(this);
@@ -211,8 +209,8 @@ void MainWindow::init()
     start_flag = 1;
     is_playing_flag = false;//防止初始化时自动播放
     search_list(""); // 显示所有项
-    vp=new VideoPlay(this,player);
-    vp->show();
+    // vp=new VideoPlay(this,player);
+    // vp->show();
     update_emo_rank();
     ui->unused->setVisible(false);
 }
