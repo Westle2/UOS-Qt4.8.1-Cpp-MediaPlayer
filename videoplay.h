@@ -52,6 +52,7 @@ private slots:
 
     void on_timeSlider_sliderMoved(int position);
 
+
 private:
     Ui::VideoPlay *ui;
     QString get_time_str(int msec);
