@@ -211,5 +211,7 @@ private slots:
     void on_search_but_clicked();
     void on_btn_setting_clicked();
     void on_btn_chat_clicked();
+signals:
+    void update_timeslider_position(qint64 pos, qint64 duration);
 };
 #endif // MAINWINDOW_H

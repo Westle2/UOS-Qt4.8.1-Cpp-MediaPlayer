@@ -24,13 +24,15 @@ public:
     void getPlayer(QMediaPlayer*);
     double curSpeed;
     bool isPlaying;
+    QString get_time_str(int msec);
     bool isDrag;
     QPointF dVal;
-    void update_position();
 public slots:
+    void syncPosition(qint64 pos, qint64 duration);
     void mousePressEvent(QMouseEvent*) override;
     void mouseMoveEvent(QMouseEvent*)override;
     void mouseReleaseEvent(QMouseEvent*) override;
+
 private:
     void uiInit();
     void eventInit();
@@ -48,13 +50,18 @@ private slots:
 
     void on_fullscreen_btn_clicked();
 
-    void on_chMaxBut_clicked();
+    //void on_timeSlider_valueChanged(int value);
 
     void on_timeSlider_sliderMoved(int position);
+    // void update_position();
+    void on_chMaxBut_clicked();
+
+
 
 private:
     Ui::VideoPlay *ui;
-    QString get_time_str(int msec);
+signals:
+    void requestSeek(int positionPercent); // 0-100
 };
 
 #endif // VIDEOPLAY_H

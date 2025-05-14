@@ -85,7 +85,6 @@ void MainWindow::init()
     btn_close->move(width()-btn_close->width()-5,5);
     btn_max->move(btn_close->x()-btn_max->width()-5,5);
     btn_min->move(btn_max->x()-btn_min->width()-5,5);
-
     btn_close->raise();
     btn_min->raise();
     btn_max->raise();
@@ -109,6 +108,34 @@ void MainWindow::init()
     player = new QMediaPlayer(this);
     //videoWidget = new QVideoWidget(ui->VideoWidget);
     vp=new VideoPlay(this,getPlayer());
+    connect(player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
+        //if (status == QMediaPlayer::LoadedMedia) { // 媒体加载完成
+        // 此处执行延迟的逻辑（判断音视频、更新界面、切换歌曲后的操作）
+        bool isVideo = player->isVideoAvailable();
+        if (isVideo) {
+            vp->show();
+            qDebug()<<"video ok";
+        } else {
+            vp->hide();
+            qDebug()<<"no video";
+        }
+        // 其他需要媒体就绪后执行的操作（如获取时长、更新进度条等）
+        //}
+    });
+    // 信号1：子窗口请求seek，主窗口负责控制player位置
+    connect(vp, &VideoPlay::requestSeek, this, [=](int percent){
+        if (player->duration() > 0)
+            player->setPosition(player->duration() * percent / 100);
+    });
+
+    // 信号2：主窗口同步player播放进度到子窗口
+    connect(player, &QMediaPlayer::positionChanged, this, [=](qint64 pos){
+        emit update_timeslider_position(pos, player->duration());
+    });
+
+    // 信号3：把主窗口的同步信号连到子窗口的slot
+    connect(this, &MainWindow::update_timeslider_position,
+            vp, &VideoPlay::syncPosition);
     vp->hide();
     // 初始化 QAudioProbe
     audioProbe = new QAudioProbe(this);
@@ -576,6 +603,22 @@ void MainWindow::play_selected_media(int row)
     player->stop();
     // player->setVideoOutput(static_cast<QVideoWidget*>(nullptr));
     // videoWidget->update();
+    // // 确保先断开所有旧连接
+    // disconnectPlayerSignals();
+    // connect(player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
+    //     //if (status == QMediaPlayer::LoadedMedia) { // 媒体加载完成
+    //     // 此处执行延迟的逻辑（判断音视频、更新界面、切换歌曲后的操作）
+    //     bool isVideo = player->isVideoAvailable();
+    //     if (isVideo) {
+    //         vp->show();
+    //         qDebug()<<"video ok";
+    //     } else {
+    //         vp->hide();
+    //         qDebug()<<"no video";
+    //     }
+    //     // 其他需要媒体就绪后执行的操作（如获取时长、更新进度条等）
+    //     //}
+    // });
     player->setMedia(QUrl::fromLocalFile(filePath));
     // player->setVideoOutput(videoWidget);
     // ui->label_title->setText(item ? item->text() : "null");
@@ -588,22 +631,21 @@ void MainWindow::play_selected_media(int row)
     // videoLayout->invalidate();
     // videoLayout->activate();
     player->play();
-    connect(player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
-        //if (status == QMediaPlayer::LoadedMedia) { // 媒体加载完成
-            // 此处执行延迟的逻辑（判断音视频、更新界面、切换歌曲后的操作）
-            bool isVideo = player->isVideoAvailable();
-            if (isVideo) {
-                vp->show();
-                qDebug()<<"video ok";
-            } else {
-                vp->hide();
-                qDebug()<<"no video";
-            }
-            // 其他需要媒体就绪后执行的操作（如获取时长、更新进度条等）
-        //}
-    });
-    // 确保先断开所有旧连接
-    disconnectPlayerSignals();
+
+    // // 信号1：子窗口请求seek，主窗口负责控制player位置
+    // connect(vp, &VideoPlay::requestSeek, this, [=](int percent){
+    //     if (player->duration() > 0)
+    //         player->setPosition(player->duration() * percent / 100);
+    // });
+
+    // // 信号2：主窗口同步player播放进度到子窗口
+    // connect(player, &QMediaPlayer::positionChanged, this, [=](qint64 pos){
+    //     emit update_timeslider_position(pos, player->duration());
+    // });
+
+    // // 信号3：把主窗口的同步信号连到子窗口的slot
+    // connect(this, &MainWindow::update_timeslider_position,
+    //         vp, &VideoPlay::syncPosition);
     qDebug() << "select请求播放行号：" << row
              << "，实际项文本：" << (item ? item->text() : "null")
              << "，文件路径：" << filePath;
@@ -1549,11 +1591,10 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
-{
+{   
     btn_close->move(width()-btn_close->width()-5,5);
     btn_max->move(btn_close->x()-btn_max->width()-5,5);
     btn_min->move(btn_max->x()-btn_min->width()-5,5);
-
     btn_close->raise();
     btn_min->raise();
     btn_max->raise();

@@ -1,10 +1,10 @@
 #include "videoplay.h"
 #include "ui_videoplay.h"
 
-#include <QGraphicsDropShadowEffect>
-#include <QMouseEvent>
 #include <qaction.h>
 #include <qmenu.h>
+#include <QMouseEvent>
+#include <QGraphicsDropShadowEffect>
 
 VideoPlay::VideoPlay(QWidget *parent)
     : QWidget(parent)
@@ -24,7 +24,6 @@ VideoPlay::VideoPlay(QWidget *parent, QMediaPlayer* mplayer)    : QWidget(parent
     uiInit();
     eventInit();
     player->play();
-
 }
 
 VideoPlay::~VideoPlay()
@@ -34,7 +33,7 @@ VideoPlay::~VideoPlay()
 
 void VideoPlay::PlayVideo(QString path)
 {
-    player->setMedia(QUrl::fromLocalFile(path));
+    // player->setMedia(QUrl::fromLocalFile(path));
     player->play();
     isPlaying=1;
 }
@@ -42,18 +41,6 @@ void VideoPlay::PlayVideo(QString path)
 void VideoPlay::getPlayer(QMediaPlayer * mplayer)
 {
     player=mplayer;
-}
-
-void VideoPlay::update_position()
-{
-    if (player->duration() > 0) { // 避免除零错误
-        int progress = int(((player->position() * 1.0) / (player->duration() * 1.0)) * 100);
-        ui->timeSlider->setValue(progress);
-    }
-    ui->label_progress->setText(QString("%1/%2")
-                                    .arg(get_time_str(player->position()))
-                                    .arg(get_time_str(player->duration())));
-    ui->label_progress->adjustSize();
 }
 
 void VideoPlay::on_player_state_changed(QMediaPlayer::State newState)
@@ -83,7 +70,6 @@ void VideoPlay::uiInit()
     ui->label_title->setText("暂未播放");
     ui->voiceSlider->setRange(0,100);
     ui->voiceSlider->setValue(0);
-
     //按钮提示词
     ui->speedComb->setToolTip("倍速");
     ui->btn_pause_keep->setToolTip("播放/暂停");
@@ -114,20 +100,25 @@ void VideoPlay::mouseReleaseEvent(QMouseEvent *ev)
 {
     isDrag=0;
 }
-
 void VideoPlay::eventInit()
 {
     connect(player, &QMediaPlayer::stateChanged, this, &VideoPlay::on_player_state_changed);
-    connect(ui->chMaxBut, &QPushButton::clicked, [=]() {
-        if (isMaximized()) {
-            showNormal();
-        } else {
-            showMaximized();
-        }
-    });
+    // connect(ui->chMaxBut, &QPushButton::clicked, [=]() {
+    //     if (isMaximized()) {
+    //         showNormal();
+    //     } else {
+    //         showMaximized();
+    //     }
+    // });
+    /*注释掉是因为两个连接方式会打架,去掉一个*/
     isPlaying=0;
 }
 
+void VideoPlay::on_chMaxBut_clicked()
+{
+    if(!this->isFullScreen())this->showFullScreen();
+    else this->showNormal();
+}
 
 void VideoPlay::on_speedComb_currentIndexChanged(int index)
 {
@@ -197,18 +188,22 @@ void VideoPlay::on_fullscreen_btn_clicked()
 }
 
 
-void VideoPlay::on_chMaxBut_clicked()
-{
-    if(!this->isFullScreen())this->showFullScreen();
-    else this->showNormal();
-}
-
-
 void VideoPlay::on_timeSlider_sliderMoved(int position)
 {
-    player->setPosition(qint64(player->duration() * (position * 1.0 / 100)));
+    //player->setPosition(qint64(player->duration() * (position * 1.0 / 100)));
+    emit requestSeek(position);
 }
-
+// void VideoPlay::update_position()
+// {
+//     if (player->duration() > 0) { // 避免除零错误
+//         int progress = int(((player->position() * 1.0) / (player->duration() * 1.0)) * 100);
+//         ui->timeSlider->setValue(progress);
+//     }
+//     ui->label_progress->setText(QString("%1/%2")
+//                                     .arg(get_time_str(player->position()))
+//                                     .arg(get_time_str(player->duration())));
+//     ui->label_progress->adjustSize();
+// }
 QString VideoPlay::get_time_str(int msec)
 {
     int min, sec;
@@ -221,4 +216,16 @@ QString VideoPlay::get_time_str(int msec)
     QString str = QString("%1:%2").arg(minute).arg(second);
     return str;
 }
+void VideoPlay::syncPosition(qint64 pos, qint64 duration)
+{
+    if (duration <= 0) return;
+    int progress = pos * 100 / duration;
 
+    ui->timeSlider->blockSignals(true);
+    ui->timeSlider->setValue(progress);
+    ui->timeSlider->blockSignals(false);
+
+    ui->label_progress->setText(QString("%1/%2")
+                                    .arg(get_time_str(pos))
+                                    .arg(get_time_str(duration)));
+}
