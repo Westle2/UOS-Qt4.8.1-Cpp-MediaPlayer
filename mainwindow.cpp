@@ -82,9 +82,10 @@ void MainWindow::init()
         padding-left: 2px;
     }
 )";
-    btn_close->move(width()-btn_min->width()-5,5);
-    btn_min->move(btn_close->x()-btn_min->width()-5,5);
-    btn_max->move(btn_min->x()-btn_min->width()-5,5);
+    btn_close->move(width()-btn_close->width()-5,5);
+    btn_max->move(btn_close->x()-btn_max->width()-5,5);
+    btn_min->move(btn_max->x()-btn_min->width()-5,5);
+
     btn_close->raise();
     btn_min->raise();
     btn_max->raise();
@@ -1549,9 +1550,10 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    btn_close->move(width()-btn_min->width()-5,5);
-    btn_min->move(btn_close->x()-btn_min->width()-5,5);
-    btn_max->move(btn_min->x()-btn_min->width()-5,5);
+    btn_close->move(width()-btn_close->width()-5,5);
+    btn_max->move(btn_close->x()-btn_max->width()-5,5);
+    btn_min->move(btn_max->x()-btn_min->width()-5,5);
+
     btn_close->raise();
     btn_min->raise();
     btn_max->raise();
@@ -1640,7 +1642,7 @@ void MainWindow::on_btn_chat_clicked()
 
 void MainWindow::on_search_but_clicked()
 {
-    ui->RU_stackedWidget->setCurrentIndex(2);
+    ui->RU_stackedWidget->setCurrentIndex(1);
 }
 
 

@@ -26,6 +26,7 @@ public:
     bool isPlaying;
     bool isDrag;
     QPointF dVal;
+    void update_position();
 public slots:
     void mousePressEvent(QMouseEvent*) override;
     void mouseMoveEvent(QMouseEvent*)override;
@@ -49,8 +50,11 @@ private slots:
 
     void on_chMaxBut_clicked();
 
+    void on_timeSlider_sliderMoved(int position);
+
 private:
     Ui::VideoPlay *ui;
+    QString get_time_str(int msec);
 };
 
 #endif // VIDEOPLAY_H

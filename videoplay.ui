@@ -242,7 +242,6 @@ border:none;
      <property name="styleSheet">
       <string notr="true">#Video{
 background-color:rgb(211, 215, 207);
-border-radius:5px;
 }</string>
      </property>
     </widget>
@@ -344,6 +343,9 @@ background-color:transparent;
           <widget class="QSlider" name="timeSlider">
            <property name="maximum">
             <number>100</number>
+           </property>
+           <property name="singleStep">
+            <number>1</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>

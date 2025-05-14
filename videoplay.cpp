@@ -1,6 +1,7 @@
 #include "videoplay.h"
 #include "ui_videoplay.h"
 
+#include <QGraphicsDropShadowEffect>
 #include <QMouseEvent>
 #include <qaction.h>
 #include <qmenu.h>
@@ -18,10 +19,12 @@ VideoPlay::VideoPlay(QWidget *parent, QMediaPlayer* mplayer)    : QWidget(parent
     , ui(new Ui::VideoPlay)
 {
     ui->setupUi(this);
+    setWindowFlags(Qt::Window);
     getPlayer(mplayer);
     uiInit();
     eventInit();
     player->play();
+
 }
 
 VideoPlay::~VideoPlay()
@@ -39,6 +42,18 @@ void VideoPlay::PlayVideo(QString path)
 void VideoPlay::getPlayer(QMediaPlayer * mplayer)
 {
     player=mplayer;
+}
+
+void VideoPlay::update_position()
+{
+    if (player->duration() > 0) { // 避免除零错误
+        int progress = int(((player->position() * 1.0) / (player->duration() * 1.0)) * 100);
+        ui->timeSlider->setValue(progress);
+    }
+    ui->label_progress->setText(QString("%1/%2")
+                                    .arg(get_time_str(player->position()))
+                                    .arg(get_time_str(player->duration())));
+    ui->label_progress->adjustSize();
 }
 
 void VideoPlay::on_player_state_changed(QMediaPlayer::State newState)
@@ -66,9 +81,20 @@ void VideoPlay::uiInit()
     ui->label_progress->adjustSize();
     ui->label_progress->setText("00:00/00:00");
     ui->label_title->setText("暂未播放");
+    ui->voiceSlider->setRange(0,100);
+    ui->voiceSlider->setValue(0);
+
     //按钮提示词
     ui->speedComb->setToolTip("倍速");
     ui->btn_pause_keep->setToolTip("播放/暂停");
+    //设置无边框
+    this->setAttribute(Qt::WA_TranslucentBackground);
+    this->setWindowFlag(Qt::FramelessWindowHint);
+    QGraphicsDropShadowEffect* shadow=new QGraphicsDropShadowEffect(this);
+    shadow->setBlurRadius(15);
+    shadow->setColor(QColor(0x00,0x00,0x00,255));
+    shadow->setOffset(0);
+    this->setGraphicsEffect(shadow);
 }
 void VideoPlay::mousePressEvent(QMouseEvent *ev)
 {
@@ -175,5 +201,24 @@ void VideoPlay::on_chMaxBut_clicked()
 {
     if(!this->isFullScreen())this->showFullScreen();
     else this->showNormal();
+}
+
+
+void VideoPlay::on_timeSlider_sliderMoved(int position)
+{
+    player->setPosition(qint64(player->duration() * (position * 1.0 / 100)));
+}
+
+QString VideoPlay::get_time_str(int msec)
+{
+    int min, sec;
+    sec = msec / 1000;
+    min = sec / 60;
+    sec = sec % 60;
+
+    QString minute = min > 10 ? QString("%1").arg(min) : QString("0%1").arg(min);
+    QString second = sec > 10 ? QString("%1").arg(sec) : QString("0%1").arg(sec);
+    QString str = QString("%1:%2").arg(minute).arg(second);
+    return str;
 }
 
