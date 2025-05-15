@@ -4,7 +4,6 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , currentMode(Sequential)
 {
     settings = new QSettings("MyApp", "MusicPlayer", this);
     ui->setupUi(this);
@@ -16,6 +15,33 @@ MainWindow::MainWindow(QWidget *parent)
     media_path=DEFAULT_PATH;
 
     init();
+    currentMode = static_cast<PlayMode>(
+        settings->value("PlayMode", Sequential).toInt()
+        );
+    // 读取默认倍速
+    SPEED speedRate = static_cast<SPEED>(
+        settings->value("Speed", sp_1).toInt()
+        );
+
+    switch (speedRate) {
+    case sp_075:
+        player->setPlaybackRate(0.75);
+        break;
+    case sp_1:
+        player->setPlaybackRate(1.0);
+        break;
+    case sp_15:
+        player->setPlaybackRate(1.5);
+        break;
+    case sp_2:
+        player->setPlaybackRate(2.0);
+        break;
+    }
+    int themeIndex = settings->value("Theme", DARK).toInt();
+    currentTheme = settings->value("Theme", DARK).toInt();
+
+    // 设置主题
+    on_comboBox_theme_currentIndexChanged(themeIndex);
 }
 MainWindow::~MainWindow()
 {
@@ -108,6 +134,7 @@ void MainWindow::init()
     player = new QMediaPlayer(this);
     //videoWidget = new QVideoWidget(ui->VideoWidget);
     vp=new VideoPlay(this,getPlayer());
+    // vp->hide();
     connect(player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
         //if (status == QMediaPlayer::LoadedMedia) { // 媒体加载完成
         // 此处执行延迟的逻辑（判断音视频、更新界面、切换歌曲后的操作）
@@ -136,7 +163,6 @@ void MainWindow::init()
     // 信号3：把主窗口的同步信号连到子窗口的slot
     connect(this, &MainWindow::update_timeslider_position,
             vp, &VideoPlay::syncPosition);
-    vp->hide();
     // 初始化 QAudioProbe
     audioProbe = new QAudioProbe(this);
 
@@ -1066,6 +1092,7 @@ QString MainWindow::loadStylesheet(const QString &templatePath, const QMap<QStri
 //主题切换
 void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
 {
+    currentTheme = static_cast<THEME>(index);
     QString path;
     switch(index)
     {
@@ -1073,10 +1100,10 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         path = ":/qic/styles/light.qss";
         qDebug() << "light";
         currentTheme = LIGHT;
-        ui->btn_prev->setIcon(QIcon(":qic/images/prev.png"));
-        ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
+        ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
+        ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
         //ui->btn_pause_keep->setIcon(QIcon(":qic/images/pause.png"));
-        ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.png);");
+        ui->label->setStyleSheet("border-image: url(:/qic/images/volume_open.png);");
         break;
     case DARK:
         path = ":/qic/styles/dark.qss";
@@ -1107,11 +1134,13 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         if(isDarkColor(currentColor)){
             ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
             ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
+            ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
             //ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
         }
         else{
-            ui->btn_prev->setIcon(QIcon(":qic/images/prev.png"));
-            ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
+            ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
+            ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
+            ui->label->setStyleSheet("border-image: url(:/qic/images/volume_open.png);");
             //ui->btn_pause_keep->setIcon(QIcon(":qic/images/pause.png"));
         }
         ui->label->setStyleSheet("border-image: url(:/qic/svg/voice_open.svg);");
@@ -1144,8 +1173,8 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
     QString keepIcon, pauseIcon;
     // 根据当前主题选择不同格式的图标
     if (currentTheme == LIGHT) {
-        keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
-        pauseIcon = ":/qic/images/pause.png";
+        keepIcon = ":/qic/svg/keep.svg";   // LIGHT 主题用 PNG
+        pauseIcon = ":/qic/svg/pause.svg";
     }
     else if(currentTheme==DARK){
         keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
@@ -1157,8 +1186,8 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
             pauseIcon = ":/qic/svg/pause.svg";
         }
         else{
-            keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
-            pauseIcon = ":/qic/images/pause.png";
+            keepIcon = ":/qic/svg/keep.svg";   // LIGHT 主题用 PNG
+            pauseIcon = ":/qic/svg/pause.svg";
         }
     }
     else {
@@ -1367,8 +1396,8 @@ void MainWindow::emotion_to_theme(const QString &modelPath)
         ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
     }
     else{
-        ui->btn_prev->setIcon(QIcon(":qic/images/prev.png"));
-        ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
+        ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
+        ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
     }
 
     // 最终的情绪分析结果
@@ -1689,7 +1718,41 @@ void MainWindow::on_search_but_clicked()
 
 void MainWindow::on_btn_setting_clicked()
 {
-    SettingDialog* sd=new SettingDialog(this);
-    sd->exec();
+    // SettingDialog* sd=new SettingDialog(this);
+    // sd->exec();
+    SettingDialog* sd = new SettingDialog(this);
+    if (sd->exec() == QDialog::Accepted) {
+        QSettings settings("MyApp", "MusicPlayer");
+        currentMode = static_cast<PlayMode>(
+            settings.value("PlayMode", Sequential).toInt()
+            );
+        qDebug() << "设置窗口更新后，currentMode = " << currentMode;
+        // 读取并设置倍速
+        SPEED speedRate = static_cast<SPEED>(
+            settings.value("Speed", sp_1).toInt()
+            );
+
+        // 应用倍速设置
+        switch (speedRate) {
+        case sp_075:
+            player->setPlaybackRate(0.75);
+            break;
+        case sp_1:
+            player->setPlaybackRate(1.0);
+            break;
+        case sp_15:
+            player->setPlaybackRate(1.5);
+            break;
+        case sp_2:
+            player->setPlaybackRate(2.0);
+            break;
+        }
+        qDebug() << "当前倍速已根据设置窗口设置为：" << speedRate;
+        int themeIndex = settings.value("Theme", DARK).toInt();
+        currentTheme = themeIndex;
+        qDebug() << "设置窗口更新后，themeIndex = " << themeIndex;
+        on_comboBox_theme_currentIndexChanged(themeIndex);
+    }
+    delete sd;  // 手动 delete，避免内存泄露
 }
 
