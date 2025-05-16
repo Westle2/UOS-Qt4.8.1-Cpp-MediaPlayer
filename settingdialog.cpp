@@ -82,6 +82,7 @@ void SettingDialog::on_ThemeComb_currentIndexChanged(int index)
 void SettingDialog::on_buttonBox_accepted()
 {
     saveConfig();
+    accept();
     this->close();
 }
 
