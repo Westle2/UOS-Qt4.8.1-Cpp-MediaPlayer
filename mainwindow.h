@@ -208,9 +208,10 @@ protected:
 private slots:
     void on_fullscreen_btn_clicked();
     void on_pushButton_clicked();
-    void on_search_but_clicked();
     void on_btn_setting_clicked();
     void on_btn_chat_clicked();
+    void on_horizontalSlider_2_valueChanged(int value);
+
 signals:
     void update_timeslider_position(qint64 pos, qint64 duration);
 };

@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     settings = new QSettings("MyApp", "MusicPlayer", this);
     ui->setupUi(this);
+    setWindowFlags(Qt::Window);
     this->setWindowTitle("绪音");
     // 检查 QSettings 是否正确初始化
     if (settings == nullptr) {
@@ -101,7 +102,11 @@ void MainWindow::init()
             showFullScreen();
         }
     });
-
+    connect(ui->search_but,&QPushButton::clicked,this,[=]{
+        qDebug()<<ui->RU_stackedWidget->currentIndex();
+        ui->RU_stackedWidget->setCurrentIndex(1);
+        qDebug()<<ui->RU_stackedWidget->currentIndex();
+    });
 
 
     playlist = new QMediaPlaylist(this);
@@ -1573,7 +1578,8 @@ QColor MainWindow::adjustButtonColor(const QColor &baseColor)
 
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
-    if(ev->button()==Qt::LeftButton){
+
+    if(ev->button()==Qt::LeftButton && ev->pos().y()<0.8*this->width()){
         dVal=ev->globalPos()-pos();
         isDrag=1;
     }
@@ -1681,15 +1687,19 @@ void MainWindow::on_btn_chat_clicked()
     }
 }
 
-void MainWindow::on_search_but_clicked()
-{
-    ui->RU_stackedWidget->setCurrentIndex(1);
-}
 
 
 void MainWindow::on_btn_setting_clicked()
 {
     SettingDialog* sd=new SettingDialog(this);
     sd->exec();
+}
+
+
+void MainWindow::on_horizontalSlider_2_valueChanged(int value)
+{
+    //player->setPosition(value);
+    qDebug()<<value;
+    ui->horizontalLayout_2->update();
 }
 

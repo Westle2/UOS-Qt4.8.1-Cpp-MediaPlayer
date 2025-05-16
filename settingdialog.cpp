@@ -56,7 +56,7 @@ void SettingDialog::saveConfig()
 
 void SettingDialog::mousePressEvent(QMouseEvent *ev)
 {
-    if(ev->button()==Qt::LeftButton){
+    if(ev->button()==Qt::LeftButton&& ev->pos().y()<0.8*this->width()){
         dVal=ev->globalPos()-pos();
         isDrag=1;
     }

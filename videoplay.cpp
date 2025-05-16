@@ -69,7 +69,12 @@ void VideoPlay::uiInit()
     ui->label_progress->setText("00:00/00:00");
     ui->label_title->setText("暂未播放");
     ui->voiceSlider->setRange(0,100);
-    ui->voiceSlider->setValue(0);
+    // 修改初始值为50
+    ui->voiceSlider->setValue(50);
+    player->setVolume(50);  // 设置初始音量
+    // 强制更新音量图标状态
+    on_voiceSlider_valueChanged(50);  // 手动触发图标更新
+
     //按钮提示词
     ui->speedComb->setToolTip("倍速");
     ui->btn_pause_keep->setToolTip("播放/暂停");
@@ -84,7 +89,7 @@ void VideoPlay::uiInit()
 }
 void VideoPlay::mousePressEvent(QMouseEvent *ev)
 {
-    if(ev->button()==Qt::LeftButton){
+    if(ev->button()==Qt::LeftButton&& ev->pos().y()<0.6*this->width()){
         dVal=ev->globalPos()-pos();
         isDrag=1;
     }
@@ -111,7 +116,19 @@ void VideoPlay::eventInit()
     //     }
     // });
     /*注释掉是因为两个连接方式会打架,去掉一个*/
+
     isPlaying=0;
+    // 新增以下连接
+    connect(player, &QMediaPlayer::positionChanged, this, [this](qint64 pos){
+        syncPosition(pos, player->duration());
+    });
+    connect(player, &QMediaPlayer::durationChanged, this, [this](qint64 dur){
+        syncPosition(player->position(), dur);
+    });
+    connect(this, &VideoPlay::requestSeek, this, [this](int percent){
+        player->setPosition(percent * player->duration() / 100);
+    });
+
 }
 
 void VideoPlay::on_chMaxBut_clicked()
