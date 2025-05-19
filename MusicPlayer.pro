@@ -2,7 +2,6 @@ QT += core gui
 QT += multimedia
 QT += multimediawidgets
 QT += core websockets
-QT += webenginewidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11

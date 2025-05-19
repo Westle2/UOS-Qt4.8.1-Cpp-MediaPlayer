@@ -207,10 +207,14 @@ protected:
 
 private slots:
     void on_fullscreen_btn_clicked();
-    void on_pushButton_clicked();
     void on_btn_setting_clicked();
     void on_btn_chat_clicked();
     void on_horizontalSlider_2_valueChanged(int value);
+
+
+    void on_retMainBut_clicked();
+
+    void on_clearButton_clicked();
 
 signals:
     void update_timeslider_position(qint64 pos, qint64 duration);
