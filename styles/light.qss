@@ -1,25 +1,32 @@
-/* 通用窗口背景 */
 #centralwidget {
-    background-color: #f9f9f9; /* 浅灰色 */
-    color: #333;
-    border-radius:10px;
+    background: qlineargradient(
+        spread:pad,
+        x1:0, y1:0, x2:1, y2:1,
+        stop:0 #ffe6e6,
+        stop:1 #fff7f0
+    );
+    color: #555555;   /* 中灰字体 */
+    border-radius: 10px;
 }
+
 
 /* 按钮样式 */
 QPushButton {
-    background-color: #666; /* 浅灰色背景 */
-    border: 1px solid black; /* 轻微边框 */
-    color: #666;
+    background-color: #fddede;            /* 柔和粉色背景 */
+    border: 1px solid #f7b5b5;            /* 浅粉边框 */
+    color: #944d4d;                       /* 深一点的红棕色字体，清晰可见 */
     padding: 6px 12px;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: background-color 0.2s, border-color 0.2s;
 }
+
 QPushButton:hover {
-    background-color: #f0f0f0; /* 悬停时变浅灰 */
-    border-color: #bbb;
+    background-color: #ffecec;            /* 悬停时更亮一点 */
+    border-color: #f4a7a7;
 }
+
 QPushButton:pressed {
-    background-color: #e0e0e0; /* 按住变更浅 */
+    background-color: #fcbaba;
     border-color: #aaa;
     /*左内边距为3像素，让按下时字向右移动3像素*/
     padding-left:3px;
