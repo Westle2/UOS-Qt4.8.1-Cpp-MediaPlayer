@@ -396,37 +396,6 @@ background-color:transparent;
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="label_title">
-           <property name="styleSheet">
-            <string notr="true">min-width:150px;
-max-width:200px;</string>
-           </property>
-           <property name="text">
-            <string>正在播放：</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="nameLabel">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>276</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
           <widget class="QComboBox" name="speedComb">
            <property name="minimumSize">
             <size>
@@ -460,17 +429,17 @@ max-width:200px;</string>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="fullscreen_btn">
-           <property name="maximumSize">
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
             <size>
-             <width>16777211</width>
-             <height>16777215</height>
+             <width>40</width>
+             <height>20</height>
             </size>
            </property>
-           <property name="text">
-            <string>全屏</string>
-           </property>
-          </widget>
+          </spacer>
          </item>
          <item>
           <widget class="QLabel" name="pic_voice_lab">

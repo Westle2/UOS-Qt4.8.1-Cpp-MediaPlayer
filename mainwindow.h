@@ -111,6 +111,17 @@ public:
     QPushButton *btn_min;
     QPushButton *btn_max;
     QPushButton *btn_close;
+    bool isResize = false;            // 改变大小
+    QPoint lastMousePos;             // 上次鼠标位置
+    int resizeMargin = 8;            // 可拉伸区域宽度
+    Qt::Edges resizeEdge = Qt::Edges();  // 当前处于哪条边上
+    QString userColor; // 例如 "#e0f7fa"
+    QString gradient ;
+    QLabel* imageLabel;
+    QTimer* imageTimer;
+    QStringList imagePaths;
+    int currentImageIndex = 0;
+
 public slots:
     void on_btn_prev_clicked();
     void on_btn_pause_keep_clicked();
@@ -137,6 +148,7 @@ public slots:
     void emotion_to_theme(const QString &modelPath);
     void update_emo_rank();
     void process_audio_buffer_emotion(const QAudioBuffer &buffer);
+    void processAudioBuffer(const QAudioBuffer &buffer);
     // void on_btn_shrink_expand_clicked();
     void on_btn_voice_to_text_toggled(bool checked);
 
@@ -144,6 +156,10 @@ public slots:
     void mouseMoveEvent(QMouseEvent*)override;
     void mouseReleaseEvent(QMouseEvent*) override;
     void resizeEvent(QResizeEvent *event) override;
+    void leaveEvent(QEvent *event) override;
+    Qt::Edges detectEdge(const QPoint &pos);
+    void updateCursor(const QPoint &pos);
+
 private:
     Ui::MainWindow *ui;
     QMediaPlaylist *playlist;//播放列表
@@ -207,14 +223,11 @@ protected:
 
 private slots:
     void on_fullscreen_btn_clicked();
+    void on_pushButton_clicked();
+    void on_search_but_clicked();
     void on_btn_setting_clicked();
     void on_btn_chat_clicked();
-    void on_horizontalSlider_2_valueChanged(int value);
-
-
-    void on_retMainBut_clicked();
-
-    void on_clearButton_clicked();
+    void on_research_but_clicked();
 
 signals:
     void update_timeslider_position(qint64 pos, qint64 duration);

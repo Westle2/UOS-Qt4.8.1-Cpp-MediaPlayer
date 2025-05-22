@@ -15,7 +15,6 @@ class VideoPlay : public QWidget
     Q_OBJECT
 
 public:
-    explicit VideoPlay(QWidget *parent = nullptr);
     explicit VideoPlay(QWidget *parent = nullptr,QMediaPlayer* mplayer=nullptr);
     ~VideoPlay();
     QMediaPlayer* player;
@@ -55,7 +54,6 @@ private slots:
     void on_timeSlider_sliderMoved(int position);
     // void update_position();
     void on_chMaxBut_clicked();
-
 
 
 

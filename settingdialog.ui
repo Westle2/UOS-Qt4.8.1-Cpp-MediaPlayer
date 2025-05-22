@@ -13,14 +13,24 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#SDCentwidget {
+    border-radius: 10px;
+    background: qlineargradient(
+        spread:pad,
+        x1:0, y1:0, x2:1, y2:1,
+        stop:0 #A7C5BD,
+        stop:1 #6F9EAF
+    );
+    color: #2E3A59;  /* 字体颜色保持深色，清晰 */
+}
+</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QWidget" name="SDCentwidget" native="true">
      <property name="styleSheet">
-      <string notr="true">#SDCentwidget{
-border-radius:10px;
-background-color:rgb(85, 87, 83);
-}</string>
+      <string notr="true"/>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
@@ -143,7 +153,7 @@ border:none;
               </property>
               <property name="icon">
                <iconset resource="qic.qrc">
-                <normaloff>:/qic/svg/close_black.svg</normaloff>:/qic/svg/close_black.svg</iconset>
+                <normaloff>:/qic/images/close.png</normaloff>:/qic/images/close.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -341,25 +351,6 @@ border:none;
              </spacer>
             </item>
            </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">#clearLst{
-border-radius:5px;
-background-color:rgb(243, 243, 243);
-}</string>
-           </property>
-           <property name="text">
-            <string>清空播放列表</string>
-           </property>
           </widget>
          </item>
         </layout>

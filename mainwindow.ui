@@ -63,6 +63,18 @@ border-top-right-radius:30px;
        </property>
        <item>
         <widget class="QWidget" name="funcWidget" native="true">
+         <property name="styleSheet">
+          <string notr="true">self.funcWidget.setObjectName(&quot;funcWidget&quot;)
+self.funcWidget.setStyleSheet(&quot;&quot;&quot;
+    #funcWidget {
+        border-left: 1px solid #CCCCCC;
+        background-color: white;
+    }
+&quot;&quot;&quot;
+)
+
+</string>
+         </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QLabel" name="FuncLabel">
@@ -195,7 +207,7 @@ border-top-right-radius:30px;
                </property>
                <property name="icon">
                 <iconset resource="qic.qrc">
-                 <normaloff>:/qic/svg/Smile.svg</normaloff>:/qic/svg/Smile.svg</iconset>
+                 <normaloff>:/qic/images/聊天机器人.png</normaloff>:/qic/images/聊天机器人.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -293,7 +305,7 @@ border-top-right-radius:30px;
             </property>
             <property name="styleSheet">
              <string notr="true">#Mainpage{
-			background:url(:/qic/images/action-3195378 1.png);
+
 border-top-right-radius:30px;
 
 }</string>
@@ -307,7 +319,7 @@ border-top-right-radius:30px;
                <rect>
                 <x>20</x>
                 <y>30</y>
-                <width>321</width>
+                <width>274</width>
                 <height>71</height>
                </rect>
               </property>
@@ -326,9 +338,6 @@ border-top-right-radius:30px;
                    <height>53</height>
                   </size>
                  </property>
-                 <property name="tabletTracking">
-                  <bool>true</bool>
-                 </property>
                  <property name="whatsThis">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;搜索历史记录&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
@@ -340,9 +349,6 @@ border-top-right-radius:30px;
                  </property>
                  <property name="placeholderText">
                   <string>Search</string>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -385,8 +391,8 @@ background-color:transparent;
              <widget class="QLabel" name="CoolTitle">
               <property name="geometry">
                <rect>
-                <x>840</x>
-                <y>30</y>
+                <x>790</x>
+                <y>50</y>
                 <width>171</width>
                 <height>131</height>
                </rect>
@@ -407,8 +413,8 @@ background-color:transparent;
              <widget class="QLabel" name="label_4">
               <property name="geometry">
                <rect>
-                <x>680</x>
-                <y>180</y>
+                <x>690</x>
+                <y>230</y>
                 <width>281</width>
                 <height>21</height>
                </rect>
@@ -421,6 +427,19 @@ background-color:transparent;
               </property>
               <property name="text">
                <string>时间匆匆而下，生活逆水行舟</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_5">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>10</y>
+                <width>1101</width>
+                <height>491</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
               </property>
              </widget>
             </widget>
@@ -497,22 +516,6 @@ background-color:transparent;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="retMainBut">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>50</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>返回主页</string>
-                   </property>
-                   <property name="icon">
-                    <iconset theme="QIcon::ThemeIcon::EditUndo"/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <spacer name="horizontalSpacer">
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
@@ -541,7 +544,7 @@ background-color:transparent;
                </widget>
               </item>
               <item>
-               <widget class="QListWidget" name="searchResLst">
+               <widget class="QListWidget" name="listWidget">
                 <property name="styleSheet">
                  <string notr="true">background: transparent
 </string>
@@ -553,140 +556,148 @@ background-color:transparent;
            </widget>
           </item>
           <item>
-           <widget class="QWidget" name="RUDWidget" native="true">
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <widget class="QWidget" name="widget_3" native="true">
+            <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
-              <widget class="QWidget" name="lib_widget" native="true">
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_4">
+              <widget class="QWidget" name="widget_4" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
                 <item>
-                 <widget class="QLabel" name="LIBRARY_label">
-                  <property name="font">
-                   <font>
-                    <pointsize>17</pointsize>
-                    <bold>true</bold>
-                   </font>
+                 <spacer name="verticalSpacer_2">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="text">
-                   <string>LIBRARY</string>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
                   </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
+                 </spacer>
                 </item>
                 <item>
-                 <widget class="QWidget" name="widget" native="true">
-                  <layout class="QHBoxLayout" name="horizontalLayout_11">
+                 <widget class="QWidget" name="right_widget" native="true">
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_4">
                    <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_10">
-                     <item>
-                      <widget class="QPushButton" name="btn_open_folder">
-                       <property name="minimumSize">
-                        <size>
-                         <width>50</width>
-                         <height>50</height>
-                        </size>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true"/>
-                       </property>
-                       <property name="text">
-                        <string/>
-                       </property>
-                       <property name="icon">
-                        <iconset>
-                         <normaloff>:/qic/images/上传文件.png</normaloff>:/qic/images/上传文件.png</iconset>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_3">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="clearButton">
-                     <property name="minimumSize">
-                      <size>
-                       <width>50</width>
-                       <height>50</height>
-                      </size>
+                    <widget class="QLabel" name="LIBRARY_label">
+                     <property name="font">
+                      <font>
+                       <pointsize>17</pointsize>
+                       <bold>true</bold>
+                      </font>
                      </property>
                      <property name="text">
-                      <string/>
+                      <string>LIBRARY</string>
                      </property>
-                     <property name="icon">
-                      <iconset>
-                       <normaloff>:/qic/images/清空列表.png</normaloff>:/qic/images/清空列表.png</iconset>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <spacer name="verticalSpacer_2">
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
+                    <widget class="QWidget" name="widget" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_11">
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_10">
+                        <item>
+                         <widget class="QPushButton" name="btn_open_folder">
+                          <property name="styleSheet">
+                           <string notr="true"/>
+                          </property>
+                          <property name="text">
+                           <string/>
+                          </property>
+                          <property name="icon">
+                           <iconset resource="qic.qrc">
+                            <normaloff>:/qic/images/上传文件.png</normaloff>:/qic/images/上传文件.png</iconset>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer_3">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="pushButton">
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="qic.qrc">
+                          <normaloff>:/qic/images/清空列表.png</normaloff>:/qic/images/清空列表.png</iconset>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QListWidget" name="listWidget_2">
+                     <property name="styleSheet">
+                      <string notr="true">background: transparent
+</string>
                      </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>23</height>
-                      </size>
-                     </property>
-                    </spacer>
+                    </widget>
                    </item>
                   </layout>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QListWidget" name="playList">
-                  <property name="styleSheet">
-                   <string notr="true">background: transparent
+                 <widget class="QWidget" name="widget_2" native="true">
+                  <layout class="QVBoxLayout" name="verticalLayout_7">
+                   <item>
+                    <widget class="QLabel" name="EMO_label">
+                     <property name="font">
+                      <font>
+                       <pointsize>17</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>情绪排行榜</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QListWidget" name="emo_listwidget">
+                     <property name="styleSheet">
+                      <string notr="true">background: transparent
 </string>
-                  </property>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </widget>
                 </item>
                </layout>
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="raceWidget" native="true">
-               <layout class="QVBoxLayout" name="verticalLayout_7">
-                <item>
-                 <widget class="QLabel" name="EMO_label">
-                  <property name="font">
-                   <font>
-                    <pointsize>17</pointsize>
-                    <bold>true</bold>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>情绪排行榜</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QListWidget" name="emo_listwidget"/>
-                </item>
-               </layout>
+              <widget class="QWidget" name="waveWidget" native="true">
+               <property name="styleSheet">
+                <string notr="true">#WaveformWidget {
+    background-color: #fefefe;  /* 跟主题颜色配套 */
+}</string>
+               </property>
               </widget>
              </item>
             </layout>
@@ -835,8 +846,14 @@ max-width:200px;</string>
            <height>0</height>
           </size>
          </property>
+         <property name="maximumSize">
+          <size>
+           <width>438</width>
+           <height>15</height>
+          </size>
+         </property>
          <property name="maximum">
-          <number>100</number>
+          <number>60</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -857,12 +874,40 @@ max-width:200px;</string>
      <widget class="QWidget" name="unused" native="true">
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
-        <widget class="QComboBox" name="comboBox_theme">
-         <property name="autoFillBackground">
-          <bool>false</bool>
+        <widget class="QPushButton" name="btn_shrink_expand">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="VideoWidget" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">/*按钮普通态*/
+          <string notr="true"/>
+         </property>
+         <widget class="QComboBox" name="comboBox_theme">
+          <property name="geometry">
+           <rect>
+            <x>-30</x>
+            <y>-20</y>
+            <width>1318</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">/*按钮普通态*/
 QPushButton
 {
     /*字体为微软雅黑*/
@@ -925,42 +970,20 @@ QPushButton:pressed
     /*上内边距为3像素，让按下时字向下移动3像素*/  
     padding-top:3px;
 }</string>
-         </property>
-         <property name="editable">
-          <bool>false</bool>
-         </property>
-         <property name="insertPolicy">
-          <enum>QComboBox::NoInsert</enum>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>50</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QWidget" name="VideoWidget" native="true">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_shrink_expand">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>&gt;</string>
-         </property>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="insertPolicy">
+           <enum>QComboBox::NoInsert</enum>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>50</width>
+            <height>50</height>
+           </size>
+          </property>
+         </widget>
         </widget>
        </item>
        <item>

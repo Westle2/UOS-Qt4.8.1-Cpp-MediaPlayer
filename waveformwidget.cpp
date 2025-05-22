@@ -3,7 +3,7 @@
 WaveformWidget::WaveformWidget(QWidget *parent)
     : QWidget(parent)
 {
-    setMinimumHeight(100);  // 设置波形区域最小高度
+    //setMinimumHeight(100);  // 设置波形区域最小高度
     audioSamples.reserve(500);  // 预分配内存，提高性能
 }
 
@@ -28,8 +28,18 @@ void WaveformWidget::appendSamples(const QVector<qint16> &newSamples)
 void WaveformWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    painter.fillRect(rect(), QColor(100, 100, 100));  // 背景黑色
-    painter.setPen(Qt::green);           // 波形颜色
+    painter.setRenderHint(QPainter::Antialiasing); // 抗锯齿
+
+    // // 背景渐变（从浅蓝到白）
+    // QLinearGradient bgGradient(rect().topLeft(), rect().bottomRight());
+    // bgGradient.setColorAt(0, QColor("#e0f7fa")); // 浅蓝
+    // bgGradient.setColorAt(1, QColor("#ffffff")); // 白色
+    // painter.fillRect(rect(), bgGradient);
+
+    // 设置波形颜色为蓝绿色调
+    QPen waveformPen(QColor("#26a69a")); // 柔和青绿色
+    waveformPen.setWidth(2);
+    painter.setPen(waveformPen);
 
     if (audioSamples.isEmpty()) return;
 
@@ -38,10 +48,11 @@ void WaveformWidget::paintEvent(QPaintEvent *event)
     int centerY = height / 2;
     int sampleCount = audioSamples.size();
 
-    for (int i = 0; i < sampleCount; i += 2)  // 每隔 2 个采样点画一条竖线
+    for (int i = 0; i < sampleCount; i += 2)
     {
-        int x = (width * i) / sampleCount;  // 按比例映射 X 轴
-        int y = centerY - (audioSamples[i] * centerY / 32768);  // Y 轴映射
+        int x = (width * i) / sampleCount;
+        int y = centerY - (audioSamples[i] * centerY / 32768);
         painter.drawLine(x, centerY, x, y);
     }
 }
+

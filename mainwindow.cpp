@@ -7,7 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     settings = new QSettings("MyApp", "MusicPlayer", this);
     ui->setupUi(this);
-    setWindowFlags(Qt::Window);
     this->setWindowTitle("绪音");
     // 检查 QSettings 是否正确初始化
     if (settings == nullptr) {
@@ -75,7 +74,7 @@ void MainWindow::init()
 
     QIcon iconMin = QIcon(":/qic/svg/mini.svg");
     QIcon iconMax = QIcon(":/qic/svg/ch_max.svg");
-    QIcon iconClose = QIcon(":/qic/svg/close.svg");
+    QIcon iconClose = QIcon(":/qic/images/close.png");
 
     btn_min->setIcon(iconMin);
     btn_max->setIcon(iconMax);
@@ -93,21 +92,6 @@ void MainWindow::init()
     btn_max->setFlat(true);
     btn_close->setFlat(true);
     QString ss = R"(
-    QPushButton {
-        background-color: transparent;
-        border: none;
-        border-radius: 15px;
-        min-width: 30px;
-        min-height: 30px;
-    }
-    QPushButton:hover {
-        background-color: rgb(239, 41, 41);
-    }
-    QPushButton:pressed {
-        background-color: rgb(238, 238, 236);
-        padding-top: 2px;
-        padding-left: 2px;
-    }
 )";
     btn_close->move(width()-btn_close->width()-5,5);
     btn_max->move(btn_close->x()-btn_max->width()-5,5);
@@ -128,17 +112,6 @@ void MainWindow::init()
             showFullScreen();
         }
     });
-    connect(ui->search_but,&QPushButton::clicked,this,[=]{
-        qDebug()<<ui->RU_stackedWidget->currentIndex();
-        ui->RU_stackedWidget->setCurrentIndex(1);
-        qDebug()<<ui->RU_stackedWidget->currentIndex();
-        search_list(ui->search_box->text());
-        QListWidget* plst=ui->playList;
-        QLayout* prevL=ui->lib_widget->layout();
-        QLayout* tol=ui->searchWidget->layout();
-        //prevl->removeWidget(plst);
-        tol->addWidget(plst);
-    });
 
 
     playlist = new QMediaPlaylist(this);
@@ -146,40 +119,15 @@ void MainWindow::init()
     //videoWidget = new QVideoWidget(ui->VideoWidget);
     vp=new VideoPlay(this,getPlayer());
     // vp->hide();
-    connect(player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
-        //if (status == QMediaPlayer::LoadedMedia) { // 媒体加载完成
-        // 此处执行延迟的逻辑（判断音视频、更新界面、切换歌曲后的操作）
-        bool isVideo = player->isVideoAvailable();
-        if (isVideo) {
-            vp->show();
-            qDebug()<<"video ok";
-        } else {
-            vp->hide();
-            qDebug()<<"no video";
-        }
-        // 其他需要媒体就绪后执行的操作（如获取时长、更新进度条等）
-        //}
-    });
-    // 信号1：子窗口请求seek，主窗口负责控制player位置
-    connect(vp, &VideoPlay::requestSeek, this, [=](int percent){
-        if (player->duration() > 0)
-            player->setPosition(player->duration() * percent / 100);
-    });
 
-    // 信号2：主窗口同步player播放进度到子窗口
-    connect(player, &QMediaPlayer::positionChanged, this, [=](qint64 pos){
-        emit update_timeslider_position(pos, player->duration());
-    });
-
-    // 信号3：把主窗口的同步信号连到子窗口的slot
-    connect(this, &MainWindow::update_timeslider_position,
-            vp, &VideoPlay::syncPosition);
     // 初始化 QAudioProbe
     audioProbe = new QAudioProbe(this);
+    waveformWidget = new WaveformWidget(this); // 创建波形控件实例
+    waveformWidget->setMinimumSize(200, 100); // 设置最小尺寸，可根据需要调整
 
-    //设置视频输出
-    // player->setVideoOutput(videoWidget);
-    // videoWidget->setAspectRatioMode(Qt::KeepAspectRatio);
+    QVBoxLayout *layout = new QVBoxLayout(ui->waveWidget); // 给 waveWidget 添加布局
+    layout->setContentsMargins(0, 0, 0, 0); // 去掉边距
+    layout->addWidget(waveformWidget);     // 把绘图控件放进去
 //    // 获取UI中的QSplitter对象，假设它的objectName是splitter
     //QSplitter *splitter = ui->splitter;
     // 设置分隔条初始大小
@@ -192,12 +140,30 @@ void MainWindow::init()
     // // 设置sizePolicy来确保控件大小可自适应
     // ui->left_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     // ui->right_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // 找到你的 Mainpage 页面（确保 objectName 是 "Mainpage"）
+    // QWidget* mainPage = ui->RU_stackedWidget->widget(0); // index=0 是 Mainpage
+    imageLabel = ui->label_5;
+    imageLabel->setScaledContents(true);
+    imageLabel->setGeometry(ui->label_5->rect()); // 铺满整个页面
+    imageLabel->lower(); // 保证在最底层（可在控件后面）
 
-    //UI
-    // videoLayout = new QVBoxLayout(ui->VideoWidget);
-    // videoLayout->setSizeConstraint(QLayout::SetNoConstraint);
-    // videoLayout->addWidget(videoWidget);
-    // videoWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    // 设置图片路径列表
+    imagePaths << ":/qic/images/1.jpg"
+               << ":/qic/images/2.jpg"
+               << ":/qic/images/3.jpg"
+               << ":/qic/images/4.jpg"; // 替换为你的资源路径
+
+    // 初始化显示第一张图
+    imageLabel->setPixmap(QPixmap(imagePaths[currentImageIndex]));
+
+    // 启动定时器轮播
+    imageTimer = new QTimer(this);
+    connect(imageTimer, &QTimer::timeout, this, [=]() {
+        currentImageIndex = (currentImageIndex + 1) % imagePaths.size();
+        imageLabel->setPixmap(QPixmap(imagePaths[currentImageIndex]));
+    });
+    imageTimer->start(3000); // 每3秒切换一张
+
     // 构造函数中初始化播放模式
     // 设置ComboBox
     ui->comboBox_playMode->addItem("顺序播放");
@@ -216,6 +182,12 @@ void MainWindow::init()
     // ui->widget->setLayout(ui->videoLayout);
     ui->horizontalSlider->setRange(0,100);
     ui->horizontalSlider->setValue(0);
+    // 设置音量条短一点
+    ui->horizontalSlider->setMaximumWidth(150);  // 比如限制为120像素
+
+    // 设置进度条长一点
+    ui->horizontalSlider_2->setMinimumWidth(600);  // 至少300像素
+
     ui->label_2->setText("0");
     ui->label_progress->adjustSize();
     ui->label_progress->setText("00:00/00:00");
@@ -235,9 +207,9 @@ void MainWindow::init()
     ui->search_box->setToolTip("搜索");
     ui->btn_shrink_expand->setToolTip("收缩/展开");
     ui->btn_voice_to_text->setToolTip("字幕");
-    ui->RU_stackedWidget->setCurrentIndex(0);
     // 监听事件
     //ui->VideoWidget->installEventFilter(this);
+
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_position);
     connect(player, &QMediaPlayer::stateChanged, this, &MainWindow::on_player_state_changed);
     connect(ui->search_box, &QLineEdit::textChanged, this, &MainWindow::search_list);
@@ -245,22 +217,24 @@ void MainWindow::init()
     // 加载历史记录
     load_history();
     // 右键菜单
-    ui->playList->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->playList, &QListWidget::customContextMenuRequested, this, &MainWindow::show_context_menu);
+    ui->listWidget_2->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->listWidget_2, &QListWidget::customContextMenuRequested, this, &MainWindow::show_context_menu);
     this->setFocusPolicy(Qt::StrongFocus);
     //videoWidget->show();
 
     connect(audioProbe, &QAudioProbe::audioBufferProbed, this, &MainWindow::process_audio_buffer_emotion);
-    connect(ui->playList, &QListWidget::itemClicked, [this](QListWidgetItem *item) {
+    connect(ui->listWidget_2, &QListWidget::itemClicked, [this](QListWidgetItem *item) {
         // 获取可见行号（根据当前可见项计算）
         int visibleRow = 0;
-        for (int i = 0; i < ui->playList->count(); ++i) {
-            QListWidgetItem *current = ui->playList->item(i);
+        for (int i = 0; i < ui->listWidget_2->count(); ++i) {
+            QListWidgetItem *current = ui->listWidget_2->item(i);
             if (current == item) break;
             if (!current->isHidden()) visibleRow++;
         }
         play_selected_media(visibleRow);
     });
+
+
     connect(ui->comboBox_playMode, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &MainWindow::on_comboBox_playMode_currentIndexChanged);
 //    connect(this, &MainWindow::asrResultReceived, this, &MainWindow::update_subtitles);
@@ -279,10 +253,11 @@ void MainWindow::init()
     // vp->show();
     update_emo_rank();
     ui->unused->setVisible(false);
+
 }
 
 int MainWindow::getCurrentVisibleRow() {
-    QListWidgetItem* currentItem = ui->playList->currentItem();
+    QListWidgetItem* currentItem = ui->listWidget_2->currentItem();
 
     // 如果当前没有选中项或列表为空
     if (!currentItem || visibleRowToSourceRow.isEmpty()) {
@@ -290,7 +265,7 @@ int MainWindow::getCurrentVisibleRow() {
     }
 
     // 获取实际行号
-    int actualRow = ui->playList->row(currentItem);
+    int actualRow = ui->listWidget_2->row(currentItem);
 
     // 遍历映射表查找对应的可见行号
     for (auto it = visibleRowToSourceRow.begin(); it != visibleRowToSourceRow.end(); ++it) {
@@ -363,17 +338,17 @@ void MainWindow::playNextSequential(QMediaPlayer::MediaStatus status)
     if (status == QMediaPlayer::EndOfMedia) {
         // 获取当前选中的行号（实际显示的行号）
         int currentVisibleRow = -1;
-        QListWidgetItem *currentItem = ui->playList->currentItem();
-        for (int i = 0; i < ui->playList->count(); ++i) {
-            if (ui->playList->item(i) == currentItem) {
+        QListWidgetItem *currentItem = ui->listWidget_2->currentItem();
+        for (int i = 0; i < ui->listWidget_2->count(); ++i) {
+            if (ui->listWidget_2->item(i) == currentItem) {
                 currentVisibleRow = i;
                 break;
             }
         }
 
         // 计算下一首可见行号
-        if (currentVisibleRow != -1 && currentVisibleRow < ui->playList->count()) {
-            int nextVisibleRow = (currentVisibleRow + 1) % ui->playList->count();
+        if (currentVisibleRow != -1 && currentVisibleRow < ui->listWidget_2->count()) {
+            int nextVisibleRow = (currentVisibleRow + 1) % ui->listWidget_2->count();
 
             // 通过 visibleRowToSourceRow 获取下一首的实际行号
             int nextSourceRow = visibleRowToSourceRow[nextVisibleRow];
@@ -389,13 +364,13 @@ void MainWindow::playNextSequential(QMediaPlayer::MediaStatus status)
 void MainWindow::playRandom(QMediaPlayer::MediaStatus status)
 {
     if (status == QMediaPlayer::EndOfMedia) {
-        int count = ui->playList->count();
+        int count = ui->listWidget_2->count();
         if (count <= 1) {
             play_selected_media(0);  // 只有一首歌，就播放它
             return;
         }
 
-        int currentRow = ui->playList->currentRow();
+        int currentRow = ui->listWidget_2->currentRow();
         int randomRow;
 
         do {
@@ -435,10 +410,10 @@ void MainWindow::on_btn_prev_clicked()
         player->stop();  // 停止当前播放
     }
 
-    int count = ui->playList->count();
+    int count = ui->listWidget_2->count();
     if (count == 0) return;  // 防止空列表时出错
 
-    int currentRow = ui->playList->currentRow();
+    int currentRow = ui->listWidget_2->currentRow();
     int newRow = currentRow; // 默认保持不变
 
     switch (currentMode) {
@@ -463,7 +438,7 @@ void MainWindow::on_btn_prev_clicked()
     }
 
     // 设置当前选中的行
-    ui->playList->setCurrentRow(newRow);
+    ui->listWidget_2->setCurrentRow(newRow);
 
     // 自动播放选中的歌曲
     play_selected_media(newRow);
@@ -512,10 +487,10 @@ void MainWindow::on_btn_next_clicked()
         player->stop();  // 停止当前播放
     }
 
-    int count = ui->playList->count();
+    int count = ui->listWidget_2->count();
     if (count == 0) return;  // 防止空列表时出错
 
-    int currentRow = ui->playList->currentRow();
+    int currentRow = ui->listWidget_2->currentRow();
     int newRow = currentRow; // 默认保持不变
 
     switch (currentMode) {
@@ -540,7 +515,7 @@ void MainWindow::on_btn_next_clicked()
     }
 
     // 设置当前选中的行
-    ui->playList->setCurrentRow(newRow);
+    ui->listWidget_2->setCurrentRow(newRow);
 
     // 自动播放选中的歌曲
     play_selected_media(newRow);
@@ -609,10 +584,10 @@ void MainWindow::on_btn_speed_clicked()
 void MainWindow::play_selected_media(int row)
 {
     // 双重保险：确保不会在无意义的情况下触发
-    if (row < 0 || row >= ui->playList->count()) return;
+    if (row < 0 || row >= ui->listWidget_2->count()) return;
 
     // 使用 QSignalBlocker 替代 blockSignals(true/false)，更安全
-    const QSignalBlocker blocker(ui->playList); // 作用域内自动阻塞信号
+    const QSignalBlocker blocker(ui->listWidget_2); // 作用域内自动阻塞信号
     // 直接通过 item 获取数据，而非依赖行号
     if (!visibleRowToSourceRow.contains(row)) {
         qDebug() << "无效的可见行号：" << row;
@@ -621,9 +596,9 @@ void MainWindow::play_selected_media(int row)
     int actualRow = visibleRowToSourceRow[row];
     //int actualRow = getCurrentVisibleRow();
     // 设置选中项（实际行号）
-    QListWidgetItem *item = ui->playList->item(actualRow);
-    ui->playList->setCurrentItem(item);
-    ui->playList->setCurrentRow(actualRow);
+    QListWidgetItem *item = ui->listWidget_2->item(actualRow);
+    ui->listWidget_2->setCurrentItem(item);
+    ui->listWidget_2->setCurrentRow(actualRow);
     QString filePath = item->data(Qt::UserRole).toString();
     if (filePath.isEmpty() || !QFile::exists(filePath)) {
         qDebug() << "无效的文件路径：" << filePath;
@@ -638,51 +613,38 @@ void MainWindow::play_selected_media(int row)
 
     // 停止当前播放并重置媒体
     player->stop();
-    // player->setVideoOutput(static_cast<QVideoWidget*>(nullptr));
-    // videoWidget->update();
-    // // 确保先断开所有旧连接
-    // disconnectPlayerSignals();
-    // connect(player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
-    //     //if (status == QMediaPlayer::LoadedMedia) { // 媒体加载完成
-    //     // 此处执行延迟的逻辑（判断音视频、更新界面、切换歌曲后的操作）
-    //     bool isVideo = player->isVideoAvailable();
-    //     if (isVideo) {
-    //         vp->show();
-    //         qDebug()<<"video ok";
-    //     } else {
-    //         vp->hide();
-    //         qDebug()<<"no video";
-    //     }
-    //     // 其他需要媒体就绪后执行的操作（如获取时长、更新进度条等）
-    //     //}
-    // });
     player->setMedia(QUrl::fromLocalFile(filePath));
-    // player->setVideoOutput(videoWidget);
-    // ui->label_title->setText(item ? item->text() : "null");
-    // videoWidget->updateGeometry();
-    // if(status==QM)
-    // if(player->isVideoAvailable()){
-    //         VideoPlay* vp=new VideoPlay(this,getPlayer());
-    //         vp->show();
-    //     }
-    // videoLayout->invalidate();
-    // videoLayout->activate();
     player->play();
+    connect(player, &QMediaPlayer::videoAvailableChanged, this, [this](bool available) {
+        if (available) {
+            vp->show();
+            qDebug() << "video ok (via videoAvailableChanged)";
+        } else {
+            vp->hide();
+            qDebug() << "no video (via videoAvailableChanged)";
+        }
+    });
 
-    // // 信号1：子窗口请求seek，主窗口负责控制player位置
-    // connect(vp, &VideoPlay::requestSeek, this, [=](int percent){
-    //     if (player->duration() > 0)
-    //         player->setPosition(player->duration() * percent / 100);
-    // });
+    // 信号1：子窗口请求seek，主窗口负责控制player位置
+    connect(vp, &VideoPlay::requestSeek, this, [=](int percent){
+        if (player->duration() > 0)
+            player->setPosition(player->duration() * percent / 100);
+    });
 
-    // // 信号2：主窗口同步player播放进度到子窗口
-    // connect(player, &QMediaPlayer::positionChanged, this, [=](qint64 pos){
-    //     emit update_timeslider_position(pos, player->duration());
-    // });
+    // 信号2：主窗口同步player播放进度到子窗口
+    connect(player, &QMediaPlayer::positionChanged, this, [=](qint64 pos){
+        emit update_timeslider_position(pos, player->duration());
+    });
 
-    // // 信号3：把主窗口的同步信号连到子窗口的slot
-    // connect(this, &MainWindow::update_timeslider_position,
-    //         vp, &VideoPlay::syncPosition);
+    // 信号3：把主窗口的同步信号连到子窗口的slot
+    connect(this, &MainWindow::update_timeslider_position,
+            vp, &VideoPlay::syncPosition);
+    // audioProbe = new QAudioProbe(this);
+    // connect(audioProbe, &QAudioProbe::audioBufferProbed, this, &MainWindow::processAudioBuffer);
+
+    // if (!audioProbe->setSource(player)) {
+    //     qDebug() << "无法连接到音频流，QAudioProbe 不支持该音频格式！";
+    // }
     qDebug() << "select请求播放行号：" << row
              << "，实际项文本：" << (item ? item->text() : "null")
              << "，文件路径：" << filePath;
@@ -707,9 +669,25 @@ void MainWindow::play_selected_media(int row)
     default: // Single 模式无需连接
         break;
     }
+
 }
 
+// 处理音频数据
+void MainWindow::processAudioBuffer(const QAudioBuffer &buffer)
+{
+    if (!buffer.isValid()) return;
 
+    QVector<qint16> newSamples;
+    const qint16 *data = buffer.constData<qint16>();
+
+    for (int i = 0; i < buffer.sampleCount(); ++i) {
+        newSamples.append(data[i]);
+    }
+
+    // 保持一部分历史数据，避免波形只有一条线
+    waveformWidget->appendSamples(newSamples);
+    waveformWidget->update();  // 触发重绘
+}
 
 //音量改变
 void MainWindow::on_horizontalSlider_valueChanged(int value)
@@ -731,31 +709,31 @@ void MainWindow::on_horizontalSlider_valueChanged(int value)
 void MainWindow::on_listWidget_2_currentTextChanged(const QString &currentText)
 {
     // 阻止信号递归触发
-    ui->playList->blockSignals(true);
+    ui->listWidget_2->blockSignals(true);
 
     // 获取当前选中的项
-    QListWidgetItem *item = ui->playList->currentItem();
+    QListWidgetItem *item = ui->listWidget_2->currentItem();
     if (!item) {
         qDebug() << "错误: 当前选中项为空";
-        ui->playList->blockSignals(false);
+        ui->listWidget_2->blockSignals(false);
         return;
     }
 
     // 获取当前可见的行号
-    int visibleRow = ui->playList->currentRow();
+    int visibleRow = ui->listWidget_2->currentRow();
     // 转换为实际存储的行号
     int actualRow = visibleRowToSourceRow[visibleRow];
-    if (actualRow < 0 || actualRow >= ui->playList->count()) {
+    if (actualRow < 0 || actualRow >= ui->listWidget_2->count()) {
         qDebug() << "错误: actualRow 越界";
-        ui->playList->blockSignals(false);
+        ui->listWidget_2->blockSignals(false);
         return;
     }
 
     // 获取文件路径
-    QString filePath = ui->playList->item(actualRow)->data(Qt::UserRole).toString();
+    QString filePath = ui->listWidget_2->item(actualRow)->data(Qt::UserRole).toString();
     if (filePath.isEmpty() || !QFileInfo::exists(filePath)) {
         qDebug() << "错误: 文件不存在 -> " << filePath;
-        ui->playList->blockSignals(false);
+        ui->listWidget_2->blockSignals(false);
         return;
     }
 
@@ -792,7 +770,7 @@ void MainWindow::on_listWidget_2_currentTextChanged(const QString &currentText)
     ui->label_title->setText(item ? item->text() : "null");
 
     // 恢复信号触发
-    ui->playList->blockSignals(false);
+    ui->listWidget_2->blockSignals(false);
 }
 
 
@@ -844,13 +822,13 @@ void MainWindow::on_btn_open_folder_clicked()
 
         QListWidgetItem *item = new QListWidgetItem(fileName);
         item->setData(Qt::UserRole, filePath);  // 设置文件路径
-        ui->playList->addItem(item);
+        ui->listWidget_2->addItem(item);
         qDebug() << "添加文件：" << filePath;
 
         int visibleRow = 0;
 
-        for (int sourceRow = 0; sourceRow < ui->playList->count(); ++sourceRow) {
-            QListWidgetItem *item = ui->playList->item(sourceRow);
+        for (int sourceRow = 0; sourceRow < ui->listWidget_2->count(); ++sourceRow) {
+            QListWidgetItem *item = ui->listWidget_2->item(sourceRow);
             // 记录可见项的映射
             visibleRowToSourceRow[visibleRow] = sourceRow;
             visibleRow++;
@@ -940,8 +918,8 @@ void MainWindow::save_history()
     QSettings settings("MyApp", "MusicPlayer");
     QStringList historyList;
 
-    for (int i = 0; i < ui->playList->count(); ++i) {
-        QListWidgetItem *item = ui->playList->item(i);
+    for (int i = 0; i < ui->listWidget_2->count(); ++i) {
+        QListWidgetItem *item = ui->listWidget_2->item(i);
         QString filename = item->text();
         QString filepath = item->data(Qt::UserRole).toString();
 
@@ -967,7 +945,7 @@ void MainWindow::add_to_history(const QString &filepath)
     // 仅显示文件名，但内部存储完整路径
     QListWidgetItem *item = new QListWidgetItem(QFileInfo(filepath).fileName());
     item->setData(Qt::UserRole, filepath);
-    ui->playList->addItem(item);
+    ui->listWidget_2->addItem(item);
 }
 
 // 加载历史记录
@@ -984,7 +962,7 @@ void MainWindow::load_history()
 
             QListWidgetItem *item = new QListWidgetItem(filename);
             item->setData(Qt::UserRole, filepath); // 关键：存储文件路径
-            ui->playList->addItem(item);
+            ui->listWidget_2->addItem(item);
         }
     }
 }
@@ -1001,14 +979,19 @@ void MainWindow::search_list(const QString &text)
     // }
     visibleRowToSourceRow.clear(); // 清空旧映射
     int visibleRow = 0;
+    // 清空展示用的 listWidget
+    ui->listWidget->clear();
 
-    for (int sourceRow = 0; sourceRow < ui->playList->count(); ++sourceRow) {
-        QListWidgetItem *item = ui->playList->item(sourceRow);
+    for (int sourceRow = 0; sourceRow < ui->listWidget_2->count(); ++sourceRow) {
+        QListWidgetItem *item = ui->listWidget_2->item(sourceRow);
         bool match = item->text().contains(text, Qt::CaseInsensitive);
         item->setHidden(!match);
 
         // 记录可见项的映射
         if (match) {
+            // 显示副本到 listWidget（结果展示区）
+            QListWidgetItem *newItem = new QListWidgetItem(*item); // 拷贝原有item
+            ui->listWidget->addItem(newItem);
             visibleRowToSourceRow[visibleRow] = sourceRow;
             visibleRow++;
         }
@@ -1017,7 +1000,7 @@ void MainWindow::search_list(const QString &text)
 //删除
 void MainWindow::delete_item(QListWidgetItem *item)
 {
-    item = ui->playList->currentItem();
+    item = ui->listWidget_2->currentItem();
     if (!item) {
         qDebug() << "错误: 没有选中任何项，无法删除";
         return;
@@ -1047,7 +1030,7 @@ void MainWindow::delete_item(QListWidgetItem *item)
     qDebug() << "已从 playListMap 删除：" << fileName;
 
     // 删除 UI 中的 listWidget 项
-    delete ui->playList->takeItem(ui->playList->row(item));
+    delete ui->listWidget_2->takeItem(ui->listWidget_2->row(item));
     qDebug() << "已从 UI 删除：" << fileName;
     save_history();
 }
@@ -1055,7 +1038,7 @@ void MainWindow::delete_item(QListWidgetItem *item)
 // 右键菜单
 void MainWindow::show_context_menu(const QPoint &pos)
 {
-    QListWidgetItem *item = ui->playList->itemAt(pos);
+    QListWidgetItem *item = ui->listWidget_2->itemAt(pos);
         if (item) {
             QMenu contextMenu(this);
             QAction *deleteAction = contextMenu.addAction("删除历史记录");
@@ -1065,7 +1048,7 @@ void MainWindow::show_context_menu(const QPoint &pos)
                 delete_item(item);
             });
 
-            contextMenu.exec(ui->playList->mapToGlobal(pos));
+            contextMenu.exec(ui->listWidget_2->mapToGlobal(pos));
         }
 }
 
@@ -1111,8 +1094,8 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         path = ":/qic/styles/light.qss";
         qDebug() << "light";
         currentTheme = LIGHT;
-        ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
-        ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
+        ui->btn_prev->setIcon(QIcon(":qic/images/prev.png"));
+        ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
         //ui->btn_pause_keep->setIcon(QIcon(":qic/images/pause.png"));
         ui->label->setStyleSheet("border-image: url(:/qic/images/volume_open.png);");
         break;
@@ -1131,7 +1114,16 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
         currentColor=selectedColor;
         // QMap<QString,QString> colors;
         colors["color"]=selectedColor.name();
-        colors["window_background_color"]=selectedColor.name();
+        // colors["window_background_color"]=selectedColor.name();
+        userColor = selectedColor.name(); // 例如 "#e0f7fa"
+        gradient = QString(
+                               "qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1,"
+                               " stop:0 %1,"
+                               " stop:1 #ffffff)"
+                               ).arg(userColor);
+
+        colors["window_background_color"] = gradient;
+
         colors["text_color"]=getContrastColor(selectedColor).name();
         //botton's color can be darker to distinguish
         colors["button_color"]=adjustButtonColor(selectedColor).name();
@@ -1149,8 +1141,8 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
             //ui->btn_pause_keep->setIcon(QIcon(":qic/svg/pause.svg"));
         }
         else{
-            ui->btn_prev->setIcon(QIcon(":qic/svg/prev.svg"));
-            ui->btn_next->setIcon(QIcon(":qic/svg/next.svg"));
+            ui->btn_prev->setIcon(QIcon(":qic/images/prev.png"));
+            ui->btn_next->setIcon(QIcon(":qic/images/next.png"));
             ui->label->setStyleSheet("border-image: url(:/qic/images/volume_open.png);");
             //ui->btn_pause_keep->setIcon(QIcon(":qic/images/pause.png"));
         }
@@ -1184,8 +1176,8 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
     QString keepIcon, pauseIcon;
     // 根据当前主题选择不同格式的图标
     if (currentTheme == LIGHT) {
-        keepIcon = ":/qic/svg/keep.svg";   // LIGHT 主题用 PNG
-        pauseIcon = ":/qic/svg/pause.svg";
+        keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+        pauseIcon = ":/qic/images/pause.png";
     }
     else if(currentTheme==DARK){
         keepIcon = ":/qic/svg/keep.svg";   // DARK 主题用 SVG
@@ -1197,8 +1189,8 @@ void MainWindow::on_comboBox_theme_currentIndexChanged(int index)
             pauseIcon = ":/qic/svg/pause.svg";
         }
         else{
-            keepIcon = ":/qic/svg/keep.svg";   // LIGHT 主题用 PNG
-            pauseIcon = ":/qic/svg/pause.svg";
+            keepIcon = ":/qic/images/keep.png";   // LIGHT 主题用 PNG
+            pauseIcon = ":/qic/images/pause.png";
         }
     }
     else {
@@ -1390,7 +1382,16 @@ void MainWindow::emotion_to_theme(const QString &modelPath)
     currentColor=QColor(hexColor);
     selectedColor=QColor(hexColor);
     colors["color"]=selectedColor.name();
-    colors["window_background_color"]=selectedColor.name();
+    // colors["window_background_color"]=selectedColor.name();
+    userColor = selectedColor.name(); // 例如 "#e0f7fa"
+    gradient = QString(
+                           "qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1,"
+                           " stop:0 %1,"
+                           " stop:1 #ffffff)"
+                           ).arg(userColor);
+
+    colors["window_background_color"] = gradient;
+
     colors["text_color"]=getContrastColor(selectedColor).name();
     //botton's color can be darker to distinguish
     colors["button_color"]=adjustButtonColor(selectedColor).name();
@@ -1441,11 +1442,11 @@ void MainWindow::update_emo_rank()
 
     // 定义情绪对应颜色
     QMap<QString, QColor> emotionColors;
-    emotionColors["快乐"] = QColor(0, 191, 255);
-    emotionColors["中性"] = QColor(255, 224, 189);
-    emotionColors["悲伤"] = QColor(100, 149, 237);
-    emotionColors["愤怒"] = QColor(220, 20, 60);
-    emotionColors["恐惧"] = QColor(148, 0, 211);
+    emotionColors["快乐"] = QColor("#A0E7E5");  // 薄荷绿
+    emotionColors["中性"] = QColor("#F0F0F0");  // 米白
+    emotionColors["悲伤"] = QColor("#B5C7F1");  // 雾霾蓝
+    emotionColors["愤怒"] = QColor("#F7A6A6");  // 柔粉红
+    emotionColors["恐惧"] = QColor("#D8B4E2");  // 淡紫灰
     QMap<QString, QString> emotionEmojis;
     emotionEmojis["快乐"] = "😊";
     emotionEmojis["中性"] = "😐";
@@ -1467,6 +1468,10 @@ void MainWindow::update_emo_rank()
         layout->setContentsMargins(10, 2, 10, 2);
 
         QLabel *label = new QLabel(finalText);
+        QFont font = label->font();
+        font.setPointSize(14);             // 字体大小
+        font.setFamily("Microsoft YaHei"); // 可选字体族
+        label->setFont(font);
         label->setWordWrap(false);
         label->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
         label->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -1485,9 +1490,13 @@ void MainWindow::update_emo_rank()
         // 计算动态宽度
         //int bubbleWidth = qBound(50, static_cast<int>(score * maxBubbleWidth), maxBubbleWidth);
 
-        QColor bgColor = emotionColors.value(emotion, QColor(200, 200, 200));
-        label->setStyleSheet(QString("background-color: %1; color: black; border-radius: 8px; padding:3px;")
-                                 .arg(bgColor.name()));
+        QColor bgColor = emotionColors.value(emotion, QColor(220, 220, 220)); // fallback 灰色
+        label->setStyleSheet(QString(
+                                 "background-color: %1;"
+                                 "color: #333333;"  // 深灰字体更柔和
+                                 "border-radius: 8px;"
+                                 "padding: 3px;"
+                                 ).arg(bgColor.name()));
         //label->setFixedWidth(bubbleWidth);
 
         // 统一固定行高
@@ -1611,24 +1620,78 @@ QColor MainWindow::adjustButtonColor(const QColor &baseColor)
     }
 }
 
+// void MainWindow::mousePressEvent(QMouseEvent *ev)
+// {
+//     if(ev->button()==Qt::LeftButton){
+//         dVal=ev->globalPos()-pos();
+//         isDrag=1;
+//     }
+// }
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
-
-    if(ev->button()==Qt::LeftButton && ev->pos().y()<0.8*this->width()){
-        dVal=ev->globalPos()-pos();
-        isDrag=1;
+    if (ev->button() == Qt::LeftButton) {
+        lastMousePos = ev->globalPos();
+        resizeEdge = detectEdge(ev->pos());
+        if (resizeEdge != Qt::Edges())
+            isResize = true;
+        else {
+            dVal = ev->globalPos() - pos();
+            isDrag = true;
+        }
     }
 }
+
+
+// void MainWindow::mouseMoveEvent(QMouseEvent *ev)
+// {
+//     if(isDrag){
+//         move((ev->globalPos()-dVal).toPoint());
+//     }
+// }
 void MainWindow::mouseMoveEvent(QMouseEvent *ev)
 {
-    if(isDrag){
-        move((ev->globalPos()-dVal).toPoint());
+    QPoint globalPos = ev->globalPos();
+
+    if (isResize) {
+        QRect geom = geometry();
+        QPoint delta = globalPos - lastMousePos;
+
+        if (resizeEdge & Qt::LeftEdge)
+            geom.setLeft(geom.left() + delta.x());
+        if (resizeEdge & Qt::RightEdge)
+            geom.setRight(geom.right() + delta.x());
+        if (resizeEdge & Qt::TopEdge)
+            geom.setTop(geom.top() + delta.y());
+        if (resizeEdge & Qt::BottomEdge)
+            geom.setBottom(geom.bottom() + delta.y());
+
+        setGeometry(geom);
+        lastMousePos = globalPos;
+
+    } else if (isDrag) {
+        move((globalPos - dVal).toPoint());
+    } else {
+        updateCursor(ev->pos());
     }
 }
 
+
+
+// void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
+// {
+//     isDrag=0;
+// }
 void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
 {
-    isDrag=0;
+    Q_UNUSED(ev);
+    isDrag = false;
+    isResize = false;
+    resizeEdge = Qt::Edges();
+}
+void MainWindow::leaveEvent(QEvent *event)
+{
+    Q_UNUSED(event);
+    setCursor(Qt::ArrowCursor);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -1681,6 +1744,24 @@ QString MainWindow::extractResourceToTempFile(const QString &resourcePath)
 }
 
 
+void MainWindow::on_pushButton_clicked()
+{
+    // 停止当前播放的文件（如果有）
+    if (is_playing_flag) {
+        qDebug() << "停止播放并清空列表";
+        player->stop();
+        is_playing_flag = false;
+    }
+
+    // 清空 playListMap
+    playListMap.clear();
+    qDebug() << "已从 playListMap 清空所有项";
+
+    // 清空 UI 中的所有项
+    ui->listWidget_2->clear();
+    qDebug() << "已从 UI 清空所有项";
+    save_history();
+}
 
 void MainWindow::on_btn_chat_clicked()
 {
@@ -1704,6 +1785,10 @@ void MainWindow::on_btn_chat_clicked()
     }
 }
 
+void MainWindow::on_search_but_clicked()
+{
+    ui->RU_stackedWidget->setCurrentIndex(1);
+}
 
 
 void MainWindow::on_btn_setting_clicked()
@@ -1746,40 +1831,41 @@ void MainWindow::on_btn_setting_clicked()
     delete sd;  // 手动 delete，避免内存泄露
 }
 
-
-void MainWindow::on_horizontalSlider_2_valueChanged(int value)
+//resize_window
+Qt::Edges MainWindow::detectEdge(const QPoint &pos)
 {
-    //player->setPosition(value);
-    qDebug()<<value;
-    ui->horizontalLayout_2->update();
+    Qt::Edges edge;
+
+    if (pos.x() <= resizeMargin)
+        edge |= Qt::LeftEdge;
+    else if (pos.x() >= width() - resizeMargin)
+        edge |= Qt::RightEdge;
+
+    if (pos.y() <= resizeMargin)
+        edge |= Qt::TopEdge;
+    else if (pos.y() >= height() - resizeMargin)
+        edge |= Qt::BottomEdge;
+
+    return edge;
 }
 
+void MainWindow::updateCursor(const QPoint &pos)
+{
+    Qt::Edges edge = detectEdge(pos);
+    if (edge == (Qt::TopEdge | Qt::LeftEdge) || edge == (Qt::BottomEdge | Qt::RightEdge))
+        setCursor(Qt::SizeFDiagCursor);
+    else if (edge == (Qt::TopEdge | Qt::RightEdge) || edge == (Qt::BottomEdge | Qt::LeftEdge))
+        setCursor(Qt::SizeBDiagCursor);
+    else if (edge & (Qt::LeftEdge | Qt::RightEdge))
+        setCursor(Qt::SizeHorCursor);
+    else if (edge & (Qt::TopEdge | Qt::BottomEdge))
+        setCursor(Qt::SizeVerCursor);
+    else
+        setCursor(Qt::ArrowCursor);
+}
 
-
-void MainWindow::on_retMainBut_clicked()
+void MainWindow::on_research_but_clicked()
 {
     ui->RU_stackedWidget->setCurrentIndex(0);
-    search_list("");
-    ui->lib_widget->layout()->addWidget(ui->playList);
-}
-
-
-void MainWindow::on_clearButton_clicked()
-{
-    // 停止当前播放的文件（如果有）
-    if (is_playing_flag) {
-        qDebug() << "停止播放并清空列表";
-        player->stop();
-        is_playing_flag = false;
-    }
-
-    // 清空 playListMap
-    playListMap.clear();
-    qDebug() << "已从 playListMap 清空所有项";
-
-    // 清空 UI 中的所有项
-    ui->playList->clear();
-    qDebug() << "已从 UI 清空所有项";
-    save_history();
 }
 
